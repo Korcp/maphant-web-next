@@ -181,6 +181,7 @@ export default function Signup(): ReactElement {
     if (nullplusError) {
       alert("위의 빈칸을 입력해주시거나 조건에 맞게 입력하여주세요");
     } else {
+      //next의 navigation
       router.push("/EmailCheck");
     }
   };
