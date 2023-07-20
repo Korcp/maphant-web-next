@@ -1,0 +1,87 @@
+.layout {
+  margin-top: 80px;
+  width: 100%;
+}
+
+.mainLayout {
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 2px solid black;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: white;
+}
+
+.emptybox {
+  width: 6%;
+}
+
+.flexbox1 {
+  flex-grow: 1;
+  padding: 2rem;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.flexbox2 {
+  flex-grow: 4;
+  margin: 1rem;
+}
+
+.flexbox3 {
+  flex-grow: 1;
+  padding: 2rem;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.hot {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.hotPost {
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.box1 {
+  /* border: 1px solid black; */
+  border-radius: 20px;
+  padding: 1%;
+  min-width: 10rem;
+  min-height: 20rem;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.box2 {
+  /* border: 1px solid black; */
+  border-radius: 20px;
+  padding: 1%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0rem;
+  margin-bottom: 1rem;
+}
+
+.footer {
+  margin-top: 1rem;
+  background-color: #5299eb;
+  font-size: 2rem;
+  height: 6vh;
+}

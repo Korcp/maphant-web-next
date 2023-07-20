@@ -1,0 +1,27 @@
+.post {
+  padding: 0.3rem;
+  border-bottom: 0.5px solid black;
+}
+.postUser {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  max-height: 1rem;
+  padding: 0.1rem;
+  font-size: 0.75rem;
+}
+
+.userLeft {
+  display: flex;
+  justify-content: left;
+  gap: 0.5rem;
+}
+
+.postContent {
+  font-size: 1rem;
+  font-weight: bolder;
+  padding: 0.3rem;
+  background-color: white;
+  margin: 0;
+}
