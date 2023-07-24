@@ -1,0 +1,166 @@
+.layout {
+  margin-top: 80px;
+  width: 100%;
+}
+
+.mainLayout {
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 2px solid black;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.emptybox {
+  width: 5rem;
+  flex-grow: 2;
+}
+
+.flexbox1 {
+  flex-grow: 1;
+  width: 6rem;
+  padding: 2rem;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.boardLayout {
+  flex-grow: 4;
+  margin: 1rem;
+  width: 58rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.molla {
+  margin: 1rem;
+  width: 100%;
+  height: 5rem;
+  border: 1px solid black;
+  text-align: center;
+  background-color: aliceblue;
+}
+.boardName {
+  margin: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(240, 240, 240);
+  font-size: 1.5rem;
+}
+.postMenu1 {
+  margin: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 0.5px solid black;
+}
+.postBtn,
+.sortBtn {
+  padding-right: 1rem;
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+}
+.postBtn {
+  background-color: #5299eb;
+  border: 0;
+  color: white;
+}
+.postBtn:hover {
+  background-color: #5191da;
+  cursor: pointer;
+}
+.sortBtn {
+  background-color: rgb(233, 233, 233);
+  border: 1px solid #ababab;
+  cursor: pointer;
+}
+.sortBtn:hover {
+  border: 1px solid black;
+  background-color: rgb(233, 233, 233);
+}
+.hashTags {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+
+.postMenu2 {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.5px solid black;
+}
+.search {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 50px;
+  height: 1rem;
+  padding: 0.5rem;
+}
+.searchIcon {
+  border: 0;
+  border-radius: 15px;
+  background-color: white;
+}
+.searchIcon:hover {
+  background-color: rgb(233, 233, 233);
+}
+.searchInput {
+  border-radius: 8px;
+  font-size: 15px;
+  border: 0;
+}
+.searchInput:focus {
+  outline: none;
+}
+.boardPage {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.pageBtn {
+  height: 1rem;
+  background-color: white;
+  border: 0;
+}
+.pageBtn:hover {
+  background-color: rgb(233, 233, 233);
+}
+
+.postList {
+  margin: 1rem;
+  width: 100%;
+}
+.postPage {
+  margin: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flexbox2 {
+  flex-grow: 1;
+  width: 6rem;
+  padding: 2rem;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
