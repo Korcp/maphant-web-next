@@ -1,68 +1,102 @@
-import React, { ReactElement } from "react";
-import { MdSearch } from "react-icons/md";
-import Image from "next/image";
-import iconpng from "./img/icon2.jpeg";
+"use client";
+import React, { useState, useRef } from "react";
+import { MdSearch, MdDensityMedium } from "react-icons/md";
+
+import iconpng from "../img/icon2.jpeg";
 import DarkToggel from "./DarkToggle";
+import UserMenu from "./UserMenu";
+import BoardList from "./BoardList";
 
 import Styles from "./MainHeader.module.css";
+import Link from "next/link";
+import Image from "next/image";
 
-export default function MainHeaderSample(): ReactElement {
+function MainHeader() {
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const searchSubmit = () => {
+    searchInputRef.current?.value
+      ? alert(searchInputRef.current.value)
+      : alert("검색할 내용을 입력하세요");
+  };
+
+  const [visiable, setVisiable] = useState<boolean>(false);
+
+  function CreateMenu(): any {
+    if (visiable) {
+      return (
+        <ul className={Styles.menuList}>
+          <Link href="/Board" className={Styles.boardLink}>
+            자유
+          </Link>
+
+          <Link href="/Board" className={Styles.boardLink}>
+            지식
+          </Link>
+
+          <Link href="/Board" className={Styles.boardLink}>
+            Styles
+          </Link>
+
+          <Link href="/Board" className={Styles.boardLink}>
+            홍보
+          </Link>
+
+          <Link href="/Board" className={Styles.boardLink}>
+            취업/진로
+          </Link>
+
+          <Link href="/Board" className={Styles.boardLink}>
+            취미
+          </Link>
+        </ul>
+      );
+    }
+  }
+  function handleMenuButton(): void {
+    setVisiable(!visiable);
+  }
+
   return (
     <header className={Styles.header}>
-      <div className={Styles.icon}>
-        <Image src={iconpng} />
-      </div>
+      <Link href="/MainPage" className={Styles.icon}>
+        <Image src={iconpng} alt="" width={70} height={60} />
+      </Link>
       <h3 className={Styles.major}>소프트웨어학과</h3>
-      <nav>
-        <ul className={Styles.boardList}>
-          <li>
-            <a className={Styles.boardLink} href="">
-              자유
-            </a>
-          </li>
-          <span className={Styles.bar}></span>
-          <li>
-            <a className={Styles.boardLink} href="">
-              지식
-            </a>
-          </li>
-          <li>
-            <a className={Styles.boardLink} href="">
-              QnA
-            </a>
-          </li>
-          <span className={Styles.bar}></span>
-          <li>
-            <a className={Styles.boardLink} href="">
-              홍보
-            </a>
-          </li>
-          <li>
-            <a className={Styles.boardLink} href="">
-              취업/진로
-            </a>
-          </li>
-          <span className={Styles.bar}></span>
-          <li>
-            <a className={Styles.boardLink} href="">
-              취미
-            </a>
-          </li>
-        </ul>
-      </nav>
 
-      <span className={Styles.search}>
-        <button type="button" className={Styles.searchIcon}>
+      <div className={Styles.boardList}>
+        <BoardList />
+      </div>
+
+      <div className={Styles.sizebutton}>
+        <CreateMenu />
+      </div>
+      <form className={Styles.search} onSubmit={searchSubmit}>
+        <button type="submit" className={Styles.searchIcon}>
           <MdSearch size={18} />
         </button>
-        <input type="text" className={Styles.searchInput} placeholder="검색" />
-      </span>
+        <input
+          ref={searchInputRef}
+          type="text"
+          className={Styles.searchInput}
+          placeholder="검색"
+        />
+      </form>
 
       <div>
         <DarkToggel />
       </div>
+      <div className={Styles.userMenu}>
+        <UserMenu />
+      </div>
 
-      <button className={Styles.userBtn}>사용자</button>
+      <nav className={Styles.navbar}>
+        <button className={Styles.navBtn} onClick={handleMenuButton}>
+          <MdDensityMedium size={20} />
+        </button>
+      </nav>
     </header>
   );
 }
+
+export default MainHeader;

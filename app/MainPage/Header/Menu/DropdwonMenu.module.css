@@ -1,0 +1,30 @@
+.menulist {
+  position: absolute;
+  width: 70px;
+  top: 30px;
+  left: 50%;
+  background-color: white;
+  border: 1px solid #ababab;
+  border-radius: 10px;
+  list-style: none;
+  padding: 1rem;
+  text-align: center;
+}
+
+.userInfo,
+.history,
+.logout {
+  margin: 3px auto;
+  padding: 5px;
+  border-radius: 10px;
+}
+.userInfo:hover,
+.history:hover,
+.logout:hover {
+  background-color: rgb(233, 233, 233);
+  cursor: pointer;
+}
+
+.logout {
+  color: red;
+}
