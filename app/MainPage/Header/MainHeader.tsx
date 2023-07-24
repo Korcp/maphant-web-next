@@ -9,9 +9,7 @@ import Styles from "./MainHeader.module.css";
 export default function MainHeaderSample(): ReactElement {
   return (
     <header className={Styles.header}>
-      <div className={Styles.icon}>
-        <Image src={iconpng} />
-      </div>
+      <div className={Styles.icon}></div>
       <h3 className={Styles.major}>소프트웨어학과</h3>
       <nav>
         <ul className={Styles.boardList}>

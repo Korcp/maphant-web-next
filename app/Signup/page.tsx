@@ -19,6 +19,7 @@ export default function Signup(): ReactElement {
   const [sNoError, setsNoError] = useState(false);
   //주소 navigate
   const router = useRouter();
+
   //이메일 유효성검사
   const emailRegEx = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+(ac\.kr)$/;
   const emailRegEx2 = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+(edu)$/;
@@ -144,7 +145,6 @@ export default function Signup(): ReactElement {
     }
     input.reportValidity();
   };
-
   //회원가입 버튼 조건
   const PassPage = () => {
     let nullplusError = false;
@@ -182,7 +182,27 @@ export default function Signup(): ReactElement {
       alert("위의 빈칸을 입력해주시거나 조건에 맞게 입력하여주세요");
     } else {
       //next의 navigation
-      router.push("/EmailCheck");
+      fetch("https://dev.api.tovelop.esm.kr/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          passwordCheck: Repassword,
+          nickname: nickname,
+          name: "홍길동",
+          sno: sNo,
+          univName: school,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => console.log(res["success"]))
+        .catch((error) => {
+          // Handle any network or other errors that may occur
+          console.error("Error sending data:", error);
+        });
     }
   };
   return (
