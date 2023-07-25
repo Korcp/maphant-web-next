@@ -1,24 +1,49 @@
 "use client";
 import "./Signup.css";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { data } from "autoprefixer";
 export default function Signup(): ReactElement {
   //input에 입력되는 value값
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [Repassword, setRepassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const [name, setName] = useState("");
   const [school, setschool] = useState("");
   const [sNo, setsNo] = useState("");
+  //학교 이름
+  const [Sname, SetSname] = useState([]);
   //유효성검사
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [RepasswordError, setRepasswordError] = useState(false);
   const [nicknameError, setNicknameError] = useState(false);
+  const [nameError, setNameError] = useState(false);
   const [schoolError, setschoolError] = useState(false);
   const [sNoError, setsNoError] = useState(false);
   //주소 navigate
   const router = useRouter();
+  type UniversityData = {
+    universities: { name: string }[];
+  };
+
+  //...
+
+  useEffect(() => {
+    fetch("https://dev.api.tovelop.esm.kr/user/universitylist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}), // 빈 객체를 전송합니다.
+    })
+      .then((res) => res.json())
+      .then((res) => SetSname(res.data))
+      .catch((error) => {
+        console.error("오류 데이터 전송", error);
+      });
+  }, []);
 
   //이메일 유효성검사
   const emailRegEx = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+(ac\.kr)$/;
@@ -112,6 +137,21 @@ export default function Signup(): ReactElement {
     input.reportValidity();
   };
 
+  const onName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nameValue = e.target.value;
+    const input = e.target as HTMLInputElement;
+    setName(nameValue);
+
+    if (!nameValue) {
+      setNameError(true);
+      input.setCustomValidity("이름을 입력하여주세요");
+    } else {
+      setNicknameError(false);
+      input.setCustomValidity("");
+    }
+    input.reportValidity();
+  };
+
   //학교 유효성 검사
   const onSchool = (e: React.ChangeEvent<HTMLInputElement>) => {
     const schoolvalue = e.target.value;
@@ -168,6 +208,11 @@ export default function Signup(): ReactElement {
       nullplusError = true;
     }
 
+    if (!name || nameError) {
+      setNameError(true);
+      nullplusError = true;
+    }
+
     if (!school || schoolError) {
       setschoolError(true);
       nullplusError = true;
@@ -192,7 +237,7 @@ export default function Signup(): ReactElement {
           password: password,
           passwordCheck: Repassword,
           nickname: nickname,
-          name: "홍길동",
+          name: name,
           sno: sNo,
           univName: school,
         }),
@@ -201,7 +246,7 @@ export default function Signup(): ReactElement {
         .then((res) => console.log(res["success"]))
         .catch((error) => {
           // Handle any network or other errors that may occur
-          console.error("Error sending data:", error);
+          console.error("오류 데이터 전송", error);
         });
     }
   };
@@ -270,16 +315,37 @@ export default function Signup(): ReactElement {
 
       <div className="container">
         <div className="inputcontainer">
+          <p className="label">이름</p>
+          <input
+            id="name"
+            className="inputField"
+            type="text"
+            placeholder="[3~20자의 영문(대,소문자), 한글, 숫자]"
+            value={name}
+            onChange={onName}
+            required
+          />
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="inputcontainer">
           <p className="label">학교</p>
           <input
             id="universityName"
             className="inputField"
             type="text"
             placeholder="학교를 입력해주세요"
+            list="datalist"
             value={school}
             onChange={onSchool}
             required
           />
+          <datalist id="datalist">
+            {Sname.map((university, index) => (
+              <option key={index} value={university} />
+            ))}
+          </datalist>
         </div>
       </div>
       <div className="container">
