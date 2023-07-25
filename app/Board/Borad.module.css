@@ -64,10 +64,7 @@
 }
 .postBtn,
 .sortBtn {
-  padding-right: 1rem;
-  padding-left: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -87,11 +84,41 @@
   background-color: rgb(233, 233, 233);
   border: 1px solid #ababab;
   cursor: pointer;
+  position: relative;
 }
 .sortBtn:hover {
   border: 1px solid black;
   background-color: rgb(233, 233, 233);
 }
+.sortBox{
+  position: relative;
+}
+.sortItem{
+  animation: dropdown 0.3s ease;
+  position: absolute;
+  top: 1.5rem;
+  left: -.8rem;
+  height: 8.1rem;
+  /* background-color:beige; */
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.sortMenu{
+  width: 4.5rem;
+  height: 2.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #ababab;
+}
+.sortMenu:hover{
+  border: 1px solid black;
+  background-color: rgb(233, 233, 233);
+}
+
+
 .hashTags {
   display: flex;
   justify-content: space-evenly;
@@ -163,4 +190,13 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   text-align: center;
+}
+
+@keyframes dropdown{
+  0%{
+    transform: translateY(-3%);
+  }
+  100%{
+    transform: translateY(0%);
+  }
 }

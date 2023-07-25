@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 
 import MainHeader from "../MainPage/Header/MainHeader";
@@ -10,6 +10,32 @@ import { MdSearch, MdSort, MdArrowBack, MdArrowForward } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 
 function Borad() {
+  const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
+  const sortItems: string[] = ["최신순", "추천순", "댓글순"];
+  const [sortNow, setSortNow] = useState<string>("최신순");
+
+
+  const SortItem = () => {
+    return (
+      <ul className={styles.sortItem}>
+        {sortItems.map((i) => {
+          return (
+            <button
+              className={styles.sortMenu}
+              style={sortNow === i ? { color: "gray" } : {}}
+              onClick={() => {
+                setSortNow(i);
+                setOnSortMenu(false);
+              }}
+            >
+              {i}
+            </button>
+          );
+        })}
+      </ul>
+    );
+  };
+
   return (
     <div className={styles.layout}>
       <MainHeader />
@@ -24,7 +50,7 @@ function Borad() {
           <div className={styles.boardName}>자유 게시판</div>
 
           <div className={styles.postMenu1}>
-            <Link href="/NewPost" style={{textDecoration:'none'}}>
+            <Link href="/NewPost" style={{ textDecoration: "none" }}>
               <button className={styles.postBtn}>
                 글쓰기
                 <CiEdit size={22} />
@@ -36,10 +62,16 @@ function Borad() {
               <p>#해시태그3</p>
               <p>#해시태그4</p>
             </div>
-            <button className={styles.sortBtn}>
-              <MdSort size={22} />
-              최신순
-            </button>
+            <div className={styles.sortBox}>
+              <button
+                className={styles.sortBtn}
+                onClick={() => setOnSortMenu(!onSortMenu)}
+              >
+                <MdSort size={22} />
+                {sortNow}
+              </button>
+              {onSortMenu && <SortItem />}
+            </div>
           </div>
 
           <div className={styles.postMenu2}>

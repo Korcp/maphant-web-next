@@ -21,11 +21,19 @@
 .postContent {
   font-size: 1.1rem;
   font-weight: bolder;
-  padding: 0.3rem 0;
+  padding: 0.7rem 0;
   margin: 0;
 }
 
 .postHash {
   font-size: 0.8rem;
   margin: 0;
+}
+
+
+.sss{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 3px;
 }
