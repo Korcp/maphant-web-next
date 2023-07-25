@@ -10,10 +10,19 @@
   list-style: none;
   padding: 1rem;
   overflow: auto;
+  animation: dropdown 0.3s ease;
 }
 .mailTop {
   text-align: center;
   color: #5299eb;
   margin: 0 0 10px 0;
   border-bottom: 1px solid #5299eb;
+}
+@keyframes dropdown{
+  0%{
+    transform: translateY(-3%);
+  }
+  100%{
+    transform: translateY(0%);
+  }
 }

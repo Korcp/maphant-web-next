@@ -35,7 +35,7 @@ function MainHeader() {
           </Link>
 
           <Link href="/Board" className={Styles.boardLink}>
-            Styles
+            QnA
           </Link>
 
           <Link href="/Board" className={Styles.boardLink}>
@@ -92,7 +92,7 @@ function MainHeader() {
 
       <nav className={Styles.navbar}>
         <button className={Styles.navBtn} onClick={handleMenuButton}>
-          <MdDensityMedium size={20} />
+          <MdDensityMedium size={20} color="white" />
         </button>
       </nav>
     </header>

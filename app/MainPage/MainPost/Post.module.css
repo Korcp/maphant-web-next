@@ -21,7 +21,16 @@
 .postContent {
   font-size: 1rem;
   font-weight: bolder;
+  text-overflow: ellipsis;
+  overflow: hidden;
   padding: 0.3rem;
   background-color: white;
   margin: 0;
+}
+
+.postInfo{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 3px;
 }

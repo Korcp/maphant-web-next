@@ -9,6 +9,7 @@
   list-style: none;
   padding: 1rem;
   overflow: auto;
+  animation: dropdown 0.3s ease;
 }
 .noticeTop {
   text-align: center;
@@ -27,4 +28,13 @@
 .notice:hover {
   cursor: pointer;
   background-color: rgb(210, 210, 210);
+}
+
+@keyframes dropdown{
+  0%{
+    transform: translateY(-3%);
+  }
+  100%{
+    transform: translateY(0);
+  }
 }
