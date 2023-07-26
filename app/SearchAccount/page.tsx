@@ -10,9 +10,11 @@ export default function SearchAccount(): ReactElement {
   return (
     <div>
       <div className={classes.outer}>
-        <p>
-          <Image src={AppImg} className={classes.image} />
-        </p>
+        <div className={classes.appImg}>
+          <p>
+            <Image src={AppImg} className={classes.image} alt={""} />
+          </p>
+        </div>
         <p className={classes.header}>비밀번호 찾기</p>
         <p className={classes.text}>
           회원 가입시 입력하신 이메일 주소와 학번을 입력하시면,
