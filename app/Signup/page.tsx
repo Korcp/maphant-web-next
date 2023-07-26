@@ -247,7 +247,7 @@ export default function Signup(): ReactElement {
 
         if (result.success) {
           // 회원가입 성공 시 처리 (예: 환영 메시지 출력)
-          router.push("/SelectSch");
+          router.push("/EmailCheck");
         } else {
           // 회원가입 실패 시 처리 (예: 에러 메시지 표시)
           // input 요소에 에러 메시지를 설정
