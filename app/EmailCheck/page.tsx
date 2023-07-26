@@ -4,19 +4,25 @@ import "./EmailCheck.css";
 import { ReactElement, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function EmailCheck(): ReactElement {
   const [email, setEmail] = useState("");
-  const [time, setTime] = useState(180);
   const [EmailCheck, setEmailCheck] = useState("");
-  const [showTimer, setShowTimer] = useState(false); // Added state variable
 
   // 이메일 체크
   const [emailError, setEmailError] = useState(false);
-  const [Click, setClick] = useState(false);
+  const [numError, setnumError] = useState(false);
+
+  // 이메일 인증번호 확인
+  const [eSucces, seteSucces] = useState(false);
+  const [nSucces, setnSucces] = useState(false);
+
+  //navigate
+  const router = useRouter();
+  //이메일 유효성 검사
   const emailRegEx = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+(ac\.kr)$/;
   const emailRegEx2 = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+(edu)$/;
-
   const onEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailValue = e.target.value;
     const input = e.target as HTMLInputElement;
@@ -33,43 +39,73 @@ export default function EmailCheck(): ReactElement {
     }
     input.reportValidity();
   };
-
-  const ShowText = () => {
+  //이메일 보내기
+  const EmailPass = () => {
+    let nullCheck = false;
     if (!email || emailError) {
-      setClick(false);
-    } else if (emailError === false) {
-      setClick(true);
-      setShowTimer(true);
-      setTime(180);
+      setEmailError(true);
+      nullCheck = true;
+    }
+    if (nullCheck) {
+      alert("이메일을 입력하여주세요");
+    } else {
+      fetch("https://dev.api.tovelop.esm.kr/email/sendsignup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => seteSucces(res["success"]))
+        .catch((error) => {
+          console.error("오류 데이터 전송", error);
+        });
     }
   };
 
-  // 타이머
-  useEffect(() => {
-    if (time > 0) {
-      const timer = setTimeout(() => setTime(time - 1), 1000);
-      return () => clearTimeout(timer);
+  //인증번호 확인
+  const numPass = () => {
+    let nullnumCheck = false;
+    if (!EmailCheck || nullnumCheck) {
+      setnumError(true);
+      nullnumCheck = true;
     }
-  }, [time]);
 
-  if (time == 0) {
-    alert("인증 요청을 다시해주세요.");
-  }
-
-  const formatTime = (seconds: number): string => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-
-    const formattedMinutes = String(minutes).padStart(2, "0");
-    const formattedSeconds = String(remainingSeconds).padStart(2, "0");
-
-    return `${formattedMinutes}:${formattedSeconds}`;
+    if (nullnumCheck) {
+      alert("인증번호를 입력하여주세요");
+    } else {
+      fetch("https://dev.api.tovelop.esm.kr/email/confirmEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          authCode: EmailCheck,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => setnSucces(res["success"]))
+        .catch((error) => {
+          console.error("오류 데이터 전송", error);
+        });
+    }
   };
 
+  const PassEmail = () => {
+    if (eSucces && nSucces) {
+      router.push("/SelectSch");
+    } else {
+      alert("인증번호나 이메일 형식을 맞춰주세요");
+    }
+  };
   return (
-    <div className="outer">
-      <nav className="margin">
-        <div className="imgbox">
+    <div className="outerEmail">
+      <nav className="Emailmargin">
+        <div className="Emailimgbox">
           <Image src={IconImg} alt="" />
           <label>
             <b>이메일 인증</b>
@@ -89,24 +125,13 @@ export default function EmailCheck(): ReactElement {
             required
           />
           <br />
-          <button className="submitbtn" type="submit" onClick={ShowText}>
+          <button className="submitbtn" type="submit" onClick={EmailPass}>
             인증 요청
           </button>
         </div>
 
         <div className="email">
           <label className="EmailFont">인증번호</label>
-          {Click && (
-            <>
-              <label className="Check">
-                <br />
-                ＊이메일로 전송된 인증코드를 입력하여주세요.
-              </label>
-              {showTimer && (
-                <span className="Timer"> ※{formatTime(time)}</span>
-              )}{" "}
-            </>
-          )}
           <br />
           <input
             className="submitdata"
@@ -117,17 +142,15 @@ export default function EmailCheck(): ReactElement {
             onChange={(e) => setEmailCheck(e.target.value)}
           />
           <br />
-          <button className="submitbtn" type="submit">
+          <button className="submitbtn" type="submit" onClick={numPass}>
             확인
           </button>
         </div>
 
         <div className="next">
-          <Link href="/SelectSch">
-            <button type="submit" className="EmailBtn">
-              완료
-            </button>
-          </Link>
+          <button type="submit" className="EmailBtn" onClick={PassEmail}>
+            완료
+          </button>
         </div>
       </nav>
     </div>
