@@ -24,12 +24,8 @@ export default function Signup(): ReactElement {
   const [sNoError, setsNoError] = useState(false);
   //주소 navigate
   const router = useRouter();
-  type UniversityData = {
-    universities: { name: string }[];
-  };
 
-  //...
-
+  //학교 정보 받아오기
   useEffect(() => {
     fetch("https://dev.api.tovelop.esm.kr/user/universitylist", {
       method: "POST",
@@ -136,7 +132,7 @@ export default function Signup(): ReactElement {
     }
     input.reportValidity();
   };
-
+  //이름 유효성 검사
   const onName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nameValue = e.target.value;
     const input = e.target as HTMLInputElement;
@@ -186,7 +182,8 @@ export default function Signup(): ReactElement {
     input.reportValidity();
   };
   //회원가입 버튼 조건
-  const PassPage = () => {
+  const PassPage = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     let nullplusError = false;
 
     if (!email || emailError) {
@@ -226,149 +223,175 @@ export default function Signup(): ReactElement {
     if (nullplusError) {
       alert("위의 빈칸을 입력해주시거나 조건에 맞게 입력하여주세요");
     } else {
-      //next의 navigation
-      fetch("https://dev.api.tovelop.esm.kr/user/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          passwordCheck: Repassword,
-          nickname: nickname,
-          name: name,
-          sno: sNo,
-          univName: school,
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => console.log(res["success"]))
-        .catch((error) => {
-          // Handle any network or other errors that may occur
-          console.error("오류 데이터 전송", error);
-        });
+      try {
+        const response = await fetch(
+          "https://dev.api.tovelop.esm.kr/user/signup",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+              passwordCheck: Repassword,
+              nickname: nickname,
+              name: name,
+              sno: sNo,
+              univName: school,
+            }),
+          }
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+          // 회원가입 성공 시 처리 (예: 환영 메시지 출력)
+          router.push("/SelectSch");
+        } else {
+          // 회원가입 실패 시 처리 (예: 에러 메시지 표시)
+          // input 요소에 에러 메시지를 설정
+          const emailInput = document.getElementById(
+            "email"
+          ) as HTMLInputElement;
+          emailInput.setCustomValidity(result.errors);
+
+          const passwordInput = document.getElementById(
+            "password"
+          ) as HTMLInputElement;
+          passwordInput.setCustomValidity(result.errors);
+
+          // form을 다시 검증하도록 강제로 호출
+          const form = document.getElementById("signupForm") as HTMLFormElement;
+          form.reportValidity();
+        }
+      } catch (error) {
+        console.error("오류 데이터 전송", error);
+      }
     }
   };
+
   return (
     <div className="SignupMain">
-      <p className="SignupTitle">회원가입</p>
+      <form id="signupForm" className="SignupForm">
+        <p className="SignupTitle">회원가입</p>
 
-      <div className="container">
-        <div className="inputcontainer">
-          <p className="label">이메일</p>
-          <input
-            id="email"
-            className="inputField"
-            type="text"
-            placeholder="abc123@gwakkili.ac.kr"
-            value={email}
-            onChange={onEmail}
-            required
-          />
+        <div className="container">
+          <div className="inputcontainer">
+            <p className="label">이메일</p>
+            <input
+              id="email"
+              className="inputField"
+              type="text"
+              placeholder="abc123@gwakkili.ac.kr"
+              value={email}
+              onChange={onEmail}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="container">
-        <div className="inputcontainer">
-          <p className="label">비밀번호</p>
-          <input
-            id="password"
-            className="inputField"
-            type="password"
-            placeholder="[영문 대, 소문자 1개 이상 + 숫자 1개 이상 + 특수문자 1개 이상]"
-            value={password}
-            onChange={onpassword}
-            required
-          />
+        <div className="container">
+          <div className="inputcontainer">
+            <p className="label">비밀번호</p>
+            <input
+              id="password"
+              className="inputField"
+              type="password"
+              placeholder="[영문 대, 소문자 1개 이상 + 숫자 1개 이상 + 특수문자 1개 이상]"
+              value={password}
+              onChange={onpassword}
+              required
+            />
+          </div>
         </div>
-      </div>
-      <div className="container">
-        <div className="inputcontainer">
-          <p className="label">비밀번호 확인</p>
-          <input
-            id="passwordChk"
-            className="inputField"
-            type="password"
-            placeholder="위의 비밀번호와 동일하게 작성하세요"
-            value={Repassword}
-            onChange={onRepassword}
-            required
-          />
+        <div className="container">
+          <div className="inputcontainer">
+            <p className="label">비밀번호 확인</p>
+            <input
+              id="passwordChk"
+              className="inputField"
+              type="password"
+              placeholder="위의 비밀번호와 동일하게 작성하세요"
+              value={Repassword}
+              onChange={onRepassword}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="container">
-        <div className="inputcontainer">
-          <p className="label">닉네임</p>
-          <input
-            id="nickname"
-            className="inputField"
-            type="text"
-            placeholder="[3~20자의 영문(대,소문자), 한글, 숫자]"
-            value={nickname}
-            onChange={onNickname}
-            required
-          />
+        <div className="container">
+          <div className="inputcontainer">
+            <p className="label">닉네임</p>
+            <input
+              id="nickname"
+              className="inputField"
+              type="text"
+              placeholder="[3~20자의 영문(대,소문자), 한글, 숫자]"
+              value={nickname}
+              onChange={onNickname}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="container">
-        <div className="inputcontainer">
-          <p className="label">이름</p>
-          <input
-            id="name"
-            className="inputField"
-            type="text"
-            placeholder="[3~20자의 영문(대,소문자), 한글, 숫자]"
-            value={name}
-            onChange={onName}
-            required
-          />
+        <div className="container">
+          <div className="inputcontainer">
+            <p className="label">이름</p>
+            <input
+              id="name"
+              className="inputField"
+              type="text"
+              placeholder="아름 형식에 맞게 이름을 작성하여주세요"
+              value={name}
+              onChange={onName}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="container">
-        <div className="inputcontainer">
-          <p className="label">학교</p>
-          <input
-            id="universityName"
-            className="inputField"
-            type="text"
-            placeholder="학교를 입력해주세요"
-            list="datalist"
-            value={school}
-            onChange={onSchool}
-            required
-          />
-          <datalist id="datalist">
-            {Sname.map((university, index) => (
-              <option key={index} value={university} />
-            ))}
-          </datalist>
+        <div className="container">
+          <div className="inputcontainer">
+            <p className="label">학교</p>
+            <input
+              id="universityName"
+              className="inputField"
+              type="text"
+              placeholder="학교를 입력해주세요"
+              list="datalist"
+              value={school}
+              onChange={onSchool}
+              required
+            />
+            <datalist id="datalist">
+              {Sname.map((university, index) => (
+                <option key={index} value={university} />
+              ))}
+            </datalist>
+          </div>
         </div>
-      </div>
-      <div className="container">
-        <div className="inputcontainer">
-          <p className="label">학번</p>
-          <input
-            id="sNo"
-            className="inputField"
-            type="text"
-            placeholder="학번을 입력해주세요"
-            value={sNo}
-            onChange={onsNo}
-            required
-          />
+        <div className="container">
+          <div className="inputcontainer">
+            <p className="label">학번</p>
+            <input
+              id="sNo"
+              className="inputField"
+              type="text"
+              placeholder="학번을 입력해주세요"
+              value={sNo}
+              onChange={onsNo}
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="btndiv">
-        <br />
-        <button type="submit" className="Btn" onClick={PassPage}>
-          회원가입
-        </button>
-      </div>
+        <div className="btndiv">
+          <br />
+          <button type="submit" className="Btn" onClick={PassPage}>
+            회원가입
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
