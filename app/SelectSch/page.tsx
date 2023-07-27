@@ -56,6 +56,7 @@ export default function SelectSch(): ReactElement {
         console.error("오류 데이터 전송", error);
       });
   }, []);
+
   return (
     <div className="outer">
       <nav className="margin">
@@ -102,11 +103,9 @@ export default function SelectSch(): ReactElement {
           </datalist>
         </div>
         <div className="next">
-          <Link href="/">
-            <button type="submit" className="SelectBtn">
-              완료
-            </button>
-          </Link>
+          <button type="submit" className="SelectBtn">
+            완료
+          </button>
         </div>
       </nav>
     </div>

@@ -59,13 +59,12 @@ function MainHeader() {
 
   return (
     <header className={Styles.header}>
-<<<<<<< HEAD
       <div className={Styles.icon}></div>
-=======
+
       <Link href="/MainPage" className={Styles.icon}>
         <Image src={iconpng} alt="" width={70} height={60} />
       </Link>
->>>>>>> 616c46127292f62d1955eb9b6fc47ba6f84fecde
+
       <h3 className={Styles.major}>소프트웨어학과</h3>
 
       <div className={Styles.boardList}>
