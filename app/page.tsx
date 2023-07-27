@@ -67,7 +67,7 @@ export default function Home() {
           onChange={onpassword}
         />
         <br />
-        <Link href="MainPage">
+        <Link href="Main/MainPage">
           <button
             type="submit"
             id="LoginBtn"
