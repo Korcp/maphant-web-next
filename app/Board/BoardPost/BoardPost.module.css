@@ -6,29 +6,32 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
-  max-height: 1rem;
-  padding: 0.1rem;
-  font-size: 0.75rem;
+  height: 1rem;
+  padding: 0.1rem 0;
+  font-size: 1rem;
 }
 
 .userLeft {
   display: flex;
   justify-content: left;
   gap: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .postContent {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bolder;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  padding: 0.3rem;
-  background-color: white;
+  padding: 0.7rem 0;
   margin: 0;
 }
 
-.postInfo{
+.postHash {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+
+.sss{
   display: flex;
   justify-content: space-evenly;
   align-items: center;

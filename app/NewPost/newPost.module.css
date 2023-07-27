@@ -1,0 +1,141 @@
+.layout {
+  margin-top: 80px;
+  width: 100%;
+}
+
+.mainLayout {
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 2px solid black;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.emptybox {
+  width: 5rem;
+  flex-grow: 2;
+}
+
+.flexbox1 {
+  flex-grow: 1;
+  width: 6rem;
+  padding: 2rem;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.flexbox2 {
+  flex-grow: 1;
+  width: 6rem;
+  padding: 2rem;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.NewPostLayout {
+  flex-grow: 4;
+  margin: 1rem;
+  width: 58rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.boardName {
+  margin: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(240, 240, 240);
+}
+
+.newTitle {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.inputTitle {
+  border: 1px solid #ababab;
+  border-radius: 10px;
+  width: 95%;
+  height: 3rem;
+  margin: 1%;
+  padding-left: 1rem;
+  font-size: 1rem;
+}
+.inputTitle:focus {
+  border: 1px solid black;
+  outline: none;
+}
+.newTag {
+  width: 100%;
+}
+
+.inputTag {
+  border: 1px solid #ababab;
+  border-radius: 10px;
+  width: 95%;
+  height: 3rem;
+  margin: 1%;
+  padding-left: 1rem;
+  font-size: 1rem;
+}
+.inputTag:focus {
+  border: 1px solid black;
+  outline: none;
+}
+
+.newContent {
+  width: 100%;
+}
+.inputContent {
+  width: 95%;
+  height: 30rem;
+  margin: 1%;
+  padding: 10px;
+  resize: none;
+}
+
+.newPostMenu {
+  display: flex;
+  justify-content: flex-end;
+  width: 96%;
+  gap: 1rem;
+}
+
+.cancelBtn,
+.postBtn {
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  height: 2.5rem;
+  width: 5rem;
+  font-size: 1rem;
+}
+.cancelBtn {
+  background-color: rgb(233, 233, 233);
+  border: 1px solid #ababab;
+}
+.cancelBtn:hover {
+  border: 1px solid black;
+  background-color: rgb(233, 233, 233);
+  cursor: pointer;
+}
+.postBtn {
+  background-color: #5299eb;
+  border: 0;
+  color: white;
+}
+.postBtn:hover {
+  background-color: #5191da;
+  cursor: pointer;
+}
