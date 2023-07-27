@@ -67,14 +67,17 @@ export default function Home() {
           onChange={onpassword}
         />
         <br />
-        <button
-          type="submit"
-          id="LoginBtn"
-          className={classes.button}
-          onClick={Loginpass}
-        >
-          로그인
-        </button>
+        <Link href="MainPage">
+          <button
+            type="submit"
+            id="LoginBtn"
+            className={classes.button}
+            onClick={Loginpass}
+          >
+            로그인
+          </button>
+        </Link>
+
         <br />
         <p className={classes.foundPwd}>
           비밀번호를 잊어버렸나요?
