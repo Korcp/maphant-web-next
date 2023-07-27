@@ -2,8 +2,8 @@
 import Image from "next/image";
 import IconImg from "./img/Icon.png";
 import "./SelectSch.css";
-import Link from "next/link";
 import { ReactElement, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SelectSch(): ReactElement {
   //전공계열,학과
@@ -19,7 +19,8 @@ export default function SelectSch(): ReactElement {
     const input = e.target as HTMLInputElement;
     setmajor(majorvalue);
   };
-
+  //경로 지정
+  const router = useRouter();
   const ondepart = (e: React.ChangeEvent<HTMLInputElement>) => {
     const departvalue = e.target.value;
     const input = e.target as HTMLInputElement;
@@ -56,6 +57,14 @@ export default function SelectSch(): ReactElement {
         console.error("오류 데이터 전송", error);
       });
   }, []);
+
+  const passNext = () => {
+    if (!major && !depart) {
+      alert("전공계열과 학과를 모두 선택하여 주세요");
+    } else {
+      router.push("/");
+    }
+  };
   return (
     <div className="outer">
       <nav className="margin">
@@ -102,11 +111,9 @@ export default function SelectSch(): ReactElement {
           </datalist>
         </div>
         <div className="next">
-          <Link href="/">
-            <button type="submit" className="SelectBtn">
-              완료
-            </button>
-          </Link>
+          <button type="submit" className="SelectBtn" onClick={passNext}>
+            완료
+          </button>
         </div>
       </nav>
     </div>
