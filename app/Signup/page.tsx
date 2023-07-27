@@ -28,11 +28,10 @@ export default function Signup(): ReactElement {
   //학교 정보 받아오기
   useEffect(() => {
     fetch("https://dev.api.tovelop.esm.kr/user/universitylist", {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}), // 빈 객체를 전송합니다.
     })
       .then((res) => res.json())
       .then((res) => SetSname(res.data))
