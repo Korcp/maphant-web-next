@@ -7,13 +7,6 @@ import Link from "next/link";
 
 function NewPost() {
   return (
-    <div className={styles.layout}>
-      <MainHeader />
-
-      <main className={styles.mainLayout}>
-        <div className={styles.emptybox} />
-        <div className={styles.flexbox1}>광고창</div>
-
         <div className={styles.NewPostLayout}>
           <div className={styles.boardName}>
             <p style={{ margin: 0 }} />
@@ -43,21 +36,14 @@ function NewPost() {
             <textarea className={styles.inputContent} name="" id=""></textarea>
           </div>
           <div className={styles.newPostMenu}>
-            <Link href="/Board" >
+            <Link href="./Board" >
               <button className={styles.cancelBtn}>취소</button>
             </Link>
-            <Link href="/Board" >
+            <Link href="./Board" >
               <button className={styles.postBtn}>등록</button>
             </Link>
           </div>
         </div>
-
-        <div className={styles.flexbox2}>광고창</div>
-        <div className={styles.emptybox} />
-      </main>
-
-      <footer className={styles.footer}>Footer</footer>
-    </div>
   );
 }
 

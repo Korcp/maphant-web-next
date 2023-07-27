@@ -21,32 +21,42 @@ function MainHeader() {
   };
 
   const [visiable, setVisiable] = useState<boolean>(false);
+  const linkRef = useRef<HTMLAnchorElement>(null);
+
+  const backdropClick = (e: any) => {
+    if (e !== linkRef) setVisiable(false);
+  };
 
   function CreateMenu(): any {
     if (visiable) {
       return (
-        <ul className={Styles.menuList}>
-          <Link href="/Board" className={Styles.boardLink}>
+        <ul
+          className={Styles.menuList}
+          onClick={(e) => {
+            backdropClick(e);
+          }}
+        >
+          <Link href="./Board" className={Styles.boardLink}>
             자유
           </Link>
 
-          <Link href="/Board" className={Styles.boardLink}>
+          <Link href="./Board" className={Styles.boardLink}>
             지식
           </Link>
 
-          <Link href="/Board" className={Styles.boardLink}>
+          <Link href="./Board" className={Styles.boardLink}>
             QnA
           </Link>
 
-          <Link href="/Board" className={Styles.boardLink}>
+          <Link href="./Board" className={Styles.boardLink}>
             홍보
           </Link>
 
-          <Link href="/Board" className={Styles.boardLink}>
+          <Link href="./Board" className={Styles.boardLink}>
             취업/진로
           </Link>
 
-          <Link href="/Board" className={Styles.boardLink}>
+          <Link href="./Board" className={Styles.boardLink}>
             취미
           </Link>
         </ul>
@@ -59,12 +69,9 @@ function MainHeader() {
 
   return (
     <header className={Styles.header}>
-      <div className={Styles.icon}></div>
-
-      <Link href="/MainPage" className={Styles.icon}>
+      <Link href="/Main/MainPage" className={Styles.icon}>
         <Image src={iconpng} alt="" width={70} height={60} />
       </Link>
-
       <h3 className={Styles.major}>소프트웨어학과</h3>
 
       <div className={Styles.boardList}>

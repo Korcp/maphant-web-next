@@ -37,20 +37,14 @@ function Borad() {
   };
 
   return (
-    <div className={styles.layout}>
-      <MainHeader />
-
-      <main className={styles.mainLayout}>
-        <div className={styles.emptybox} />
-        <div className={styles.flexbox1}>광고창</div>
-
+    
         <div className={styles.boardLayout}>
           <div className={styles.molla}>?</div>
 
           <div className={styles.boardName}>자유 게시판</div>
 
           <div className={styles.postMenu1}>
-            <Link href="/NewPost" style={{ textDecoration: "none" }}>
+            <Link href="./NewPost" style={{ textDecoration: "none" }}>
               <button className={styles.postBtn}>
                 글쓰기
                 <CiEdit size={22} />
@@ -113,13 +107,6 @@ function Borad() {
             </div>
           </div>
         </div>
-
-        <div className={styles.flexbox2}>광고창</div>
-        <div className={styles.emptybox} />
-      </main>
-
-      <footer className={styles.footer}>Footer</footer>
-    </div>
   );
 }
 

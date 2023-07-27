@@ -10,6 +10,7 @@
   top: 0;
   width: 100%;
   height: 4rem;
+  z-index: 1;
 }
 
 .icon {
@@ -85,24 +86,44 @@
 .boardLink {
   /* background-color: antiquewhite; */
   text-decoration: none;
-  color: black;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bolder;
 }
 .boardLink:hover {
   color: black;
 }
-
-@media (max-width: 100rem) {
+@media  screen and (max-width: 1480px) {
+  .major{
+    display: none;
+  }
+}
+@media (max-width: 1200px) {
   .menuList {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
+    justify-content: flex-start;
     position: fixed;
+
     top: 5rem;
     right: 0px;
-    width: 10rem;
-    height: 15rem;
-    background-color: rgb(241, 241, 241);
-    padding: 1rem 0;
+    width: 100%;
+    height: 100%;
+    
+    box-shadow: 0 40px 60px rgba(0, 0, 0, 0);
+    padding: 40px 30px 0 0px;
+
+    background: linear-gradient(to right, 
+    rgba(20, 20, 20, 0.5) 10%,
+    rgba(20, 20, 20, 0.5) 25%,
+    rgba(20, 20, 20, 0.5) 50%,
+    rgba(20, 20, 20, 0.5) 75%,
+    #5299eb);
+    z-index: 1;
+    backdrop-filter: blur(0.5px);
+    -webkit-backdrop-filter: blur(1px);
+    
   }
   .boardList {
     display: none;
@@ -115,7 +136,7 @@
     display: block;
   }
 }
-@media screen and (min-width: 100rem) {
+@media screen and (min-width: 1200px) {
   .sizebutton {
     display: none;
   }
