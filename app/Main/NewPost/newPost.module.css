@@ -1,46 +1,4 @@
-.layout {
-  margin-top: 80px;
-  width: 100%;
-}
-
-.mainLayout {
-  font-size: 1rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  border-bottom: 2px solid black;
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-}
-
-.emptybox {
-  width: 5rem;
-  flex-grow: 2;
-}
-
-.flexbox1 {
-  flex-grow: 1;
-  width: 6rem;
-  padding: 2rem;
-  border: 1px solid black;
-  border-radius: 20px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-.flexbox2 {
-  flex-grow: 1;
-  width: 6rem;
-  padding: 2rem;
-  border: 1px solid black;
-  border-radius: 20px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
 .NewPostLayout {
-  flex-grow: 4;
   margin: 1rem;
   width: 58rem;
   display: flex;
