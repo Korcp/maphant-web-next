@@ -16,43 +16,39 @@ export default function SelectSch(): ReactElement {
   //전공계열 새로고침
   const onmajor = (e: React.ChangeEvent<HTMLInputElement>) => {
     const majorvalue = e.target.value;
-    const input = e.target as HTMLInputElement;
     setmajor(majorvalue);
   };
   //경로 지정
   const router = useRouter();
   const ondepart = (e: React.ChangeEvent<HTMLInputElement>) => {
     const departvalue = e.target.value;
-    const input = e.target as HTMLInputElement;
     setdepart(departvalue);
   };
 
   //전공계열 받기
   useEffect(() => {
     fetch("https://dev.api.tovelop.esm.kr/user/categorylist", {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}),
     })
       .then((res) => res.json())
-      .then((res) => setmlist(res.data))
+      .then((res) => setmlist(res.data)) // 데이터를 dlist 상태에 저장
       .catch((error) => {
         console.error("오류 데이터 전송", error);
       });
   }, []);
-  //학과 받기
+  // 학과 받기
   useEffect(() => {
     fetch("https://dev.api.tovelop.esm.kr/user/majorlist", {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}),
     })
       .then((res) => res.json())
-      .then((res) => setdlist(res.data))
+      .then((res) => setdlist(res.data)) // 데이터를 dlist 상태에 저장
       .catch((error) => {
         console.error("오류 데이터 전송", error);
       });
