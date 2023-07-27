@@ -1,15 +1,14 @@
 "use client";
 import React, { ReactElement } from "react";
 import PostList from "./MainPost/PostList";
-import MainHeaderSample from "./Header/MainHeader";
+import MainHeader from "./Header/MainHeader";
 
 import styles from "./MainApp.module.css";
 
 export default function MainApp(): ReactElement {
   return (
     <div className={styles.layout}>
-      {/* <MainHeader username="사용자" /> */}
-      <MainHeaderSample />
+      <MainHeader />
 
       <main className={styles.mainLayout}>
         <div className={styles.emptybox} />

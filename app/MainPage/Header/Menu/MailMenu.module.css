@@ -1,0 +1,19 @@
+.MailList {
+  position: absolute;
+  width: 200px;
+  max-height: 200px;
+  top: 30px;
+  right: 10%;
+  background-color: white;
+  border: 1px solid #ababab;
+  border-radius: 10px;
+  list-style: none;
+  padding: 1rem;
+  overflow: auto;
+}
+.mailTop {
+  text-align: center;
+  color: #5299eb;
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid #5299eb;
+}

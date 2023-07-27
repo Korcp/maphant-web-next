@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Styles from "./PostList.module.css";
 import Post from "./Post";
