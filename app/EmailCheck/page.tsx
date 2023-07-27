@@ -128,6 +128,10 @@ export default function EmailCheck(): ReactElement {
           <button className="submitbtn" type="submit" onClick={EmailPass}>
             인증 요청
           </button>
+          <br />
+          {eSucces && <label>이메일로 인증요청이 성공했습니다.</label>}
+          <br />
+          <br />
         </div>
 
         <div className="email">
@@ -145,6 +149,10 @@ export default function EmailCheck(): ReactElement {
           <button className="submitbtn" type="submit" onClick={numPass}>
             확인
           </button>
+          <br />
+          {nSucces && (
+            <label>인증 번호 확인이 되었습니다. 완료버튼을 눌러주세요</label>
+          )}
         </div>
 
         <div className="next">
