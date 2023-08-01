@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Styles from "./PostList.module.css";
-import Post from "./Post";
+import React from "react";
+import styles from "./BoardPostList.module.css";
+import BoardPost from "./BoardPost";
+import { useState, useEffect } from "react";
 
-type BoardName = {
-  boardName: string;
+type PropsType = {
+  SortType: String;
 };
 
 type ArticleType = {
@@ -16,7 +17,7 @@ type ArticleType = {
   userNickname: string;
 };
 
-function PostList({ boardName }: BoardName) {
+function BoardPostList({ SortType }: PropsType) {
   const [articles, setArticles] = useState<ArticleType[]>([]);
 
   useEffect(() => {
@@ -36,7 +37,6 @@ function PostList({ boardName }: BoardName) {
       }),
     })
       .then((resp) => {
-        console.log(resp);
         return resp.json();
       })
       .then((json) => {
@@ -45,15 +45,25 @@ function PostList({ boardName }: BoardName) {
       });
   }, []);
 
-  articles.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+  switch (SortType) {
+    case "최신순":
+      articles.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+      break;
+    case "추천순":
+      articles.sort((a, b) => b.likeCnt - a.likeCnt);
+      break;
+    case "댓글순":
+      articles.sort((a, b) => b.commentCnt - a.commentCnt);
+      break;
+  }
+
   return (
-    <div className={Styles.postList}>
-      <h4 className={Styles.boardName}>{boardName}</h4>
-      {articles.slice(0, 5).map((content) => (
-        <Post content={content} key={content.boardId} />
+    <div className={styles.BoardPostList}>
+      {articles.slice(0, 10).map((content) => (
+        <BoardPost content={content} key={content.boardId} />
       ))}
     </div>
   );
 }
 
-export default PostList;
+export default BoardPostList;

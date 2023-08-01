@@ -36,27 +36,27 @@ function MainHeader() {
             backdropClick(e);
           }}
         >
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Free" className={Styles.boardLink}>
             자유
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Knowledge" className={Styles.boardLink}>
             지식
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/QnA" className={Styles.boardLink}>
             QnA
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Promotion" className={Styles.boardLink}>
             홍보
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Career" className={Styles.boardLink}>
             취업/진로
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Hobby" className={Styles.boardLink}>
             취미
           </Link>
         </ul>
