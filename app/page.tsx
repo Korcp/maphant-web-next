@@ -6,11 +6,14 @@ import classes from "./page.module.css";
 import IconImg from "./img/Icon.png";
 import AppImg from "./img/loginAppImg.png";
 import { ReactElement, useEffect, useState } from "react";
+import { headers } from "next/dist/client/components/headers";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const router = useRouter();
   const onEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
@@ -21,22 +24,49 @@ export default function Home() {
     setPassword(passValue);
   };
 
-  const Loginpass = () => {
-    fetch("https://dev.api.tovelop.esm.kr/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => console.log(res.data))
-      .catch((error) => {
-        console.error("오류 데이터 전송", error);
-      });
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const privKey = localStorage.getItem("privKey");
+
+    if (token && privKey && token != null && privKey != null) {
+      router.push("/Main/MainPage");
+    }
+  }, [router]);
+
+  const handleLogin = async (pubkey: string, privkey: string) => {
+    try {
+      const response = await fetch(
+        "https://dev.api.tovelop.esm.kr/user/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth": pubkey,
+            "x-timestamp": "1234",
+            "x-sign": "maphant@privkey",
+          },
+          body: JSON.stringify({ email: pubkey, password: privkey }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+
+      if (data["pubKey"] && data["privKey"]) {
+        localStorage.setItem("token", data["pubKey"]);
+        localStorage.setItem("privKey", data["privKey"]);
+        // Redirect to the main page after successful login
+        router.push("/Main/MainPage");
+      } else {
+        console.log("로그인 실패:", data.message);
+      }
+    } catch (error) {
+      console.log("로그인 실패:", error.message);
+    }
+  };
+
+  const handleLoginButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    handleLogin(email, password);
   };
   return (
     <div className={classes.outer}>
@@ -67,16 +97,14 @@ export default function Home() {
           onChange={onpassword}
         />
         <br />
-        <Link href="Main/MainPage">
-          <button
-            type="submit"
-            id="LoginBtn"
-            className={classes.button}
-            onClick={Loginpass}
-          >
-            로그인
-          </button>
-        </Link>
+        <button
+          type="submit"
+          id="LoginBtn"
+          className={classes.button}
+          onClick={handleLoginButton}
+        >
+          로그인
+        </button>
 
         <br />
         <p className={classes.foundPwd}>
