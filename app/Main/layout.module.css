@@ -1,50 +1,82 @@
+.html {
+  font-size: 16px;
+}
+
 .layout {
-    margin-top: 80px;
-    width: 100%;
+  margin-top: 5rem;
+  width: 100%;
+}
+
+.mainLayout {
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 2px solid black;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.emptybox {
+  width: 5rem;
+  flex-grow: 2;
+}
+
+.flexbox1,
+.flexbox2 {
+  flex-grow: 1;
+  width: 6rem;
+  padding: 2rem;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.content {
+  flex-grow: 4;
+  width: 58rem;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer {
+  margin-top: 1rem;
+  background-color: #5299eb;
+  width: 100%;
+  font-size: 2rem;
+  height: 3rem;
+}
+
+@media screen and (max-width: 1250px) {
+  /* 타블렛 가로 */
+  .html{
+    font-size: 12px;
   }
-  
-  .mainLayout {
-    font-size: 1rem;
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    border-bottom: 2px solid black;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+  .mainLayout{
+    min-height: 60rem;
   }
-  
-  .emptybox{
-      width: 5rem;
-      flex-grow: 2;
+}
+@media screen and (max-width: 899px) {
+  /* 모바일 가로, 타블렛 세로 */
+  .html{
+    font-size: 8px;
   }
-  
-  .flexbox1, .flexbox2 {
-    flex-grow: 1;
-    width: 6rem;
-    padding: 2rem;
-    border: 1px solid black;
-    border-radius: 20px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    white-space: nowrap;
+  .mainLayout{
+    min-height: 70rem;
   }
-  
-  .content {
-    /* background-color: antiquewhite; */
-    flex-grow: 4;
-    width: 58rem;
-    margin: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+}
+
+@media screen and (max-width: 599px) {
+  /* 모바일 세로 */
+  .html{
+    font-size: 6px;
   }
-  
-  .footer {
-    margin-top: 1rem;
-    background-color: #5299eb;
-    font-size: 2rem;
-    height: 3rem;
-    width: 100%;
+  .mainLayout{
+    min-height: 70rem;
   }
-  
+}
