@@ -1,8 +1,8 @@
 .noticeList {
   position: absolute;
-  width: 200px;
-  max-height: 200px;
-  top: 30px;
+  width: 12rem;
+  max-height: 12.5rem;
+  top: 2rem;
   background-color: white;
   border: 1px solid #ababab;
   border-radius: 10px;

@@ -1,7 +1,7 @@
 .BoardPostList {
   border-radius: 20px;
   width: 100%;
-  height: 60rem;
+  min-height: 60rem;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

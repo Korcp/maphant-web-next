@@ -8,7 +8,7 @@
 .boardName {
   margin: 1rem;
   border-radius: 10px;
-  width: 100%;
+  width: 98%;
   height: 5rem;
   display: flex;
   flex-direction: column;
@@ -38,16 +38,10 @@
 .newTag {
   width: 100%;
 }
-
-.inputTag {
-  border: 1px solid #ababab;
-  border-radius: 10px;
-  width: 95%;
-  height: 3rem;
-  margin: 1%;
-  padding-left: 1rem;
-  font-size: 1rem;
+.imgUpload {
+  width: 100%;
 }
+
 .inputTag:focus {
   border: 1px solid black;
   outline: none;
@@ -60,8 +54,9 @@
   width: 95%;
   height: 30rem;
   margin: 1%;
-  padding: 10px;
+  padding: 0.5rem;
   resize: none;
+  font-size: 1.25rem;
 }
 
 .newPostMenu {

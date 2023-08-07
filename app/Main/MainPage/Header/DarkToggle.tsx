@@ -8,8 +8,8 @@ function DarkToggel() {
       <input type="checkbox" />
       <span className={classes.slider}>
         {" "}
-        <MdOutlineNightlightRound size={20} color="gray" />
-        <MdSunny size={20} color="yellow" />
+        <MdOutlineNightlightRound size={'1.25rem'} color="gray" />
+        <MdSunny size={'1.25rem'} color="yellow" />
       </span>
     </label>
   );

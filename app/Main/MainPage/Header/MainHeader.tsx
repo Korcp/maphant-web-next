@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import { MdSearch, MdDensityMedium } from "react-icons/md";
 
-import iconpng from "../img/icon2.jpeg";
+import iconpng from "../img/icon.png";
 import DarkToggel from "./DarkToggle";
 import UserMenu from "./UserMenu";
 import BoardList from "./BoardList";
@@ -36,27 +36,27 @@ function MainHeader() {
             backdropClick(e);
           }}
         >
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Free" className={Styles.boardLink}>
             자유
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Knowledge" className={Styles.boardLink}>
             지식
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/QnA" className={Styles.boardLink}>
             QnA
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Promotion" className={Styles.boardLink}>
             홍보
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Career" className={Styles.boardLink}>
             취업/진로
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Hobby" className={Styles.boardLink}>
             취미
           </Link>
         </ul>
@@ -69,9 +69,11 @@ function MainHeader() {
 
   return (
     <header className={Styles.header}>
-      <Link href="/Main/MainPage" className={Styles.icon}>
-        <Image src={iconpng} alt="" width={70} height={60} />
-      </Link>
+      <div className={Styles.icon}>
+        <Link href="/Main/MainPage">
+          <Image src={iconpng} alt="" fill />
+        </Link>
+      </div>
       <h3 className={Styles.major}>소프트웨어학과</h3>
 
       <div className={Styles.boardList}>
@@ -81,9 +83,10 @@ function MainHeader() {
       <div className={Styles.sizebutton}>
         <CreateMenu />
       </div>
+
       <form className={Styles.search} onSubmit={searchSubmit}>
         <button type="submit" className={Styles.searchIcon}>
-          <MdSearch size={18} />
+          <MdSearch size={"1.125rem"} />
         </button>
         <input
           ref={searchInputRef}
@@ -102,7 +105,7 @@ function MainHeader() {
 
       <nav className={Styles.navbar}>
         <button className={Styles.navBtn} onClick={handleMenuButton}>
-          <MdDensityMedium size={20} color="white" />
+          <MdDensityMedium size={"1.25rem"} color="white" />
         </button>
       </nav>
     </header>

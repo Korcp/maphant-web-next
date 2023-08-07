@@ -44,7 +44,7 @@ function UserMenu() {
           MenuOpenFun("Mail");
         }}
       >
-        <MdMailOutline color="white" size="1.5rem" />
+        <MdMailOutline size="1.5rem" className={styles.mailIcon}/>
       </button>
 
       <button
@@ -52,7 +52,7 @@ function UserMenu() {
         className={styles.NoticeBtn}
         onClick={() => MenuOpenFun("Notice")}
       >
-        <MdNotificationsNone size="1.5rem" color="white" />
+        <MdNotificationsNone size="1.5rem" className={styles.noticeIcon} />
       </button>
 
       <button
