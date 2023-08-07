@@ -8,11 +8,12 @@ import AppImg from "./img/loginAppImg.png";
 import { ReactElement, useEffect, useState } from "react";
 import { headers } from "next/dist/client/components/headers";
 import { useRouter } from "next/navigation";
+import sha512 from "crypto-js/sha512";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [userData, setUserData] = useState({});
   const router = useRouter();
   const onEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailValue = e.target.value;
@@ -23,15 +24,19 @@ export default function Home() {
     const passValue = e.target.value;
     setPassword(passValue);
   };
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     const privKey = localStorage.getItem("privKey");
-
-    if (token && privKey && token != null && privKey != null) {
-      router.push("/Main/MainPage");
+    if (
+      token &&
+      privKey &&
+      token != null &&
+      privKey != null &&
+      userData != "{}"
+    ) {
+      location.href = "/Main/MainPage";
     }
-  }, [router]);
+  }, [userData]);
 
   const handleLogin = async (pubkey: string, privkey: string) => {
     try {
@@ -41,9 +46,6 @@ export default function Home() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-auth": pubkey,
-            "x-timestamp": "1234",
-            "x-sign": "maphant@privkey",
           },
           body: JSON.stringify({ email: pubkey, password: privkey }),
         }
@@ -54,8 +56,30 @@ export default function Home() {
       if (data["pubKey"] && data["privKey"]) {
         localStorage.setItem("token", data["pubKey"]);
         localStorage.setItem("privKey", data["privKey"]);
-        // Redirect to the main page after successful login
-        router.push("/Main/MainPage");
+
+        const timestamp = Math.floor(Date.now() / 1000);
+        const storedprivKey = localStorage.getItem("privKey");
+        const sign = sha512(timestamp + storedprivKey).toString();
+
+        await fetch("https://dev.api.tovelop.esm.kr/user/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth": data["pubKey"], // 토큰 값 추가
+            "x-timestamp": timestamp.toString(), // 현재 unix timestamp 값 추가
+            "x-sign": sign, // sha512로 생성한 서명 값 추가
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.success) {
+              setUserData(res.data);
+              router.push("/Main/MainPage");
+            }
+          })
+          .catch((error) => {
+            console.log("유저 정보 가져오기 실패:", error.message);
+          });
       } else {
         alert(data.message);
       }
