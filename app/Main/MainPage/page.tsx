@@ -5,7 +5,7 @@ import styles from "./MainApp.module.css";
 
 export default function MainApp(): ReactElement {
   return (
-    <>
+    <div className={styles.mainLayout}>
       <div className={styles.hot}>
         <div className={styles.hotPost}>
           <p>HOT 키워드</p>
@@ -31,6 +31,6 @@ export default function MainApp(): ReactElement {
 
         <PostList boardName="취미" />
       </div>
-    </>
+    </div>
   );
 }

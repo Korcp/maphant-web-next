@@ -1,50 +1,15 @@
-.layout {
-  margin-top: 80px;
-  width: 100%;
-}
-
-.mainLayout {
-  font-size: 1rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  border-bottom: 2px solid black;
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-}
-
-.emptybox{
-    width: 5rem;
-    flex-grow: 2;
-}
-
-.flexbox1, .flexbox3 {
-  flex-grow: 1;
-  width: 6rem;
-  padding: 2rem;
-  border: 1px solid black;
-  border-radius: 20px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.flexbox2 {
-  /* background-color: antiquewhite; */
-  flex-grow: 4;
-  width: 58rem;
+.MainLayout {
   margin: 1rem;
+  width: 58rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-
 .hot {
   border-radius: 15px;
   padding: 1rem;
-  width: 100%;
+  width: 95%;
 }
 .hotPost {
   border: 1px solid black;
@@ -55,29 +20,33 @@
   padding: 1rem;
 }
 
-.box1 {
-  border-radius: 20px;
-  padding: 1%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
+.box1,
 .box2 {
   border-radius: 20px;
   width: 100%;
-  padding: 1%;
   display: flex;
   justify-content: space-between;
-  gap: 5rem;
+  gap: 3rem;
   margin-bottom: 1rem;
 }
 
-.footer {
-  margin-top: 1rem;
-  background-color: #5299eb;
-  font-size: 2rem;
-  height: 3rem;
-  width: 100%;
+@media screen and (max-width: 1250px) {
+  /* 타블렛 가로 */
+  .box1,
+  .box2 {
+    min-height: 20rem;
+  }
+}
+@media screen and (max-width: 899px) {
+  /* 모바일 가로, 타블렛 세로 */
+  .box1,.box2{
+    min-height: 26rem;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  /* 모바일 세로 */
+  .box1,.box2{
+    min-height: 30rem;
+  }
 }

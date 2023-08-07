@@ -14,10 +14,9 @@
 }
 
 .icon {
-  width: 70px;
-  height: 70px;
-  display: flex;
-  justify-content: flex-start;
+  width: 4.5rem;
+  height: 4.5rem;
+  position: relative;
   overflow: hidden;
   white-space: nowrap;
 }

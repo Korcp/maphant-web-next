@@ -24,17 +24,17 @@ function PostList({ boardName }: BoardName) {
       headers: {
         "content-type": "application/json",
         "x-auth": "maphant@pubKey",
-        "x-timestamp": "1",
+        "x-timestamp": "100",
         "x-sign": "maphant@privKey",
       },
-      method: "POST",
+      method: "GET",
       body: JSON.stringify({
         boardType: "자유 게시판",
         sortCriterion: "likeCnt",
         page: 1,
         pageSize: 30,
       }),
-    })
+    }) 
       .then((resp) => {
         console.log(resp);
         return resp.json();
