@@ -53,7 +53,7 @@ function Borad() {
         <Link href="./NewPost" style={{ textDecoration: "none" }}>
           <button className={styles.postBtn}>
             글쓰기
-            <CiEdit size={22} />
+            <CiEdit size="1.375rem" />
           </button>
         </Link>
         <div className={styles.hashTags}>
@@ -67,7 +67,7 @@ function Borad() {
             className={styles.sortBtn}
             onClick={() => setOnSortMenu(!onSortMenu)}
           >
-            <MdSort size={22} />
+            <MdSort size="1.375rem" />
             {sortNow}
           </button>
           {onSortMenu && <SortItem />}
@@ -77,7 +77,7 @@ function Borad() {
       <div className={styles.postMenu2}>
         <span className={styles.search}>
           <button type="button" className={styles.searchIcon}>
-            <MdSearch size={18} />
+            <MdSearch size="1.125rem" />
           </button>
           <input
             type="text"
