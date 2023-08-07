@@ -57,11 +57,7 @@ export default function Home() {
         // Redirect to the main page after successful login
         router.push("/Main/MainPage");
       } else {
-        if (email == null && password == null) {
-          alert("아이디와 비밀번호를 입력하여주세요");
-        } else {
-          alert("아이디와 비밀번호를 알맞게 입력하여주세요");
-        }
+        alert(data.message);
       }
     } catch (error) {
       console.log("로그인 실패:", error.message);
