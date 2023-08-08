@@ -1,8 +1,9 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { ReactElement, useReducer, useState } from "react";
 import IconImg from "app/img/icon.png";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { ReactElement, useState } from "react";
+
 import Agrees from "./Agree.module.css";
 
 export default function Agree(): ReactElement {

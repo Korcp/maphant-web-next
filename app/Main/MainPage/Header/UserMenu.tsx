@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { MdMailOutline, MdNotificationsNone } from "react-icons/md";
 
-import styles from "./UserMenu.module.css";
 import DropdownMenu from "./Menu/DropdownMenu";
-import NoticeMenu from "./Menu/NoticeMenu";
 import MailMenu from "./Menu/MailMenu";
+import NoticeMenu from "./Menu/NoticeMenu";
+import styles from "./UserMenu.module.css";
 
 function UserMenu() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);

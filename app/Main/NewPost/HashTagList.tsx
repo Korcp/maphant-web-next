@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
-import styles from "./HashTagList.module.css";
 import { MdClose } from "react-icons/md";
+
+import styles from "./HashTagList.module.css";
 
 const HashTagList = () => {
   const [hashTag, setHashTag] = useState<string[]>([]);
@@ -12,7 +13,7 @@ const HashTagList = () => {
     }
   };
   const duflicationCheck = (text: string): boolean => {
-    var check = true;
+    let check = true;
     hashTag.map((item) => {
       if (item === text) {
         alert("이미 등록된 해시태그입니다.");

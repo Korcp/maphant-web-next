@@ -1,5 +1,5 @@
 import { UserData } from "../type/userType";
-import { GetAPI, PostAPI, dataResponse, statusResponse } from "./fetchAPI";
+import { dataResponse, GetAPI, PostAPI, statusResponse } from "./fetchAPI";
 
 type LoginResponse = {
 	pubKey: string;

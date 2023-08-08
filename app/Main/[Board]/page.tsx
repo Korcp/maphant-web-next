@@ -1,18 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import ErrorPage from "next/error";
-
-import styles from "./Borad.module.css";
-import BoardPostList from "./BoardPost/BoardPostList";
-
-import { MdSearch, MdSort, MdArrowBack, MdArrowForward } from "react-icons/md";
-import { CiEdit } from "react-icons/ci";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { CiEdit } from "react-icons/ci";
+import { MdArrowBack, MdArrowForward,MdSearch, MdSort } from "react-icons/md";
+
+import BoardPostList from "./BoardPost/BoardPostList";
+import styles from "./Borad.module.css";
 
 function Borad() {
-  var boardName: string = "";
-  var boardType: number = 0;
+  let boardName: string = "";
+  let boardType: number = 0;
   const [boardPage, setBoardPage] = useState<number>(1);
   const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
   const sortItems: string[] = ["최신순", "추천순"];

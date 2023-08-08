@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import sha512 from "crypto-js/sha512";
-import styles from "./Mypage.module.css";
+import React, { useEffect, useState } from "react";
+
 import useLocalStorage from "@/app/useLocalStorage";
+
+import styles from "./Mypage.module.css";
 
 function page() {
   const [userData, setUserData] = useState({
@@ -42,13 +43,13 @@ function page() {
       nickname: userData.nickname, // 변경된 닉네임으로 업데이트
     };
 
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("x-auth", token);
     myHeaders.append("x-timestamp", timestamp.toString());
     myHeaders.append("x-sign", sign);
     myHeaders.append("Content-Type", "application/json");
 
-    var requestOptions1: Object = {
+    const requestOptions1: Object = {
       method: "POST",
       headers: myHeaders,
       body: JSON.stringify(updatedData),
@@ -72,15 +73,15 @@ function page() {
 
   // 정보 불러오기
   useEffect(() => {
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("x-auth", token);
     myHeaders.append("x-timestamp", timestamp.toString());
     myHeaders.append("x-sign", sign);
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({});
+    const raw = JSON.stringify({});
 
-    var requestOptions: Object = {
+    const requestOptions: Object = {
       method: "POST",
       headers: myHeaders,
       body: raw,

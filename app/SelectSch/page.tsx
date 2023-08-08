@@ -1,9 +1,11 @@
 "use client";
-import Image from "next/image";
-import IconImg from "./img/Icon.png";
 import "./SelectSch.css";
-import { ReactElement, useEffect, useState } from "react";
+
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ReactElement, useEffect, useState } from "react";
+
+import IconImg from "./img/Icon.png";
 
 export default function SelectSch(): ReactElement {
   //전공계열,학과

@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Styles from "./PostList.module.css";
+import React, { useEffect,useState } from "react";
+
 import Post from "./Post";
-import useLocalStorage from "@/app/useLocalStorage";
+import Styles from "./PostList.module.css";
 
 type BoardName = {
   boardName: string;
@@ -19,7 +19,7 @@ type ArticleType = {
 
 function PostList({ boardName }: BoardName) {
   const [articles, setArticles] = useState<ArticleType[]>([]);
-  var boardType:number=0; 
+  let boardType:number=0; 
 
 
   if(boardName === '자유') boardType=1;  
@@ -32,7 +32,7 @@ function PostList({ boardName }: BoardName) {
  
 
   useEffect(() => {
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("x-auth", "maphant@pubKey");
     myHeaders.append("x-timestamp", "100");
     myHeaders.append("x-sign", "maphant@privKey");

@@ -1,15 +1,11 @@
 "use client";
-import React, { ReactElement, useState } from "react";
-import Link from "next/link";
-
-import MainHeader from "../MainPage/Header/MainHeader";
-import styles from "./MypagePW.module.css";
-
-import { MdSearch, MdSort, MdArrowBack, MdArrowForward } from "react-icons/md";
-import { CiEdit } from "react-icons/ci";
-import { useRouter } from "next/navigation";
 import sha512 from "crypto-js/sha512";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+
 import useLocalStorage from "@/app/useLocalStorage";
+
+import styles from "./MypagePW.module.css";
 function page() {
   const router = useRouter();
 
@@ -26,13 +22,13 @@ function page() {
   const sign = sha512(timestamp + privKey).toString();
 
   const pwcheck = () => {
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("x-auth", token);
     myHeaders.append("x-timestamp", timestamp.toString());
     myHeaders.append("x-sign", sign);
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
+    const raw = JSON.stringify({
       password: pw,
     });
 

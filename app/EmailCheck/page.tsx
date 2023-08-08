@@ -1,10 +1,11 @@
 "use client";
-import IconImg from "./img/Icon.png";
 import "./EmailCheck.css";
-import { ReactElement, useEffect, useState } from "react";
+
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ReactElement, useState } from "react";
+
+import IconImg from "./img/Icon.png";
 
 export default function EmailCheck(): ReactElement {
   const [email, setEmail] = useState("");

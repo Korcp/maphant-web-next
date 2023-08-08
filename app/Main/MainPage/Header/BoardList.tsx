@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
-import styles from "./BoardList.module.css";
 import Link from "next/link";
+import React from "react";
+
+import styles from "./BoardList.module.css";
 
 function BoardList() {
   return (

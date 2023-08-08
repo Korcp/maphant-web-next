@@ -1,10 +1,11 @@
 "use client";
 
-import React, { ReactElement } from "react";
-import classes from "./SearchAccount.module.css";
-import AppImg from "./img/Icon.png";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import React, { ReactElement } from "react";
+
+import AppImg from "./img/Icon.png";
+import classes from "./SearchAccount.module.css";
 
 export default function SearchAccount(): ReactElement {
   return (

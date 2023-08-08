@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
-import { IoMdCloseCircleOutline } from "react-icons/io";
-import styles from "./ImgList.module.css";
 import Image from "next/image";
+import React, { useRef,useState } from "react";
+import { IoMdCloseCircleOutline } from "react-icons/io";
+
+import styles from "./ImgList.module.css";
 
 type ImgType = {
   url: string;

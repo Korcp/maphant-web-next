@@ -1,9 +1,11 @@
 "use client";
-import React, { forwardRef, useReducer } from "react";
-import styles from "./DropdwonMenu.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import React from "react";
+
 import useLocalStorage from "@/app/useLocalStorage";
+
+import styles from "./DropdwonMenu.module.css";
 
 const DropdownMenu = () => {
   const router = useRouter();

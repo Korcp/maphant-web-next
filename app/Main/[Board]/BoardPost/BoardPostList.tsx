@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
-import styles from "./BoardPostList.module.css";
+import { useEffect,useState } from "react";
+
 import BoardPost from "./BoardPost";
-import { useState, useEffect } from "react";
+import styles from "./BoardPostList.module.css";
 
 type PropsType = {
   SortType: string;
@@ -26,7 +27,7 @@ function BoardPostList({ SortType, boardType, boardPage }: PropsType) {
   if (SortType === "추천순") sort = 2;
 
   useEffect(() => {
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("x-auth", "maphant@pubKey");
     myHeaders.append("x-timestamp", "100");
     myHeaders.append("x-sign", "maphant@privKey");
