@@ -27,6 +27,50 @@ function page() {
   const timestamp = Math.floor(Date.now() / 1000);
   const sign = sha512(timestamp + privKey).toString();
 
+  // 닉네임 변경
+  const NicknameChange = (newNickname: string) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      nickname: newNickname,
+    }));
+  };
+
+  // 닉네임 수정
+  const handleNicknameUpdate = () => {
+    const updatedData = {
+      ...userData,
+      nickname: userData.nickname, // 변경된 닉네임으로 업데이트
+    };
+
+    var myHeaders = new Headers();
+    myHeaders.append("x-auth", token);
+    myHeaders.append("x-timestamp", timestamp.toString());
+    myHeaders.append("x-sign", sign);
+    myHeaders.append("Content-Type", "application/json");
+
+    var requestOptions1: Object = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(updatedData),
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://dev.api.tovelop.esm.kr/user/changeinfo/nickname",
+      requestOptions1
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          alert("수정완료되었습니다.");
+        } else {
+          alert(res.errors);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  // 정보 불러오기
   useEffect(() => {
     var myHeaders = new Headers();
     myHeaders.append("x-auth", token);
@@ -49,24 +93,11 @@ function page() {
     )
       .then((res) => res.json())
       .then((res) => {
-        setUserData(res.data), console.log(res.data);
+        setUserData(res.data);
+        console.log(res.data);
       })
       .catch((error) => console.log("error", error));
   }, []);
-
-  const NicknameChange = (newNickname: string) => {
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      nickname: newNickname,
-    }));
-  };
-
-  const NameChange = (newName: string) => {
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      name: newName,
-    }));
-  };
   console.log(userData);
   return (
     <div className={styles.boardLayout}>
@@ -82,7 +113,11 @@ function page() {
           value={userData.nickname || ""}
           onChange={(e) => NicknameChange(e.target.value)}
         ></input>
-        <button type="submit" className={styles.emailBtn}>
+        <button
+          type="submit"
+          className={styles.emailBtn}
+          onClick={handleNicknameUpdate}
+        >
           수정하기
         </button>
       </div>
@@ -94,7 +129,6 @@ function page() {
           className={styles.emailtype}
           placeholder="이름"
           value={userData.name || ""}
-          onChange={(e) => NameChange(e.target.value)}
         ></input>
         <button type="submit" className={styles.emailBtn}>
           수정하기
