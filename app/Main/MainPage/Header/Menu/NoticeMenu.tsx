@@ -11,6 +11,8 @@ function NotifiMenu() {
         <li className={styles.notice}>댓글달림</li>
         <li className={styles.notice}>댓글달림</li>
         <li className={styles.notice}>댓글달림</li>
+        <li className={styles.notice}>댓글달림</li>
+        <li className={styles.notice}>댓글달림</li>
     </ul>
   )
 }

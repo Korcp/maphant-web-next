@@ -13,11 +13,12 @@
   border: 0;
 }
 
-
-.MailBtn:hover, .NoticeBtn:hover{
+.mailIcon, .noticeIcon{
+  color: white;
+}
+.mailIcon:hover, .noticeIcon:hover{
   cursor: pointer;
-  background-color: #30629b;
-  color: gray;
+  color: black;
 }
 
 
@@ -29,7 +30,9 @@
   border-radius: 50%;
   height: 2.5rem;
   width: 2.5rem;
-  font-size: 5px;
+  font-size: 0.2rem;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .userBtn:hover {

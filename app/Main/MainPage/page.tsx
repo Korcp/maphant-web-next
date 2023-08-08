@@ -5,7 +5,7 @@ import styles from "./MainApp.module.css";
 
 export default function MainApp(): ReactElement {
   return (
-    <>
+    <div className={styles.mainLayout}>
       <div className={styles.hot}>
         <div className={styles.hotPost}>
           <p>HOT 키워드</p>
@@ -17,20 +17,20 @@ export default function MainApp(): ReactElement {
       </div>
 
       <div className={styles.box1}>
-        <PostList />
+        <PostList boardName="자유" />
 
-        <PostList />
+        <PostList boardName="지식" />
 
-        <PostList />
+        <PostList boardName="QnA" />
       </div>
 
       <div className={styles.box2}>
-        {/* <PostList />
+        <PostList boardName="홍보" />
 
-        <PostList />
+        <PostList boardName="취업/진로" />
 
-        <PostList /> */}
+        <PostList boardName="취미" />
       </div>
-    </>
+    </div>
   );
 }

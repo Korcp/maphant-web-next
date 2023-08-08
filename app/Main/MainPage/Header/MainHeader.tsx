@@ -37,27 +37,27 @@ function MainHeader() {
             backdropClick(e);
           }}
         >
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Free" className={Styles.boardLink}>
             자유
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Knowledge" className={Styles.boardLink}>
             지식
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/QnA" className={Styles.boardLink}>
             QnA
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Promotion" className={Styles.boardLink}>
             홍보
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Career" className={Styles.boardLink}>
             취업/진로
           </Link>
 
-          <Link href="./Board" className={Styles.boardLink}>
+          <Link href="/Main/Hobby" className={Styles.boardLink}>
             취미
           </Link>
         </ul>
@@ -84,9 +84,10 @@ function MainHeader() {
       <div className={Styles.sizebutton}>
         <CreateMenu />
       </div>
+
       <form className={Styles.search} onSubmit={searchSubmit}>
         <button type="submit" className={Styles.searchIcon}>
-          <MdSearch size={18} />
+          <MdSearch size={"1.125rem"} />
         </button>
         <input
           ref={searchInputRef}
@@ -106,7 +107,7 @@ function MainHeader() {
 
       <nav className={Styles.navbar}>
         <button className={Styles.navBtn} onClick={handleMenuButton}>
-          <MdDensityMedium size={20} color="white" />
+          <MdDensityMedium size={"1.25rem"} color="white" />
         </button>
       </nav>
     </header>
