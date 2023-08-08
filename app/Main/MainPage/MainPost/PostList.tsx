@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Styles from "./PostList.module.css";
 import Post from "./Post";
+import useLocalStorage from "@/app/useLocalStorage";
 
 type BoardName = {
   boardName: string;
@@ -18,31 +19,38 @@ type ArticleType = {
 
 function PostList({ boardName }: BoardName) {
   const [articles, setArticles] = useState<ArticleType[]>([]);
+  var boardType:number=0; 
+  if(boardName === '자유') boardType=1;  
+  if(boardName === '질문') boardType=2;  
+  if(boardName === '지식') boardType=3;  
+  if(boardName === '취업/진로') boardType=4;  
+  if(boardName === '홍보') boardType=5;  
+  if(boardName === '취미') boardType=6;  
+
+  console.log(boardName);
 
   useEffect(() => {
-    fetch("https://dev.api.tovelop.esm.kr/board/main", {
-      headers: {
-        "content-type": "application/json",
-        "x-auth": "maphant@pubKey",
-        "x-timestamp": "100",
-        "x-sign": "maphant@privKey",
-      },
-      method: "GET",
-      body: JSON.stringify({
-        boardType: "자유 게시판",
-        sortCriterion: "likeCnt",
-        page: 1,
-        pageSize: 30,
-      }),
-    }) 
+    var myHeaders = new Headers();
+    myHeaders.append("x-auth", "maphant@pubKey");
+    myHeaders.append("x-timestamp", "100");
+    myHeaders.append("x-sign", "maphant@privKey");
+    myHeaders.append("x-category", "1");
+
+    fetch(
+      `https://dev.api.tovelop.esm.kr/board?boardTypeId=${boardType}&page=1&pageSize=5&sortCriterionId=1`,
+      {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      }
+    )
       .then((resp) => {
-        console.log(resp);
         return resp.json();
       })
       .then((json) => {
-        console.log(json);
         setArticles(json.data);
-      });
+      })
+      .catch((error) => console.log("error", error));
   }, []);
 
   articles.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
@@ -50,7 +58,7 @@ function PostList({ boardName }: BoardName) {
     <div className={Styles.postList}>
       <h4 className={Styles.boardName}>{boardName}</h4>
       {articles.slice(0, 5).map((content) => (
-        <Post content={content} key={content.boardId} />
+        <Post content={content} key={content.boardId}/>
       ))}
     </div>
   );

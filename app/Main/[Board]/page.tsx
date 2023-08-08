@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import ErrorPage from 'next/error';
+import ErrorPage from "next/error";
 
 import styles from "./Borad.module.css";
 import BoardPostList from "./BoardPost/BoardPostList";
@@ -12,13 +12,28 @@ import { usePathname } from "next/navigation";
 
 function Borad() {
   var boardName: string = "";
-  if (usePathname() === "/Main/Free") boardName = "자유게시판";
-  else if (usePathname() === "/Main/Knowledge") boardName = "지식게시판";
-  else if (usePathname() === "/Main/QnA") boardName = "QnA";
-  else if (usePathname() === "/Main/Promotion") boardName = "홍보게시판";
-  else if (usePathname() === "/Main/Career") boardName = "취업/진로";
-  else if (usePathname() === "/Main/Hobby") boardName = "취미";
-  else {return <ErrorPage statusCode={404}/>}
+  var boardType: number = 0;
+  if (usePathname() === "/Main/Free") {
+    boardName = "자유게시판";
+    boardType = 1;
+  } else if (usePathname() === "/Main/Knowledge") {
+    boardName = "지식게시판";
+    boardType = 3;
+  } else if (usePathname() === "/Main/QnA") {
+    boardName = "QnA";
+    boardType = 2;
+  } else if (usePathname() === "/Main/Promotion") {
+    boardName = "홍보게시판";
+    boardType = 5;
+  } else if (usePathname() === "/Main/Career") {
+    boardName = "취업/진로";
+    boardType = 4;
+  } else if (usePathname() === "/Main/Hobby") {
+    boardName = "취미";
+    boardType = 6;
+  } else {
+    return <ErrorPage statusCode={404} />;
+  }
 
   const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
   const sortItems: string[] = ["최신순", "추천순", "댓글순"];
@@ -100,7 +115,7 @@ function Borad() {
       </div>
 
       <div className={styles.postList}>
-        <BoardPostList SortType={sortNow}/>
+        <BoardPostList SortType={sortNow} boardType={boardType} />
       </div>
 
       <div className={styles.postPage}>

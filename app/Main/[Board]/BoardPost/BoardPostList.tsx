@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 
 type PropsType = {
   SortType: String;
+  boardType: number;
 };
 
 type ArticleType = {
@@ -17,32 +18,31 @@ type ArticleType = {
   userNickname: string;
 };
 
-function BoardPostList({ SortType }: PropsType) {
+function BoardPostList({ SortType, boardType }: PropsType) {
   const [articles, setArticles] = useState<ArticleType[]>([]);
 
   useEffect(() => {
-    fetch("https://dev.api.tovelop.esm.kr/board/main?", {
-      headers: {
-        "content-type": "application/json",
-        "x-auth": "maphant@pubKey",
-        "x-timestamp": "100",
-        "x-sign": "maphant@privKey",
-      },
-      method: "GET",
-      body: JSON.stringify({
-        boardType: "자유 게시판",
-        sortCriterion: "likeCnt",
-        page: 1,
-        pageSize: 30,
-      }),
-    })
+    var myHeaders = new Headers();
+    myHeaders.append("x-auth", "maphant@pubKey");
+    myHeaders.append("x-timestamp", "100");
+    myHeaders.append("x-sign", "maphant@privKey");
+    myHeaders.append("x-category", "1");
+
+    fetch(
+      `https://dev.api.tovelop.esm.kr/board?boardTypeId=${boardType}&page=1&pageSize=5&sortCriterionId=1`,
+      {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      }
+    )
       .then((resp) => {
         return resp.json();
       })
       .then((json) => {
-        console.log(json);
         setArticles(json.data);
-      });
+      })
+      .catch((error) => console.log("error", error));
   }, []);
 
   switch (SortType) {
