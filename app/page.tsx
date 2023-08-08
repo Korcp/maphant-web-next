@@ -94,11 +94,7 @@ export default function Home() {
         alert(data.message);
       }
     } catch (error) {
-<<<<<<< HEAD
-      console.log("로그인 실패:");
-=======
       console.log("로그인 실패");
->>>>>>> a4b5a9dc5ca222eaf05544a340ed59f3794dc156
     }
   };
 
