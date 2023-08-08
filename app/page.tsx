@@ -35,6 +35,14 @@ export default function Home() {
 
 				return UserAPI.getMyProfile().then((res) => {
 					UserStorage.setUserProfile(res.data);
+					if (res.data.category.length == 0) {
+						alert(
+							"학과 · 계열 정보가 존재하지 않습니다. 게시판 이용에 제한이 있을 수 있습니다."
+						);
+					} else {
+						UserStorage.setUserCategory(res.data.category[0]);
+					}
+
 					router.push("/Main/MainPage");
 				});
 			})
@@ -54,7 +62,11 @@ export default function Home() {
 			</div>
 			<form className={classes.LoginPage} onSubmit={handleLoginButton}>
 				<h1>
-					<Image src={IconImg} alt="" />
+					<Image
+						src={IconImg}
+						alt=""
+						style={{ width: 300, height: 300 }}
+					/>
 				</h1>
 				<p>과끼리에 오신 것을 환영합니다!</p>
 				<input
