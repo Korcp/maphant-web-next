@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import ErrorPage from 'next/error';
 
 import styles from "./Borad.module.css";
 import BoardPostList from "./BoardPost/BoardPostList";
@@ -12,11 +13,12 @@ import { usePathname } from "next/navigation";
 function Borad() {
   var boardName: string = "";
   if (usePathname() === "/Main/Free") boardName = "자유게시판";
-  if (usePathname() === "/Main/Knowledge") boardName = "지식게시판";
-  if (usePathname() === "/Main/QnA") boardName = "QnA";
-  if (usePathname() === "/Main/Promotion") boardName = "홍보게시판";
-  if (usePathname() === "/Main/Career") boardName = "취업/진로";
-  if (usePathname() === "/Main/Hobby") boardName = "취미";
+  else if (usePathname() === "/Main/Knowledge") boardName = "지식게시판";
+  else if (usePathname() === "/Main/QnA") boardName = "QnA";
+  else if (usePathname() === "/Main/Promotion") boardName = "홍보게시판";
+  else if (usePathname() === "/Main/Career") boardName = "취업/진로";
+  else if (usePathname() === "/Main/Hobby") boardName = "취미";
+  else {return <ErrorPage statusCode={404}/>}
 
   const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
   const sortItems: string[] = ["최신순", "추천순", "댓글순"];
