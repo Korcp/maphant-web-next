@@ -45,6 +45,7 @@ function Post({ content }: { content: ArticleType }) {
           {content.likeCnt}
           <MdOutlineComment size="1rem" /> {content.commentCnt}
         </div>
+        <p className={Styles.postContent}>제목</p>
       </div>
       <p className={Styles.postContent}>{content.title}</p>
     </div>

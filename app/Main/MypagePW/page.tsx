@@ -8,6 +8,8 @@ import styles from "./MypagePW.module.css";
 import { MdSearch, MdSort, MdArrowBack, MdArrowForward } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { useRouter } from "next/navigation";
+import sha512 from "crypto-js/sha512";
+import useLocalStorage from "@/app/useLocalStorage";
 function page() {
   const router = useRouter();
 
@@ -18,11 +20,16 @@ function page() {
     setPw(passValue);
   };
 
+  const { value: privKey } = useLocalStorage("privKey", "");
+  const { value: token } = useLocalStorage("token", "");
+  const timestamp = Math.floor(Date.now() / 1000);
+  const sign = sha512(timestamp + privKey).toString();
+
   const pwcheck = () => {
     var myHeaders = new Headers();
-    myHeaders.append("x-auth", "maphant@pubKey");
-    myHeaders.append("x-timestamp", "100");
-    myHeaders.append("x-sign", "maphant@privKey");
+    myHeaders.append("x-auth", token);
+    myHeaders.append("x-timestamp", timestamp.toString());
+    myHeaders.append("x-sign", sign);
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({

@@ -11,6 +11,16 @@
   height: 5rem;
   border: 1px solid black;
   text-align: center;
+  color: black;
+  background-color: aliceblue;
+}
+.dark .molla {
+  margin: 1rem;
+  width: 100%;
+  height: 5rem;
+  border: 1px solid black;
+  text-align: center;
+  color: black;
   background-color: aliceblue;
 }
 .boardName {
@@ -23,6 +33,21 @@
   align-items: center;
   background-color: rgb(240, 240, 240);
   font-size: 1.5rem;
+  color: black;
+
+}
+.dark .boardName {
+  margin: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(240, 240, 240);
+  font-size: 1.5rem;
+  color: black;
+
 }
 .postMenu1 {
   margin: 1rem;
@@ -120,11 +145,13 @@
 .searchIcon:hover {
   background-color: rgb(233, 233, 233);
 }
+
 .searchInput {
   border-radius: 8px;
   font-size: 1rem;
   border: 0;
 }
+
 .searchInput:focus {
   outline: none;
 }

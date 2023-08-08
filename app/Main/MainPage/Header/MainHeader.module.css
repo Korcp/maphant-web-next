@@ -14,16 +14,22 @@
 }
 
 .icon {
-  width: 4.5rem;
-  height: 4.5rem;
-  position: relative;
+  width: 80px;
+  height: 90px;
+  display: flex;
+  justify-content: flex-start;
   overflow: hidden;
   white-space: nowrap;
+  position: relative ;
+  top: 20%;
+  left: 3.5%;
 }
+
 
 .major {
   color: white;
   white-space: nowrap;
+  text-decoration-line: none;
 }
 
 .search {
@@ -52,6 +58,7 @@
   margin: 3px;
   font-size: 1rem;
   border: 0;
+  background-color: white;
 }
 .searchInput:focus {
   outline: none;
