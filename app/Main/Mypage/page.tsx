@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-
+import sha512 from "crypto-js/sha512";
 import styles from "./Mypage.module.css";
+import useLocalStorage from "@/app/useLocalStorage";
 
 function page() {
   const [userData, setUserData] = useState({
@@ -21,11 +22,16 @@ function page() {
     lastmodifiedAt: "",
   });
 
+  const { value: privKey } = useLocalStorage("privKey", "");
+  const { value: token } = useLocalStorage("token", "");
+  const timestamp = Math.floor(Date.now() / 1000);
+  const sign = sha512(timestamp + privKey).toString();
+
   useEffect(() => {
     var myHeaders = new Headers();
-    myHeaders.append("x-auth", "maphant@pubKey");
-    myHeaders.append("x-timestamp", "100");
-    myHeaders.append("x-sign", "maphant@privKey");
+    myHeaders.append("x-auth", token);
+    myHeaders.append("x-timestamp", timestamp.toString());
+    myHeaders.append("x-sign", sign);
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({});
@@ -47,6 +53,20 @@ function page() {
       })
       .catch((error) => console.log("error", error));
   }, []);
+
+  const NicknameChange = (newNickname: string) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      nickname: newNickname,
+    }));
+  };
+
+  const NameChange = (newName: string) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      name: newName,
+    }));
+  };
   console.log(userData);
   return (
     <div className={styles.boardLayout}>
@@ -59,7 +79,8 @@ function page() {
           type="text"
           className={styles.emailtype}
           placeholder="닉네임"
-          value={userData.nickname}
+          value={userData.nickname || ""}
+          onChange={(e) => NicknameChange(e.target.value)}
         ></input>
         <button type="submit" className={styles.emailBtn}>
           수정하기
@@ -72,7 +93,8 @@ function page() {
           type="text"
           className={styles.emailtype}
           placeholder="이름"
-          value={userData.name}
+          value={userData.name || ""}
+          onChange={(e) => NameChange(e.target.value)}
         ></input>
         <button type="submit" className={styles.emailBtn}>
           수정하기
@@ -114,7 +136,7 @@ function page() {
           type="text"
           className={styles.emailtype}
           placeholder="휴대폰 번호"
-          value={userData.phNum}
+          defaultValue={userData.phNum}
         ></input>
         <button type="submit" className={styles.emailBtn}>
           수정하기
@@ -126,8 +148,8 @@ function page() {
         <input
           type="text"
           className={styles.emailtype}
-          placeholder="이메일 입력"
-          value={userData.email}
+          defaultValue={userData.email}
+          readOnly
         ></input>
       </div>
 
@@ -136,8 +158,8 @@ function page() {
         <input
           type="text"
           className={styles.emailtype}
-          placeholder="임시 전공"
-          value={userData.sno}
+          defaultValue={userData.sno}
+          readOnly
         ></input>
       </div>
 
