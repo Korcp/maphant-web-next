@@ -1,34 +1,57 @@
 .outer {
-  width: 100%;
-  height: 100%;
   background-color: rgb(255, 255, 255);
-  flex-direction: row;
-  margin-top: 15%;
-  margin-left: 30%;
-  margin-right: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15rem;
+  gap: 5rem;
 }
 .appImg {
-  flex: 1;
   display: inline;
   text-align: left;
-  margin-right: 5%;
 }
 .LoginPage {
-  flex: 2;
-  text-align: center;
-  display: inline-block;
-  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
 }
-.sign {
-  margin-right: -20%;
-  text-align: left;
-  color: rgb(135, 196, 242);
-  text-decoration: none;
-  font-size: 15px;
+.img {
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
-.foundPwd {
-  font-size: 15px;
+.Input {
+  width: 16rem;
+  height: 2rem;
+  border-radius: 10px;
+  border: 1px solid #ababab;
+  padding-left: 0.5rem;
+}
+.button {
+  width: 16.8rem;
+  height: 2rem;
+  background-color: rgb(135, 196, 242);
+  text-align: center;
+  border: 0;
+  border-radius: 10px;
+  color: white;
+}
+.button:hover {
+  background-color: #5299eb;
+}
+
+.text {
+  width: 16rem;
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
 }
 
 .signup {
@@ -39,23 +62,18 @@
 .serchId {
   color: rgb(135, 196, 242);
 }
-
-.button {
-  padding: 0.3rem 3%;
-  width: 260px;
-  margin-top: 3%;
-  background-color: rgb(135, 196, 242);
-  text-align: center;
-  border: 0;
-  border-radius: 10px;
-  color: white;
+.link {
+  margin: 0;
+  text-decoration: none;
+  color: rgb(135, 196, 242);
+}
+.link:hover {
+  color: #5299eb;
 }
 
-.Input {
-  width: 250px;
-  height: 30px;
-
-  border-color: rgb(201, 206, 211);
-
-  border-radius: 10px;
+@media screen and (max-width: 1000px) {
+  /* 타블렛 가로 */
+  .appImg {
+    display: none;
+  }
 }

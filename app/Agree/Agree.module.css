@@ -2,7 +2,7 @@ div.Area1 textarea {
   width: 100%;
   height: 25px;
   resize: none;
-  font-size: x-large;
+  font-size: 1.2rem;
   padding: 2.5%;
   border-radius: 10px;
   margin-bottom: 5%;
@@ -13,7 +13,7 @@ div.Area2 textarea {
   width: 100%;
   height: 90px;
   resize: none;
-  font-size: x-large;
+  font-size: 1.2rem;
   padding: 2.5%;
   border-radius: 10px;
   margin-bottom: 5%;
@@ -24,7 +24,7 @@ div.Area3 textarea {
   width: 100%;
   height: 90px;
   resize: none;
-  font-size: x-large;
+  font-size: 1.2rem;
   padding: 2.5%;
   border-radius: 10px;
   margin-bottom: 5%;
@@ -35,7 +35,7 @@ div.Area4 textarea {
   width: 100%;
   height: 202px;
   resize: none;
-  font-size: x-large;
+  font-size: 1.2rem;
   padding: 2.5%;
   border-radius: 10px;
   margin-bottom: 5%;
@@ -56,9 +56,9 @@ div.check4 button {
   border-radius: 15px;
   border: none;
   color: white;
-  font-size: larger;
+  font-size: 1.3rem;
+  font-weight: bolder;
   font-style: inherit;
-
   margin-left: 3%;
 }
 div.check4 button:hover {
