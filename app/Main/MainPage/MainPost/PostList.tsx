@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
+import BoardAPI from "@/lib/api/BoardAPI";
+
 import Post from "./Post";
 import Styles from "./PostList.module.css";
-import BoardAPI from "@/lib/api/BoardAPI";
 
 type BoardName = {
 	boardName: string;

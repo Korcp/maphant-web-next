@@ -16,6 +16,18 @@ class UserAPI {
 	static getMyProfile() {
 		return GetAPI<dataResponse<UserData>>("/user/");
 	}
+
+	static passwordConfirm(password: string) {
+		return PostAPI<statusResponse>("/user/changeinfo/identification", {
+			password,
+		});
+	}
+
+	static updateUserNickname(nickname: string) {
+		return PostAPI<statusResponse>("/user/changeinfo/nickname", {
+			nickname,
+		});
+	}
 }
 
 export default UserAPI;

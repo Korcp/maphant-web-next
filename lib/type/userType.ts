@@ -7,10 +7,13 @@ type UserCategory = {
 type UserData = {
 	id: number;
 	email: string;
+	password: string;
 	name: string;
 	nickname: string;
 	role: string;
+	state: number;
 	category: UserCategory[];
+	profileImg: string;
 };
 
 export type { UserCategory, UserData };
