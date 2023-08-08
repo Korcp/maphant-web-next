@@ -3,11 +3,23 @@ import React, { forwardRef, useReducer } from "react";
 import styles from "./DropdwonMenu.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import useLocalStorage from "@/app/useLocalStorage";
 
 const DropdownMenu = () => {
   const router = useRouter();
 
+  const { value: token, setStoredValue: setToken } = useLocalStorage(
+    "token",
+    ""
+  );
+  const { value: privKey, setStoredValue: setPrivKey } = useLocalStorage(
+    "privKey",
+    ""
+  );
+
   const Logout = () => {
+    setToken("");
+    setPrivKey("");
     localStorage.clear();
 
     router.push("/");

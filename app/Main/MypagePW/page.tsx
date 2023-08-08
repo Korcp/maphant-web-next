@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 
 import MainHeader from "../MainPage/Header/MainHeader";
@@ -11,16 +12,15 @@ function page() {
     <div className={styles.boardLayout}>
       <div className={styles.inforcheck}>본인확인</div>
       <div className={styles.tagpw}>계정 비밀번호</div>
-      <input type="password" className={styles.pw} placeholder="계정 비밀번호"></input>
-      
-      <Link className={styles.linktext}  href="/Main/Mypage">
-      확 인
+      <input
+        type="password"
+        className={styles.pw}
+        placeholder="계정 비밀번호"
+      ></input>
+
+      <Link className={styles.linktext} href={"/Main/Mypage"}>
+        확 인
       </Link>
-      
-    
-
-
-
     </div>
   );
 }

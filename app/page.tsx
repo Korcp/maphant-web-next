@@ -9,11 +9,20 @@ import { ReactElement, useEffect, useState } from "react";
 import { headers } from "next/dist/client/components/headers";
 import { useRouter } from "next/navigation";
 import sha512 from "crypto-js/sha512";
+import useLocalStorage from "./useLocalStorage";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
+  const { value: token, setStoredValue: setToken } = useLocalStorage(
+    "token",
+    ""
+  );
+  const { value: privKey, setStoredValue: setPrivKey } = useLocalStorage(
+    "privKey",
+    ""
+  );
   const router = useRouter();
   const onEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailValue = e.target.value;
@@ -24,15 +33,16 @@ export default function Home() {
     const passValue = e.target.value;
     setPassword(passValue);
   };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const privKey = localStorage.getItem("privKey");
     if (
       token &&
+      token !== "" &&
       privKey &&
-      token != null &&
-      privKey != null &&
-      userData != "{}"
+      privKey !== "" &&
+      userData !== "{}"
     ) {
       location.href = "/Main/MainPage";
     }
@@ -54,11 +64,11 @@ export default function Home() {
       console.log(data);
 
       if (data["pubKey"] && data["privKey"]) {
-        localStorage.setItem("token", data["pubKey"]);
-        localStorage.setItem("privKey", data["privKey"]);
+        setToken(data["pubKey"]);
+        setPrivKey(data["privKey"]);
 
         const timestamp = Math.floor(Date.now() / 1000);
-        const storedprivKey = localStorage.getItem("privKey");
+        const storedprivKey = data["privKey"];
         const sign = sha512(timestamp + storedprivKey).toString();
 
         await fetch("https://dev.api.tovelop.esm.kr/user/", {

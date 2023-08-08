@@ -1,9 +1,13 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 import styles from "./Mypage.module.css";
 
 function page() {
+  const ex = localStorage.getItem("token");
+  console.log(ex);
+
   return (
     <div className={styles.boardLayout}>
       <div className={styles.infor}>회원정보</div>
@@ -60,16 +64,6 @@ function page() {
           className={styles.phonecheck}
           placeholder="휴대폰번호 입력"
         ></input>
-        <button className={styles.phoneBtn}>인증번호 받기</button>
-      </div>
-
-      <div className={styles.emailcheck}>
-        <input
-          type="text"
-          className={styles.phonecheck}
-          placeholder="인증번호 입력"
-        ></input>
-        <button className={styles.phoneBtn}>인증하기</button>
       </div>
 
       <div className={styles.email}>이메일 정보</div>
