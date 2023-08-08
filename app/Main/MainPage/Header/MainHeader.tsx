@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { MdSearch, MdDensityMedium } from "react-icons/md";
-
+import { useRouter } from "next/navigation";
 import iconpng from "../img/icon.png";
 import DarkToggel from "./DarkToggle";
 import UserMenu from "./UserMenu";
@@ -13,11 +13,16 @@ import Image from "next/image";
 
 function MainHeader() {
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
-  const searchSubmit = () => {
-    searchInputRef.current?.value
-      ? alert(searchInputRef.current.value)
-      : alert("검색할 내용을 입력하세요");
+  const searchSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const searchText = searchInputRef.current?.value;
+    if (searchText) {
+      router.replace(`/Main/Searchpage?query=${searchText}`);
+    } else {
+      alert("검색할 내용을 입력하세요");
+    }
   };
 
   const [visiable, setVisiable] = useState<boolean>(false);

@@ -21,6 +21,7 @@ function PostList({ boardName }: BoardName) {
 
   useEffect(() => {
     fetch("https://dev.api.tovelop.esm.kr/board/main", {
+      
       headers: {
         "content-type": "application/json",
         "x-auth": "maphant@pubKey",
