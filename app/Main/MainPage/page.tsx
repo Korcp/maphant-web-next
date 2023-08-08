@@ -25,11 +25,11 @@ export default function MainApp(): ReactElement {
       </div>
 
       <div className={styles.box2}>
-        <PostList />
+        {/* <PostList />
 
         <PostList />
 
-        <PostList />
+        <PostList /> */}
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import Link from "next/link";
 import classes from "./page.module.css";
 import IconImg from "./img/Icon.png";
 import AppImg from "./img/loginAppImg.png";
-import { ReactElement, useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
   const [email, setEmail] = useState("");

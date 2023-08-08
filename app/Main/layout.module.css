@@ -18,17 +18,28 @@
       flex-grow: 2;
   }
   
-  .flexbox1, .flexbox2 {
+  .flexbox1 {
     flex-grow: 1;
     width: 6rem;
     padding: 2rem;
-    border: 1px solid black;
-    border-radius: 20px;
     margin-top: 1rem;
+    margin-right: 5%;
     margin-bottom: 1rem;
     text-align: center;
     white-space: nowrap;
   }
+
+  .flexbox2 {
+    flex-grow: 1;
+    width: 6rem;
+    padding: 2rem;
+    margin-top: 1rem;
+    margin-left: 5%;
+    margin-bottom: 1rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
   
   .content {
     /* background-color: antiquewhite; */

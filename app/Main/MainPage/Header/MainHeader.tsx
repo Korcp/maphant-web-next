@@ -2,8 +2,9 @@
 import React, { useState, useRef } from "react";
 import { MdSearch, MdDensityMedium } from "react-icons/md";
 
-import iconpng from "../img/icon2.jpeg";
-import DarkToggel from "./DarkToggle";
+import logo_kr from "./img/logo_kr.jpg";
+import DarkToggle from "@/app/DarkMode/DarkToggle";
+
 import UserMenu from "./UserMenu";
 import BoardList from "./BoardList";
 
@@ -68,11 +69,13 @@ function MainHeader() {
   }
 
   return (
-    <header className={Styles.header}>
+      <header className={Styles.header}>
       <Link href="/Main/MainPage" className={Styles.icon}>
-        <Image src={iconpng} alt="" width={70} height={60} />
+        <Image src={logo_kr} alt="" width={70} height={60} />
       </Link>
-      <h3 className={Styles.major}>소프트웨어학과</h3>
+      <Link href="/Main/MainPage" className={Styles.major}>
+      <h3 >소프트웨어학과</h3>
+      </Link>
 
       <div className={Styles.boardList}>
         <BoardList />
@@ -94,7 +97,8 @@ function MainHeader() {
       </form>
 
       <div>
-        <DarkToggel />
+        <DarkToggle />
+        {/* 다크모드 토글 버튼 작업 */}
       </div>
       <div className={Styles.userMenu}>
         <UserMenu />
