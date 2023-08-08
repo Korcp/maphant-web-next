@@ -7,7 +7,10 @@ import styles from "./MypagePW.module.css";
 
 import { MdSearch, MdSort, MdArrowBack, MdArrowForward } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+import { useRouter } from "next/navigation";
 function page() {
+  const router = useRouter();
+
   const [pw, setPw] = useState("");
 
   const onpw = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +40,14 @@ function page() {
       "https://dev.api.tovelop.esm.kr/user/changeinfo/identification",
       requestOptions
     )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.success) {
+          router.push("/Main/Mypage");
+        } else {
+          alert(result.errors);
+        }
+      })
       .catch((error) => console.log("error", error));
   };
   return (
