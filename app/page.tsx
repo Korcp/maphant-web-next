@@ -94,7 +94,7 @@ export default function Home() {
         alert(data.message);
       }
     } catch (error) {
-      console.log("로그인 실패:", error.message);
+      console.log("로그인 실패");
     }
   };
 

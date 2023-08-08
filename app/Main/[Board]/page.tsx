@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ErrorPage from "next/error";
 
@@ -13,6 +13,11 @@ import { usePathname } from "next/navigation";
 function Borad() {
   var boardName: string = "";
   var boardType: number = 0;
+  const [boardPage, setBoardPage] = useState<number>(1);
+  const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
+  const sortItems: string[] = ["최신순", "추천순"];
+  const [sortNow, setSortNow] = useState<string>("최신순");
+
   if (usePathname() === "/Main/Free") {
     boardName = "자유게시판";
     boardType = 1;
@@ -35,10 +40,6 @@ function Borad() {
     return <ErrorPage statusCode={404} />;
   }
 
-  const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
-  const sortItems: string[] = ["최신순", "추천순", "댓글순"];
-  const [sortNow, setSortNow] = useState<string>("최신순");
-
   const SortItem = () => {
     return (
       <ul className={styles.sortItem}>
@@ -51,6 +52,7 @@ function Borad() {
                 setSortNow(i);
                 setOnSortMenu(false);
               }}
+              key={i}
             >
               {i}
             </button>
@@ -59,6 +61,17 @@ function Borad() {
       </ul>
     );
   };
+
+  const pageDownEvent = () => {
+    if (boardPage > 1) setBoardPage(boardPage - 1);
+  };
+  const pageUpEvent = () => {
+    setBoardPage(boardPage + 1);
+  };
+
+  useEffect(() => {
+    setBoardPage(1);
+  }, [sortNow]);
 
   return (
     <div className={styles.boardLayout}>
@@ -104,27 +117,31 @@ function Borad() {
         </span>
 
         <div className={styles.boardPage}>
-          <p>1 / 992</p>
-          <button className={styles.pageBtn}>
+          <p>{boardPage} / 992</p>
+          <button className={styles.pageBtn} onClick={pageDownEvent}>
             <MdArrowBack />
           </button>
-          <button className={styles.pageBtn}>
+          <button className={styles.pageBtn} onClick={pageUpEvent}>
             <MdArrowForward />
           </button>
         </div>
       </div>
 
       <div className={styles.postList}>
-        <BoardPostList SortType={sortNow} boardType={boardType} />
+        <BoardPostList
+          SortType={sortNow}
+          boardType={boardType}
+          boardPage={boardPage}
+        />
       </div>
 
       <div className={styles.postPage}>
-        <div>
+        <div className={styles.pageBtn} onClick={pageDownEvent}>
           <MdArrowBack />
           Previous
         </div>
         <div>1 2 3 4 5 6 7 8 9... 999</div>
-        <div>
+        <div className={styles.pageBtn} onClick={pageUpEvent}>
           Next
           <MdArrowForward />
         </div>

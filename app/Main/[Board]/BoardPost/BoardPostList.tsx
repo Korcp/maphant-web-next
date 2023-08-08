@@ -5,8 +5,9 @@ import BoardPost from "./BoardPost";
 import { useState, useEffect } from "react";
 
 type PropsType = {
-  SortType: String;
+  SortType: string;
   boardType: number;
+  boardPage: number;
 };
 
 type ArticleType = {
@@ -18,8 +19,11 @@ type ArticleType = {
   userNickname: string;
 };
 
-function BoardPostList({ SortType, boardType }: PropsType) {
+function BoardPostList({ SortType, boardType, boardPage }: PropsType) {
   const [articles, setArticles] = useState<ArticleType[]>([]);
+  let sort: number = 1;
+  if (SortType === "최신순") sort = 1;
+  if (SortType === "추천순") sort = 2;
 
   useEffect(() => {
     var myHeaders = new Headers();
@@ -29,7 +33,7 @@ function BoardPostList({ SortType, boardType }: PropsType) {
     myHeaders.append("x-category", "1");
 
     fetch(
-      `https://dev.api.tovelop.esm.kr/board?boardTypeId=${boardType}&page=1&pageSize=5&sortCriterionId=1`,
+      `https://dev.api.tovelop.esm.kr/board?boardTypeId=${boardType}&page=${boardPage}&pageSize=10&sortCriterionId=${sort}`,
       {
         method: "GET",
         headers: myHeaders,
@@ -43,19 +47,8 @@ function BoardPostList({ SortType, boardType }: PropsType) {
         setArticles(json.data);
       })
       .catch((error) => console.log("error", error));
-  }, []);
 
-  switch (SortType) {
-    case "최신순":
-      articles.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
-      break;
-    case "추천순":
-      articles.sort((a, b) => b.likeCnt - a.likeCnt);
-      break;
-    case "댓글순":
-      articles.sort((a, b) => b.commentCnt - a.commentCnt);
-      break;
-  }
+  }, [boardPage, sort]);
 
   return (
     <div className={styles.BoardPostList}>

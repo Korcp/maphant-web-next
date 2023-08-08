@@ -20,14 +20,16 @@ type ArticleType = {
 function PostList({ boardName }: BoardName) {
   const [articles, setArticles] = useState<ArticleType[]>([]);
   var boardType:number=0; 
+
+
   if(boardName === '자유') boardType=1;  
-  if(boardName === '질문') boardType=2;  
+  if(boardName === 'QnA') boardType=2;  
   if(boardName === '지식') boardType=3;  
   if(boardName === '취업/진로') boardType=4;  
   if(boardName === '홍보') boardType=5;  
   if(boardName === '취미') boardType=6;  
 
-  console.log(boardName);
+ 
 
   useEffect(() => {
     var myHeaders = new Headers();
@@ -37,7 +39,7 @@ function PostList({ boardName }: BoardName) {
     myHeaders.append("x-category", "1");
 
     fetch(
-      `https://dev.api.tovelop.esm.kr/board?boardTypeId=${boardType}&page=1&pageSize=5&sortCriterionId=1`,
+      `https://dev.api.tovelop.esm.kr/board?boardTypeId=${boardType}&page=1&pageSize=100&sortCriterionId=1`,
       {
         method: "GET",
         headers: myHeaders,
@@ -52,6 +54,11 @@ function PostList({ boardName }: BoardName) {
       })
       .catch((error) => console.log("error", error));
   }, []);
+
+useEffect(()=>{},[])
+
+  console.log(boardName+'--'+boardType+'--');
+  console.log(articles);
 
   articles.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
   return (
