@@ -61,7 +61,7 @@ export default function Home() {
         }
       );
       const data = await response.json();
-      console.log(data);
+      console.log("=====", data);
 
       if (data["pubKey"] && data["privKey"]) {
         setToken(data["pubKey"]);
@@ -102,53 +102,58 @@ export default function Home() {
     e.preventDefault();
     handleLogin(email, password);
   };
+  const submitEvent = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleLogin(email, password);
+  };
   return (
     <div className={classes.outer}>
       <div className={classes.appImg}>
         <Image src={AppImg} alt="" />
       </div>
       <div className={classes.LoginPage}>
-        <h1>
-          <Image src={IconImg} alt="" />
-        </h1>
-        <p>과끼리에 오신 것을 환영합니다!</p>
-        <input
-          type="text"
-          name="ID"
-          id=""
-          className={classes.Input}
-          placeholder="아이디"
-          value={email}
-          onChange={onEmail}
-        />
-        <br />
-        <input
-          type="password"
-          name="password"
-          className={classes.Input}
-          placeholder="비밀번호"
-          value={password}
-          onChange={onpassword}
-        />
-        <br />
-        <button
-          type="submit"
-          id="LoginBtn"
-          className={classes.button}
-          onClick={handleLoginButton}
-        >
-          로그인
-        </button>
+        <div className={classes.img}>
+          <Image src={IconImg} alt="" fill />
+        </div>
 
-        <br />
-        <p className={classes.foundPwd}>
+        <h4 style={{ margin: 0 }}>과끼리에 오신 것을 환영합니다!</h4>
+
+        <form action="submit" onSubmit={submitEvent} className={classes.form}>
+          <input
+            type="text"
+            className={classes.Input}
+            placeholder="아이디"
+            value={email}
+            onChange={onEmail}
+          />
+          <input
+            type="password"
+            className={classes.Input}
+            placeholder="비밀번호"
+            value={password}
+            onChange={onpassword}
+          />
+          <button
+            type="submit"
+            className={classes.button}
+            onClick={handleLoginButton}
+          >
+            로그인
+          </button>
+        </form>
+
+        <h4 className={classes.text}>
           비밀번호를 잊어버렸나요?
-          <Link href="/SearchAccount">비밀번호찾기</Link>
-        </p>
-        <br />
-        <p className="new">
-          아직 회원이 아니신가요? <Link href="/Agree">회원가입</Link>
-        </p>
+          <Link href="/SearchAccount" className={classes.link}>
+            비밀번호찾기
+          </Link>
+        </h4>
+        <h4 className={classes.text}>
+          아직 회원이 아니신가요?{" "}
+          <Link href="/Agree" className={classes.link}>
+            회원가입
+          </Link>
+        </h4>
       </div>
     </div>
   );
