@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import Link from "next/link";
 
 import MainHeader from "../MainPage/Header/MainHeader";
@@ -8,6 +8,39 @@ import styles from "./MypagePW.module.css";
 import { MdSearch, MdSort, MdArrowBack, MdArrowForward } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 function page() {
+  const [pw, setPw] = useState("");
+
+  const onpw = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const passValue = e.target.value;
+    setPw(passValue);
+  };
+
+  const pwcheck = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("x-auth", "maphant@pubKey");
+    myHeaders.append("x-timestamp", "100");
+    myHeaders.append("x-sign", "maphant@privKey");
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      password: pw,
+    });
+
+    const requestOptions: object = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://dev.api.tovelop.esm.kr/user/changeinfo/identification",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
   return (
     <div className={styles.boardLayout}>
       <div className={styles.inforcheck}>본인확인</div>
@@ -16,11 +49,13 @@ function page() {
         type="password"
         className={styles.pw}
         placeholder="계정 비밀번호"
+        value={pw}
+        onChange={onpw}
       ></input>
 
-      <Link className={styles.linktext} href={"/Main/Mypage"}>
+      <button type="submit" className={styles.linktext} onClick={pwcheck}>
         확 인
-      </Link>
+      </button>
     </div>
   );
 }
