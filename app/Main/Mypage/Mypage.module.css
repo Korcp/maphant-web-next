@@ -1,5 +1,5 @@
 .container {
-  padding: 40px;
+  padding: 20px;
 }
 
 /* 각 섹션 스타일링 */
@@ -10,7 +10,7 @@
   width: 100%;
   margin-top: 30px;
   padding-left: 20px;
-  padding-right: 120px;
+  padding-right: 110px;
   padding-bottom: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -36,17 +36,74 @@
 }
 
 /* 각 label 스타일링 */
-
-.etc,
+.etc label,
 .list label {
   margin-bottom: 6px;
   cursor: pointer;
   transition: text-decoration 0.2s ease;
+  display: inline-block;
+  padding: 5px 0;
 }
 
-.etc label:hover {
-  text-decoration: underline;
-}
+.etc label:hover,
 .list label:hover {
   text-decoration: underline;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 모달 내부 스타일 */
+.modal {
+  background-color: white;
+  padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.mydata {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 20px;
+  width: 50%;
+}
+
+.mydatafix {
+  background-color: rgb(95, 178, 242);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 100px;
+}
+
+.mydatafix:hover {
+  background-color: #0056b3;
+}
+
+.closebutton {
+  background-color: rgb(95, 178, 242);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.closebutton:hover {
+  background-color: #0056b3;
 }

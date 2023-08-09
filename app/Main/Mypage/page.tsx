@@ -11,7 +11,16 @@ function Page() {
   const router = useRouter();
   //userdata받아오기
   const [userData, setUserData] = useState(UserStorage.getUserProfile());
+  //모달 기능 구현
+  const [modalopen, setModalOpen] = useState(false);
 
+  const handlemodalopen = () => {
+    setModalOpen(true);
+  };
+
+  const handlemodalclose = () => {
+    setModalOpen(false);
+  };
   //로그아웃 기능구현
   const Logout = () => {
     UserStorage.clear();
@@ -62,11 +71,13 @@ function Page() {
       <section className={styles.accountSettings}>
         <h2 className={styles.own}>계정</h2>
         <div className={styles.list}>
-          <label>내 정보 수정</label>
+          <label onClick={handlemodalopen}>내 정보 수정</label>
           <br />
           <label>비밀번호 수정</label>
           <br />
           <label>계열 학과 수정</label>
+          <br />
+          <label>소개 글 수정</label>
         </div>
       </section>
       <section className={styles.communitySettings}>
@@ -87,6 +98,26 @@ function Page() {
           <label onClick={Logout}>로그아웃</label>
         </div>
       </section>
+
+      {modalopen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2>내 정보 수정</h2>
+            <label>닉네임만 수정 가능합니다.</label>
+            <br />
+            <input className={styles.mydata} type="text" placeholder="이름" />
+            <input className={styles.mydata} type="text" placeholder="닉네임" />
+            <input className={styles.mydata} type="text" placeholder="학번" />
+            <br />
+            <button className={styles.mydatafix} type="submit">
+              수정하기
+            </button>
+            <button className={styles.closebutton} onClick={handlemodalclose}>
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
