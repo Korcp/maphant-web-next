@@ -10,12 +10,15 @@ import UserAPI from "@/lib/api/UserAPI";
 function Page() {
   const router = useRouter();
   //userdata받아오기
-  const [userData, setUserData] = useState(UserStorage.getUserProfile());
+  const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
   //모달 기능 구현
   const [modalopen, setModalOpen] = useState(false);
+  //닉네임 저장소
+  const [newNickname, setNewNickname] = useState("");
 
   const handlemodalopen = () => {
     setModalOpen(true);
+    setNewNickname(userData.nickname || "");
   };
 
   const handlemodalclose = () => {
@@ -28,6 +31,26 @@ function Page() {
     router.push("/");
   };
 
+  // 닉네임 변경
+
+  const NicknameChange = (newNickname: string) => {
+    setNewNickname(newNickname);
+  };
+
+  // 닉네임 수정
+  const handleNicknameUpdate = () => {
+    UserAPI.updateUserNickname(newNickname)
+      .then(() => {
+        alert("닉네임이 수정되었습니다.");
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          nickname: newNickname,
+        }));
+        handlemodalclose();
+      })
+
+      .catch((err) => alert(err));
+  };
   //회원 기존 정보 받아오기
   useEffect(() => {
     UserAPI.getMyProfile()
@@ -105,11 +128,32 @@ function Page() {
             <h2>내 정보 수정</h2>
             <label>닉네임만 수정 가능합니다.</label>
             <br />
-            <input className={styles.mydata} type="text" placeholder="이름" />
-            <input className={styles.mydata} type="text" placeholder="닉네임" />
-            <input className={styles.mydata} type="text" placeholder="학번" />
+            <input
+              className={styles.mydata}
+              type="text"
+              placeholder="이름"
+              value={userData.name}
+              readOnly
+            />
+            <input
+              className={styles.mydata}
+              type="text"
+              placeholder="닉네임"
+              value={newNickname}
+              onChange={(e) => NicknameChange(e.target.value)}
+            />
+            <input
+              className={styles.mydata}
+              type="text"
+              defaultValue={userData.studentNo}
+              readOnly
+            />
             <br />
-            <button className={styles.mydatafix} type="submit">
+            <button
+              className={styles.mydatafix}
+              type="submit"
+              onClick={handleNicknameUpdate}
+            >
               수정하기
             </button>
             <button className={styles.closebutton} onClick={handlemodalclose}>
