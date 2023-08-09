@@ -1,13 +1,13 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef,useState } from "react";
-import { MdDensityMedium,MdSearch } from "react-icons/md";
+import React, { useRef, useState } from "react";
+import { MdDensityMedium, MdSearch } from "react-icons/md";
 
 import DarkToggle from "@/app/DarkMode/DarkToggle";
 
 import BoardList from "./BoardList";
-import logo_kr from "./img/logo_kr.jpg";
+import logo_kr from "./img/icon3.png";
 import Styles from "./MainHeader.module.css";
 import UserMenu from "./UserMenu";
 
@@ -68,12 +68,12 @@ function MainHeader() {
   }
 
   return (
-      <header className={Styles.header}>
+    <header className={Styles.header}>
       <Link href="/Main/MainPage" className={Styles.icon}>
         <Image src={logo_kr} alt="" width={70} height={60} />
       </Link>
       <Link href="/Main/MainPage" className={Styles.major}>
-      <h3 >소프트웨어학과</h3>
+        <h3>소프트웨어학과</h3>
       </Link>
 
       <div className={Styles.boardList}>
