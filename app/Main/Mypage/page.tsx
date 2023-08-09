@@ -1,19 +1,34 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./Mypage.module.css";
 import { useRouter } from "next/navigation";
 import UserStorage from "@/lib/storage/UserStorage";
+import UserAPI from "@/lib/api/UserAPI";
 
 function Page() {
   const router = useRouter();
+  //userdata받아오기
+  const [userData, setUserData] = useState(UserStorage.getUserProfile());
 
+  //로그아웃 기능구현
   const Logout = () => {
     UserStorage.clear();
 
     router.push("/");
   };
+
+  //회원 기존 정보 받아오기
+  useEffect(() => {
+    UserAPI.getMyProfile()
+      .then((res) => {
+        setUserData(res.data);
+        UserStorage.setUserProfile(res.data);
+      })
+      .catch((err) => alert(err));
+  }, []);
+  console.log(userData);
   return (
     <div className={styles.container}>
       <section className={styles.userInfo}>
@@ -26,9 +41,19 @@ function Page() {
               className={styles.profileImage}
             />
             <div className={styles.userInfomation}>
-              <label>아이디</label>
-              <label>이름/닉네임</label>
-              <label>학교/학과</label>
+              {userData && (
+                <>
+                  <label>아이디:{userData.email}</label>
+                  <label>
+                    이름 : {userData.name} / 닉네임:{userData.nickname}
+                  </label>
+                  {userData.category.map((item, index) => (
+                    <label key={index}>
+                      학과: {item.majorName} / 전공: {item.categoryName}
+                    </label>
+                  ))}
+                </>
+              )}
             </div>
           </section>
           <label>소개글 :</label>
