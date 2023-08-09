@@ -25,7 +25,7 @@ function Page() {
               alt="User Profile"
               className={styles.profileImage}
             />
-            <div className={styles.profileLabels}>
+            <div className={styles.userInfomation}>
               <label>아이디</label>
               <label>이름/닉네임</label>
               <label>학교/학과</label>
@@ -36,7 +36,7 @@ function Page() {
       </section>
       <section className={styles.accountSettings}>
         <h2 className={styles.own}>계정</h2>
-        <div className={styles.profileLabels}>
+        <div className={styles.list}>
           <label>내 정보 수정</label>
           <br />
           <label>비밀번호 수정</label>
@@ -46,7 +46,7 @@ function Page() {
       </section>
       <section className={styles.communitySettings}>
         <h2>커뮤니티 설정</h2>
-        <div className={styles.profileLabels}>
+        <div className={styles.list}>
           <label>내 게시판</label>
           <br />
           <label>즐겨찾기 한 게시판</label>
@@ -56,7 +56,7 @@ function Page() {
       </section>
       <section className={styles.etc}>
         <h2>기타</h2>
-        <div className={styles.profileLabels}>
+        <div className={styles.list}>
           <label>회원 탈퇴</label>
           <br />
           <label onClick={Logout}>로그아웃</label>

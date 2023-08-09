@@ -29,12 +29,24 @@
   margin-right: 10px;
 }
 
-.profileLabels {
+.list,
+.userInfomation {
   display: flex;
   flex-direction: column;
 }
 
 /* 각 label 스타일링 */
-.userDetails label {
+
+.etc,
+.list label {
   margin-bottom: 6px;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.etc label:hover {
+  text-decoration: underline;
+}
+.list label:hover {
+  text-decoration: underline;
 }
