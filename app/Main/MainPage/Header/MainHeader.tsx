@@ -3,9 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useRef,useState } from "react";
 import { MdDensityMedium,MdSearch } from "react-icons/md";
-
+import { useRouter } from "next/navigation";
 import DarkToggle from "@/app/DarkMode/DarkToggle";
 
+import iconpng from "./img/icon2.jpeg"
 import BoardList from "./BoardList";
 import logo_kr from "./img/logo_kr.jpg";
 import Styles from "./MainHeader.module.css";
@@ -13,11 +14,16 @@ import UserMenu from "./UserMenu";
 
 function MainHeader() {
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
-  const searchSubmit = () => {
-    searchInputRef.current?.value
-      ? alert(searchInputRef.current.value)
-      : alert("검색할 내용을 입력하세요");
+  const searchSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const searchText = searchInputRef.current?.value;
+    if (searchText) {
+      router.replace(`/Main/Searchpage?query=${searchText}`);
+    } else {
+      alert("검색할 내용을 입력하세요");
+    }
   };
 
   const [visiable, setVisiable] = useState<boolean>(false);
@@ -68,13 +74,13 @@ function MainHeader() {
   }
 
   return (
-      <header className={Styles.header}>
-      <Link href="/Main/MainPage" className={Styles.icon}>
-        <Image src={logo_kr} alt="" width={70} height={60} />
-      </Link>
-      <Link href="/Main/MainPage" className={Styles.major}>
-      <h3 >소프트웨어학과</h3>
-      </Link>
+    <header className={Styles.header}>
+      <div className={Styles.icon}>
+        <Link href="/Main/MainPage">
+          <Image src={iconpng} alt="" fill />
+        </Link>
+      </div>
+      <h3 className={Styles.major}>소프트웨어학과</h3>
 
       <div className={Styles.boardList}>
         <BoardList />
@@ -97,8 +103,7 @@ function MainHeader() {
       </form>
 
       <div>
-        <DarkToggle />
-        {/* 다크모드 토글 버튼 작업 */}
+        <DarkToggle/>
       </div>
       <div className={Styles.userMenu}>
         <UserMenu />

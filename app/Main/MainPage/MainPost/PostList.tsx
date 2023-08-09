@@ -41,7 +41,7 @@ function PostList({ boardName }: BoardName) {
 	console.log(boardName + "--" + boardType + "--");
 	console.log(articles);
 
-	articles.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+	// articles.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
 	return (
 		<div className={Styles.postList}>
 			<h4 className={Styles.boardName}>{boardName}</h4>
