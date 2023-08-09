@@ -12,17 +12,25 @@ function Page() {
   //userdata받아오기
   const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
   //모달 기능 구현
-  const [modalopen, setModalOpen] = useState(false);
+  const [mydataopen, setMydataOpen] = useState(false);
+  const [pwopen, setPwOpen] = useState(false);
   //닉네임 저장소
   const [newNickname, setNewNickname] = useState("");
 
-  const handlemodalopen = () => {
-    setModalOpen(true);
+  //내 정보 수정 모달 열고 닫기
+  const handlemydataopen = () => {
+    setMydataOpen(true);
     setNewNickname(userData.nickname || "");
   };
-
-  const handlemodalclose = () => {
-    setModalOpen(false);
+  const handlemydataclose = () => {
+    setMydataOpen(false);
+  };
+  //비밀번호 수정 모달 열고 닫기
+  const handlepwopen = () => {
+    setPwOpen(true);
+  };
+  const handlepwclose = () => {
+    setPwOpen(false);
   };
   //로그아웃 기능구현
   const Logout = () => {
@@ -46,7 +54,7 @@ function Page() {
           ...prevUserData,
           nickname: newNickname,
         }));
-        handlemodalclose();
+        handlemydataclose();
       })
 
       .catch((err) => alert(err));
@@ -94,9 +102,9 @@ function Page() {
       <section className={styles.accountSettings}>
         <h2 className={styles.own}>계정</h2>
         <div className={styles.list}>
-          <label onClick={handlemodalopen}>내 정보 수정</label>
+          <label onClick={handlemydataopen}>내 정보 수정</label>
           <br />
-          <label>비밀번호 수정</label>
+          <label onClick={handlepwopen}>비밀번호 수정</label>
           <br />
           <label>계열 학과 수정</label>
           <br />
@@ -122,7 +130,7 @@ function Page() {
         </div>
       </section>
 
-      {modalopen && (
+      {mydataopen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <h2>내 정보 수정</h2>
@@ -156,7 +164,35 @@ function Page() {
             >
               수정하기
             </button>
-            <button className={styles.closebutton} onClick={handlemodalclose}>
+            <button className={styles.closebutton} onClick={handlemydataclose}>
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {pwopen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2>비밀번호 수정</h2>
+            <label>새 비밀번호와 비밀번호를 확인하여주세요</label>
+            <br />
+            <input
+              className={styles.mydata}
+              type="text"
+              placeholder="새 비밀번호"
+            />
+            <input
+              className={styles.mydata}
+              type="text"
+              placeholder="비밀번호확인"
+            />
+
+            <br />
+            <button className={styles.mydatafix} type="submit">
+              수정하기
+            </button>
+            <button className={styles.closebutton} onClick={handlepwclose}>
               닫기
             </button>
           </div>
