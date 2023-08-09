@@ -98,7 +98,7 @@ export default function EmailCheck(): ReactElement {
 
   const PassEmail = () => {
     if (eSucces && nSucces) {
-      router.push("/SelectSch");
+      router.replace(`/SelectSch?email=${email}`);
     } else {
       alert("인증번호나 이메일 형식을 맞춰주세요");
     }

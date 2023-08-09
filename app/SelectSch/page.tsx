@@ -2,12 +2,16 @@
 import "./SelectSch.css";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ReactElement, useEffect, useState } from "react";
 
 import IconImg from "./img/Icon.png";
+import { headers } from "next/dist/client/components/headers";
 
 export default function SelectSch(): ReactElement {
+  const search = useSearchParams();
+  const params = Object.fromEntries(search.entries());
+  const email = params.email || "";
   //전공계열,학과
   const [major, setmajor] = useState("");
   const [depart, setdepart] = useState("");
@@ -60,7 +64,20 @@ export default function SelectSch(): ReactElement {
     if (!major && !depart) {
       alert("전공계열과 학과를 모두 선택하여 주세요");
     } else {
-      router.push("/");
+      fetch("https://dev.api.tovelop.esm.kr/user/selection/categorymajor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          category: major,
+          major: depart,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => router.push("/"))
+        .catch((err) => console.log(err));
     }
   };
   return (
