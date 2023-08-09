@@ -3,9 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { MdDensityMedium, MdSearch } from "react-icons/md";
-
+import { useRouter } from "next/navigation";
 import DarkToggle from "@/app/DarkMode/DarkToggle";
 
+import iconpng from "./img/icon2.jpeg";
 import BoardList from "./BoardList";
 import logo_kr from "./img/icon3.png";
 import Styles from "./MainHeader.module.css";
@@ -13,11 +14,16 @@ import UserMenu from "./UserMenu";
 
 function MainHeader() {
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
-  const searchSubmit = () => {
-    searchInputRef.current?.value
-      ? alert(searchInputRef.current.value)
-      : alert("검색할 내용을 입력하세요");
+  const searchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const searchText = searchInputRef.current?.value;
+    if (searchText) {
+      router.replace(`/Main/Searchpage?query=${searchText}`);
+    } else {
+      alert("검색할 내용을 입력하세요");
+    }
   };
 
   const [visiable, setVisiable] = useState<boolean>(false);
@@ -98,7 +104,6 @@ function MainHeader() {
 
       <div>
         <DarkToggle />
-        {/* 다크모드 토글 버튼 작업 */}
       </div>
       <div className={Styles.userMenu}>
         <UserMenu />
