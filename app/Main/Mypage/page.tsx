@@ -42,6 +42,14 @@ function page() {
     <div className={styles.boardLayout}>
       <div className={styles.infor}>회원정보</div>
 
+      <div className={styles.email}>프로필</div>
+      <div className={styles.emailcheck}>
+        <form>
+          <img src={userData.profileImg} alt={userData.profileImg}></img>
+        </form>
+        <button className={styles.emailBtn}>그림수정</button>
+      </div>
+
       <div className={styles.nickname}>닉네임 변경</div>
 
       <div className={styles.emailcheck}>
@@ -69,9 +77,6 @@ function page() {
           placeholder="이름"
           value={userData.name || ""}
         ></input>
-        <button type="submit" className={styles.emailBtn}>
-          수정하기
-        </button>
       </div>
       <div className={styles.password1}>
         <div className={styles.passwordword}>
@@ -118,7 +123,7 @@ function page() {
         <input
           type="text"
           className={styles.emailtype}
-          defaultValue={userData.sNo}
+          defaultValue={userData.studentNo}
           readOnly
         ></input>
       </div>
