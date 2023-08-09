@@ -1,16 +1,8 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { MdSearch, MdDensityMedium } from "react-icons/md";
-<<<<<<< HEAD
 import { useRouter } from "next/navigation";
 import iconpng from "../img/icon.png";
-import DarkToggel from "./DarkToggle";
-=======
-
-import logo_kr from "./img/logo_kr.jpg";
-import DarkToggle from "@/app/DarkMode/DarkToggle";
-
->>>>>>> 1cd3c88730f858cba7492fd94ee29d9344407764
 import UserMenu from "./UserMenu";
 import BoardList from "./BoardList";
 
@@ -80,13 +72,13 @@ function MainHeader() {
   }
 
   return (
-      <header className={Styles.header}>
-      <Link href="/Main/MainPage" className={Styles.icon}>
-        <Image src={logo_kr} alt="" width={70} height={60} />
-      </Link>
-      <Link href="/Main/MainPage" className={Styles.major}>
-      <h3 >소프트웨어학과</h3>
-      </Link>
+    <header className={Styles.header}>
+      <div className={Styles.icon}>
+        <Link href="/Main/MainPage">
+          <Image src={iconpng} alt="" fill />
+        </Link>
+      </div>
+      <h3 className={Styles.major}>소프트웨어학과</h3>
 
       <div className={Styles.boardList}>
         <BoardList />
@@ -109,8 +101,7 @@ function MainHeader() {
       </form>
 
       <div>
-        <DarkToggle />
-        {/* 다크모드 토글 버튼 작업 */}
+        
       </div>
       <div className={Styles.userMenu}>
         <UserMenu />
