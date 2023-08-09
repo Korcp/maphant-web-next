@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
-import styles from "./newPost.module.css";
-import ImgList from "./ImgList";
-import HashTagList from "./HashTagList";
-
 import Link from "next/link";
+import React from "react";
+
+import HashTagList from "./HashTagList";
+import ImgList from "./ImgList";
+import styles from "./newPost.module.css";
 
 function NewPost() {
   return (

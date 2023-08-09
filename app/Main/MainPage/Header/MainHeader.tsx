@@ -1,14 +1,16 @@
 "use client";
-import React, { useState, useRef } from "react";
-import { MdSearch, MdDensityMedium } from "react-icons/md";
-import { useRouter } from "next/navigation";
-import iconpng from "../img/icon.png";
-import UserMenu from "./UserMenu";
-import BoardList from "./BoardList";
-
-import Styles from "./MainHeader.module.css";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import React, { useRef,useState } from "react";
+import { MdDensityMedium,MdSearch } from "react-icons/md";
+import { useRouter } from "next/navigation";
+import DarkToggle from "@/app/DarkMode/DarkToggle";
+
+import iconpng from "./img/icon2.jpeg"
+import BoardList from "./BoardList";
+import logo_kr from "./img/logo_kr.jpg";
+import Styles from "./MainHeader.module.css";
+import UserMenu from "./UserMenu";
 
 function MainHeader() {
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -101,7 +103,7 @@ function MainHeader() {
       </form>
 
       <div>
-        
+        <DarkToggle/>
       </div>
       <div className={Styles.userMenu}>
         <UserMenu />

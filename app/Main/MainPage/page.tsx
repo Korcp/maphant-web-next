@@ -1,7 +1,8 @@
 "use client";
 import React, { ReactElement } from "react";
-import PostList from "./MainPost/PostList";
+
 import styles from "./MainApp.module.css";
+import PostList from "./MainPost/PostList";
 
 export default function MainApp(): ReactElement {
   return (

@@ -1,9 +1,11 @@
 import { Inter } from "next/font/google";
-import MainHeader from "./MainPage/Header/MainHeader";
-import styles from "./layout.module.css";
 import Image from "next/image";
+
 import adv1 from "@/app/img/adv1.jpg";
 import adv2 from "@/app/img/adv2.png";
+
+import styles from "./layout.module.css";
+import MainHeader from "./MainPage/Header/MainHeader";
 
 
 const inter = Inter({ subsets: ["latin"] });

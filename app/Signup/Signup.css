@@ -19,7 +19,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   margin-bottom: 20px;
 }
 
@@ -54,11 +53,14 @@
   text-align: center;
   width: 400px;
   height: 50px;
-  background-color: rgb(95, 178, 242);
+  background-color: #88c5fa;
   border-radius: 10px;
   border: none;
   color: white;
   margin-bottom: 10%;
+}
+.Btn:hover{
+  background-color: #5299eb;
 }
 
 div.PhoneNotextbox input {

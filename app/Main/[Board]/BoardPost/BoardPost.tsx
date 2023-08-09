@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
-import Styles from "./BoardPost.module.css";
-import { MdOutlineComment } from "react-icons/md";
 import { FiThumbsUp } from "react-icons/fi";
+import { MdOutlineComment } from "react-icons/md";
+
+import Styles from "./BoardPost.module.css";
 
 type ArticleType = {
   boardId: number;

@@ -1,26 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import ErrorPage from "next/error";
 import Link from "next/link";
-
-import styles from "./Borad.module.css";
-import BoardPostList from "./BoardPost/BoardPostList";
-
-import { MdSearch, MdSort, MdArrowBack, MdArrowForward } from "react-icons/md";
-import { CiEdit } from "react-icons/ci";
 import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { CiEdit } from "react-icons/ci";
+import { MdArrowBack, MdArrowForward,MdSearch, MdSort } from "react-icons/md";
+
+import BoardPostList from "./BoardPost/BoardPostList";
+import styles from "./Borad.module.css";
 
 function Borad() {
-  var boardName: string = "";
-  if (usePathname() === "/Main/Free") boardName = "자유게시판";
-  if (usePathname() === "/Main/Knowledge") boardName = "지식게시판";
-  if (usePathname() === "/Main/QnA") boardName = "QnA";
-  if (usePathname() === "/Main/Promotion") boardName = "홍보게시판";
-  if (usePathname() === "/Main/Career") boardName = "취업/진로";
-  if (usePathname() === "/Main/Hobby") boardName = "취미";
-
+  let boardName: string = "";
+  let boardType: number = 0;
+  const [boardPage, setBoardPage] = useState<number>(1);
   const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
-  const sortItems: string[] = ["최신순", "추천순", "댓글순"];
+  const sortItems: string[] = ["최신순", "추천순"];
   const [sortNow, setSortNow] = useState<string>("최신순");
+
+  if (usePathname() === "/Main/Free") {
+    boardName = "자유게시판";
+    boardType = 1;
+  } else if (usePathname() === "/Main/Knowledge") {
+    boardName = "지식게시판";
+    boardType = 3;
+  } else if (usePathname() === "/Main/QnA") {
+    boardName = "QnA";
+    boardType = 2;
+  } else if (usePathname() === "/Main/Promotion") {
+    boardName = "홍보게시판";
+    boardType = 5;
+  } else if (usePathname() === "/Main/Career") {
+    boardName = "취업/진로";
+    boardType = 4;
+  } else if (usePathname() === "/Main/Hobby") {
+    boardName = "취미";
+    boardType = 6;
+  } else {
+    return <ErrorPage statusCode={404} />;
+  }
 
   const SortItem = () => {
     return (
@@ -34,6 +51,7 @@ function Borad() {
                 setSortNow(i);
                 setOnSortMenu(false);
               }}
+              key={i}
             >
               {i}
             </button>
@@ -42,6 +60,17 @@ function Borad() {
       </ul>
     );
   };
+
+  const pageDownEvent = () => {
+    if (boardPage > 1) setBoardPage(boardPage - 1);
+  };
+  const pageUpEvent = () => {
+    setBoardPage(boardPage + 1);
+  };
+
+  useEffect(() => {
+    setBoardPage(1);
+  }, [sortNow]);
 
   return (
     <div className={styles.boardLayout}>
@@ -87,27 +116,31 @@ function Borad() {
         </span>
 
         <div className={styles.boardPage}>
-          <p>1 / 992</p>
-          <button className={styles.pageBtn}>
+          <p>{boardPage} / 992</p>
+          <button className={styles.pageBtn} onClick={pageDownEvent}>
             <MdArrowBack />
           </button>
-          <button className={styles.pageBtn}>
+          <button className={styles.pageBtn} onClick={pageUpEvent}>
             <MdArrowForward />
           </button>
         </div>
       </div>
 
       <div className={styles.postList}>
-        <BoardPostList SortType={sortNow}/>
+        <BoardPostList
+          SortType={sortNow}
+          boardType={boardType}
+          boardPage={boardPage}
+        />
       </div>
 
       <div className={styles.postPage}>
-        <div>
+        <div className={styles.pageBtn} onClick={pageDownEvent}>
           <MdArrowBack />
           Previous
         </div>
         <div>1 2 3 4 5 6 7 8 9... 999</div>
-        <div>
+        <div className={styles.pageBtn} onClick={pageUpEvent}>
           Next
           <MdArrowForward />
         </div>

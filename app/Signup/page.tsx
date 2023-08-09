@@ -1,8 +1,8 @@
 "use client";
 import "./Signup.css";
-import { ReactElement, useEffect, useState } from "react";
+
 import { useRouter } from "next/navigation";
-import { data } from "autoprefixer";
+import { ReactElement, useEffect, useState } from "react";
 export default function Signup(): ReactElement {
   //input에 입력되는 value값
   const [email, setEmail] = useState("");

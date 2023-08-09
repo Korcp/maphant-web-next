@@ -1,8 +1,9 @@
 "use client";
 
-import classes from "./DarkToggle.module.css";
-import { MdSunny, MdOutlineNightlightRound } from "react-icons/md";
 import { useTheme } from "next-themes";
+import { MdOutlineNightlightRound,MdSunny } from "react-icons/md";
+
+import classes from "./DarkToggle.module.css";
 
 function DarkToggle() {
   const {theme, setTheme} = useTheme();
