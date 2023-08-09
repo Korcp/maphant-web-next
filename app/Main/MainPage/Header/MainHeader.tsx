@@ -6,11 +6,7 @@ import { MdDensityMedium, MdSearch } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import DarkToggle from "@/app/DarkMode/DarkToggle";
 
-<<<<<<< HEAD
 import iconpng from "./img/icon2.jpeg";
-=======
-import iconpng from "../img/icon3.png"
->>>>>>> 86f4082b0b2f70593abf933018f7d40b1f2edd05
 import BoardList from "./BoardList";
 import logo_kr from "./img/icon3.png";
 import Styles from "./MainHeader.module.css";
