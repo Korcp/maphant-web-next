@@ -5,17 +5,10 @@ import { FiThumbsUp } from "react-icons/fi";
 import { MdOutlineComment } from "react-icons/md";
 
 import Styles from "./Post.module.css";
+import { BoardListItem } from "@/lib/type/boardType";
 
-type ArticleType = {
-  boardId: number;
-  commentCnt: number;
-  createdAt: string;
-  title: string;
-  likeCnt: number;
-  userNickname: string;
-};
 
-function Post({ content }: { content: ArticleType }) {
+function Post({ content }: { content: BoardListItem }) {
   const detailDate = (a: string) => {
     const milliSeconds = +new Date() - +new Date(a);
     const seconds = milliSeconds / 1000;
@@ -46,7 +39,6 @@ function Post({ content }: { content: ArticleType }) {
           {content.likeCnt}
           <MdOutlineComment size="1rem" /> {content.commentCnt}
         </div>
-        <p className={Styles.postContent}>제목</p>
       </div>
       <p className={Styles.postContent}>{content.title}</p>
     </div>
