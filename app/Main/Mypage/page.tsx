@@ -128,28 +128,6 @@ function page() {
         ></input>
       </div>
 
-      <div className={styles.email}>학과계열</div>
-      <div className={styles.emailcheck}>
-        <input
-          type="text"
-          className={styles.emailtype}
-          placeholder="이메일 입력"
-        ></input>
-        <button className={styles.emailBtn}>추가하기</button>
-      </div>
-
-      <div className={styles.email}>전공</div>
-      <div className={styles.emailcheck}>
-        <input
-          type="text"
-          className={styles.emailtype}
-          placeholder="임시 전공"
-        ></input>
-        <button type="submit" className={styles.emailBtn}>
-          추가하기
-        </button>
-      </div>
-
       <div className={styles.end}>
         <button className={styles.delaccount}>계정 탈퇴</button>
         <button type="submit" className={styles.save}>

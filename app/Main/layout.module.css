@@ -18,21 +18,30 @@
 }
 
 .emptybox {
-  width: 5rem;
+  
   flex-grow: 2;
 }
 
-.flexbox1,
-.flexbox2 {
+.adBox1,
+.adBox2 {
   flex-grow: 1;
-  width: 6rem;
-  padding: 2rem;
-  border: 1px solid black;
+  width: 9rem;
   border-radius: 20px;
   margin-top: 1rem;
   margin-bottom: 1rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   white-space: nowrap;
+}
+
+.adv {
+  width: 12rem;
+  height: 23rem;
+  background-color: aliceblue;
+  position: relative;
 }
 
 .content {
@@ -60,6 +69,10 @@
   .mainLayout {
     min-height: 60rem;
   }
+  .adBox1,
+  .adBox2 {
+    display : none;
+  }
 }
 @media screen and (max-width: 899px) {
   /* 모바일 가로, 타블렛 세로 */
@@ -67,27 +80,7 @@
     font-size: 8px;
   }
 
-  .flexbox1 {
-    flex-grow: 1;
-    width: 6rem;
-    padding: 2rem;
-    margin-top: 1rem;
-    margin-right: 5%;
-    margin-bottom: 1rem;
-    text-align: center;
-    white-space: nowrap;
-  }
-
-  .flexbox2 {
-    flex-grow: 1;
-    width: 6rem;
-    padding: 2rem;
-    margin-top: 1rem;
-    margin-left: 5%;
-    margin-bottom: 1rem;
-    text-align: center;
-    white-space: nowrap;
-  }
+  
 
   .content {
     /* background-color: antiquewhite; */

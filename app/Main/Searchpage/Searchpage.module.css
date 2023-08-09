@@ -14,49 +14,19 @@
     text-align: center;
     background-color: aliceblue;
   }
-  .boardName {
-    margin: 1rem;
-    border-radius: 10px;
-    width: 100%;
-    height: 5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(240, 240, 240);
-    font-size: 1.5rem;
-  }
+  
 
-  .postMenu2 {
+  .postMenu{
 
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     border-bottom: 0.5px solid black;
   }
-  .search {
-    display: flex;
-    border: 1px solid black;
-    border-radius: 50px;
-    height: 1rem;
-    padding: 0.5rem;
-  }
-  .searchIcon {
-    border: 0;
-    border-radius: 15px;
-    background-color: white;
-  }
-  .searchIcon:hover {
-    background-color: rgb(233, 233, 233);
-  }
-  .searchInput {
-    border-radius: 8px;
-    font-size: 1rem;
-    border: 0;
-  }
-  .searchInput:focus {
-    outline: none;
-  }
+  
+ 
+ 
   .boardPage {
     display: flex;
     justify-content: flex-end;
@@ -68,13 +38,14 @@
     border: 0;
   }
   .pageBtn:hover {
-    background-color: rgb(233, 233, 233);
+    color: #5299eb;
+    cursor: pointer;
   }
   
   .postList {
     margin: 1rem;
     width: 100%;
-    height: 100rem;
+    height: 100%;
   }
   .postPage {
     margin-top: 1rem;
@@ -83,7 +54,23 @@
     justify-content: space-between;
     align-items: center;
   }
-  
+.pageIcon{
+  display: flex;
+}
+.pageIcon:hover{
+  color: #5299eb;
+  cursor: pointer;
+}
+
+
+ .searchnone{
+  margin-top : 2rem;
+  font-size : 2rem;
+ }
+
+
+
+
   @keyframes dropdown {
     0% {
       transform: translateY(-3%);
