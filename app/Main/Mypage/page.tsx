@@ -45,7 +45,7 @@ function Page() {
         </div>
       </section>
       <section className={styles.communitySettings}>
-        <h2>커뮤니티 설정</h2>
+        <h2>커뮤니티 </h2>
         <div className={styles.list}>
           <label>내 게시판</label>
           <br />

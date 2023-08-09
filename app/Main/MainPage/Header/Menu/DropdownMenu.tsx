@@ -3,26 +3,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import useLocalStorage from "@/app/useLocalStorage";
+import UserStorage from "@/lib/storage/UserStorage";
 
 import styles from "./DropdwonMenu.module.css";
 
 const DropdownMenu = () => {
   const router = useRouter();
 
-  const { value: token, setStoredValue: setToken } = useLocalStorage(
-    "token",
-    ""
-  );
-  const { value: privKey, setStoredValue: setPrivKey } = useLocalStorage(
-    "privKey",
-    ""
-  );
-
   const Logout = () => {
-    setToken("");
-    setPrivKey("");
-    localStorage.clear();
+    UserStorage.clear();
 
     router.push("/");
   };
