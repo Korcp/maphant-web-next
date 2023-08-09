@@ -1,8 +1,19 @@
+"use client";
+
 import React from "react";
 
 import styles from "./Mypage.module.css";
+import { useRouter } from "next/navigation";
+import UserStorage from "@/lib/storage/UserStorage";
 
 function Page() {
+  const router = useRouter();
+
+  const Logout = () => {
+    UserStorage.clear();
+
+    router.push("/");
+  };
   return (
     <div className={styles.container}>
       <section className={styles.userInfo}>
@@ -48,7 +59,7 @@ function Page() {
         <div className={styles.profileLabels}>
           <label>회원 탈퇴</label>
           <br />
-          <label>로그아웃</label>
+          <label onClick={Logout}>로그아웃</label>
         </div>
       </section>
     </div>
