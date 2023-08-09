@@ -29,9 +29,13 @@ class UserAPI {
     });
   }
 
-  static updateUserPassWord(password: string) {
+  static updateUserPassWordModify(
+    newpassword: string,
+    newPasswordCheck: string
+  ) {
     return PostAPI<statusResponse>("/user/changeinfo/password", {
-      password,
+      newpassword,
+      newPasswordCheck,
     });
   }
 }
