@@ -7,7 +7,6 @@ import adv2 from "@/app/img/adv2.png";
 import styles from "./layout.module.css";
 import MainHeader from "./MainPage/Header/MainHeader";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -23,14 +22,18 @@ export default function RootLayout({
 
           <main className={styles.mainLayout}>
             <div className={styles.emptybox} />
-            <div className={styles.flexbox1}>
-              <Image src={adv1}></Image>
+            <div className={styles.adBox1}>
+              <div className={styles.adv}>
+                <Image src={adv1} alt="" fill></Image>
+              </div>
             </div>
 
             <div className={styles.content}>{children}</div>
 
-            <div className={styles.flexbox2}>
-              <Image src={adv2}></Image>
+            <div className={styles.adBox2}>
+              <div className={styles.adv}>
+                <Image src={adv2} alt="" fill></Image>
+              </div>
             </div>
             <div className={styles.emptybox} />
           </main>
