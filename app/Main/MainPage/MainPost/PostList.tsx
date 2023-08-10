@@ -5,22 +5,14 @@ import BoardAPI from "@/lib/api/BoardAPI";
 
 import Post from "./Post";
 import Styles from "./PostList.module.css";
+import { BoardListItem } from "@/lib/type/boardType";
 
 type BoardName = {
   boardName: string;
 };
 
-type ArticleType = {
-  boardId: number;
-  commentCnt: number;
-  createdAt: string;
-  title: string;
-  likeCnt: number;
-  userNickname: string;
-};
-
 function PostList({ boardName }: BoardName) {
-  const [articles, setArticles] = useState<ArticleType[]>([]);
+  const [articles, setArticles] = useState<BoardListItem[]>([]);
   let boardType: number = 0;
 
   if (boardName === "자유") boardType = 1;
@@ -31,7 +23,7 @@ function PostList({ boardName }: BoardName) {
   if (boardName === "취미") boardType = 6;
 
   useEffect(() => {
-    BoardAPI.listArticle(boardType, 1, 100, 1)
+    BoardAPI.listArticle(boardType, 1, 5, 1)
       .then((data) => setArticles(data.data))
       .catch((error) => console.log("error", error));
   }, []);
@@ -41,7 +33,14 @@ function PostList({ boardName }: BoardName) {
   console.log(boardName + "--" + boardType + "--");
   console.log(articles);
 
-  return <div className={Styles.postList}></div>;
+  return (
+    <div className={Styles.postList}>
+      <div className={Styles.boardTitle}>{boardName}</div>
+      {articles.map((content) => (
+        <Post content={content} key={content.boardId} />
+      ))}
+    </div>
+  );
 }
 
 export default PostList;

@@ -1,17 +1,18 @@
 "use client";
 import ErrorPage from "next/error";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { MdArrowBack, MdArrowForward,MdSearch, MdSort } from "react-icons/md";
+import { MdArrowBack, MdArrowForward, MdSearch, MdSort } from "react-icons/md";
 
 import BoardPostList from "./BoardPost/BoardPostList";
 import styles from "./Borad.module.css";
 
 function Borad() {
+  const router = useRouter();
   let boardName: string = "";
   let boardType: number = 0;
+  let boardLink: string = "";
   const [boardPage, setBoardPage] = useState<number>(1);
   const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
   const sortItems: string[] = ["최신순", "추천순"];
@@ -19,21 +20,27 @@ function Borad() {
 
   if (usePathname() === "/Main/Free") {
     boardName = "자유게시판";
+    boardLink = "Free";
     boardType = 1;
   } else if (usePathname() === "/Main/Knowledge") {
     boardName = "지식게시판";
+    boardLink = "Knowledge";
     boardType = 3;
   } else if (usePathname() === "/Main/QnA") {
     boardName = "QnA";
+    boardLink = "QnA";
     boardType = 2;
   } else if (usePathname() === "/Main/Promotion") {
     boardName = "홍보게시판";
+    boardLink = "Promotion";
     boardType = 5;
   } else if (usePathname() === "/Main/Career") {
     boardName = "취업/진로";
+    boardLink = "Career";
     boardType = 4;
   } else if (usePathname() === "/Main/Hobby") {
     boardName = "취미";
+    boardLink = "Hobby";
     boardType = 6;
   } else {
     return <ErrorPage statusCode={404} />;
@@ -79,12 +86,15 @@ function Borad() {
       <div className={styles.boardName}>{boardName}</div>
 
       <div className={styles.postMenu1}>
-        <Link href="./NewPost" style={{ textDecoration: "none" }}>
-          <button className={styles.postBtn}>
-            글쓰기
-            <CiEdit size="1.375rem" />
-          </button>
-        </Link>
+        <button
+          className={styles.postBtn}
+          onClick={() => {
+            router.push(`/Main/${boardLink}/NewPost`);
+          }}
+        >
+          글쓰기
+          <CiEdit size="1.375rem" />
+        </button>
         <div className={styles.hashTags}>
           <p>#해시태그1</p>
           <p>#해시태그2</p>
@@ -131,6 +141,7 @@ function Borad() {
           SortType={sortNow}
           boardType={boardType}
           boardPage={boardPage}
+          boardLink={boardLink}
         />
       </div>
 

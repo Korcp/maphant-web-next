@@ -3,8 +3,12 @@ import { MdClose } from "react-icons/md";
 
 import styles from "./HashTagList.module.css";
 
-const HashTagList = () => {
-  const [hashTag, setHashTag] = useState<string[]>([]);
+type PropsType = {
+  hashTag: string[]
+  setHashTag: React.Dispatch<React.SetStateAction<string[]>>;
+};
+
+const HashTagList = ({hashTag, setHashTag }: PropsType) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const enterEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -17,7 +21,7 @@ const HashTagList = () => {
     hashTag.map((item) => {
       if (item === text) {
         alert("이미 등록된 해시태그입니다.");
-        check=false;
+        check = false;
       }
     });
     return check;
@@ -25,8 +29,9 @@ const HashTagList = () => {
 
   const submitEvent = (): void => {
     if (inputRef.current?.value && duflicationCheck(inputRef.current.value)) {
-      if (hashTag) setHashTag([...hashTag, inputRef.current.value]);
-      else setHashTag([inputRef.current.value]);
+      if (hashTag) {
+        setHashTag([...hashTag, inputRef.current.value]);
+      } else setHashTag([inputRef.current.value]);
       inputRef.current.value = "";
     }
   };
@@ -38,7 +43,6 @@ const HashTagList = () => {
       })
     ),
   ];
-
 
   return (
     <div className={styles.hashTagList}>
