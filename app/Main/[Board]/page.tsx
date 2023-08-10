@@ -1,7 +1,6 @@
 "use client";
 import ErrorPage from "next/error";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdArrowBack, MdArrowForward, MdSearch, MdSort } from "react-icons/md";
@@ -10,6 +9,7 @@ import BoardPostList from "./BoardPost/BoardPostList";
 import styles from "./Borad.module.css";
 
 function Borad() {
+  const router = useRouter();
   let boardName: string = "";
   let boardType: number = 0;
   let boardLink: string = "";
@@ -86,12 +86,15 @@ function Borad() {
       <div className={styles.boardName}>{boardName}</div>
 
       <div className={styles.postMenu1}>
-        <Link href="./NewPost" style={{ textDecoration: "none" }}>
-          <button className={styles.postBtn}>
-            글쓰기
-            <CiEdit size="1.375rem" />
-          </button>
-        </Link>
+        <button
+          className={styles.postBtn}
+          onClick={() => {
+            router.push(`/Main/${boardLink}/NewPost`);
+          }}
+        >
+          글쓰기
+          <CiEdit size="1.375rem" />
+        </button>
         <div className={styles.hashTags}>
           <p>#해시태그1</p>
           <p>#해시태그2</p>

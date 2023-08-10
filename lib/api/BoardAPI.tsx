@@ -1,5 +1,7 @@
+import { statusResponse } from "@/app/fetchAPI";
 import { BoardListItem } from "../type/boardType";
-import { dataResponse, GetAPI } from "./fetchAPI";
+import { PostType } from "../type/postType";
+import { dataResponse, GetAPI, PostAPI } from "./fetchAPI";
 
 class BoardAPI {
 	static listArticle(
@@ -14,6 +16,12 @@ class BoardAPI {
 			pageSize,
 			sortCriterionId,
 		});
+	}
+
+	static newPostArticle(postData:PostType){
+		return PostAPI<statusResponse>(`/board/create`,
+			postData
+		)
 	}
 }
 

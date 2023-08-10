@@ -36,7 +36,6 @@ function BoardPost({ content, boardLink }: PropsType) {
     return `${Math.floor(years)}년 전`;
   };
 
-  console.log(content.isLike);
 
   return (
     <div className={Styles.post}>
