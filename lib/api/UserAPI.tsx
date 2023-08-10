@@ -30,11 +30,11 @@ class UserAPI {
   }
 
   static updateUserPassWordModify(
-    newpassword: string,
+    newPassword: string,
     newPasswordCheck: string
   ) {
     return PostAPI<statusResponse>("/user/changeinfo/password", {
-      newpassword,
+      newPassword,
       newPasswordCheck,
     });
   }

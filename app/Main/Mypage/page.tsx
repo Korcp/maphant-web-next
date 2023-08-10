@@ -16,6 +16,8 @@ function Page() {
   const [pwopen, setPwOpen] = useState(false);
   //닉네임 저장소
   const [newNickname, setNewNickname] = useState("");
+  const [newPw, setNewPw] = useState("");
+  const [newPwcheck, setNewPwCheck] = useState("");
 
   //내 정보 수정 모달 열고 닫기
   const handlemydataopen = () => {
@@ -40,9 +42,16 @@ function Page() {
   };
 
   // 닉네임 변경
-
   const NicknameChange = (newNickname: string) => {
     setNewNickname(newNickname);
+  };
+
+  //비밀번호 입력 변경
+  const PWChange = (newpw: string) => {
+    setNewPw(newpw);
+  };
+  const PWCheckChange = (newpwcheck: string) => {
+    setNewPwCheck(newpwcheck);
   };
 
   // 닉네임 수정
@@ -58,6 +67,14 @@ function Page() {
       })
 
       .catch((err) => alert(err));
+  };
+
+  // 비밀번호 수정
+  const handlePasswordUpdate = () => {
+    UserAPI.updateUserPassWordModify(newPw, newPwcheck).then((res) =>
+      alert("비밀번호가 수정되었습니다.")
+    );
+    handlepwclose();
   };
   //회원 기존 정보 받아오기
   useEffect(() => {
@@ -181,15 +198,23 @@ function Page() {
               className={styles.mydata}
               type="text"
               placeholder="새 비밀번호"
+              value={newPw}
+              onChange={(e) => PWChange(e.target.value)}
             />
             <input
               className={styles.mydata}
               type="text"
               placeholder="비밀번호확인"
+              value={newPwcheck}
+              onChange={(e) => PWCheckChange(e.target.value)}
             />
 
             <br />
-            <button className={styles.mydatafix} type="submit">
+            <button
+              className={styles.mydatafix}
+              type="submit"
+              onClick={handlePasswordUpdate}
+            >
               수정하기
             </button>
             <button className={styles.closebutton} onClick={handlepwclose}>
