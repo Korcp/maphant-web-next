@@ -6,7 +6,7 @@ import { MdDensityMedium, MdSearch } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import DarkToggle from "@/app/DarkMode/DarkToggle";
 
-import iconpng from "./img/icon2.jpeg";
+import iconpng from "../img/icon3.png";
 import BoardList from "./BoardList";
 import logo_kr from "./img/icon3.png";
 import Styles from "./MainHeader.module.css";
@@ -108,7 +108,7 @@ function MainHeader() {
       <div className={Styles.userMenu}>
         <UserMenu />
       </div>
-      
+
       <nav className={Styles.navbar}>
         <button className={Styles.navBtn} onClick={handleMenuButton}>
           <MdDensityMedium size={"1.25rem"} color="white" />

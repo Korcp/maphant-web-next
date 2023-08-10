@@ -1,120 +1,164 @@
-.emptybox {
-  width: 5rem;
-  flex-grow: 2;
+.container {
+  padding: 20px;
 }
 
-.boardLayout {
-  padding-top: 2%;
-  flex-grow: 4;
-  margin: 1rem;
-  width: 58rem;
-  height: 70rem;
+/* 각 섹션 스타일링 */
+.userInfo,
+.accountSettings,
+.communitySettings,
+.etc {
+  width: 100%;
+  margin-top: 30px;
+  padding-left: 20px;
+  padding-right: 110px;
+  padding-bottom: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  margin-left: -120px;
+}
+
+.profileSection {
+  display: flex;
+}
+
+.profileImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.list,
+.userInfomation {
   display: flex;
   flex-direction: column;
+}
+
+/* 각 label 스타일링 */
+.etc label,
+.list label {
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+  display: inline-block;
+  padding: 5px 0;
+}
+
+.etc label:hover,
+.list label:hover {
+  text-decoration: underline;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.infor {
-  margin: 1rem;
-  border-radius: 10px;
-  width: 100%;
-  height: 3rem;
-  display: flex;
-  justify-content: first baseline;
-  align-items: flex-start;
-
-  font-size: 1.5rem;
-}
-.nickname,
-.name,
-.password,
-.phoneNum,
-.email {
-  margin: 1rem;
-  width: 100%;
-  justify-content: first baseline;
-  align-items: flex-start;
-}
-
-.nicknametype,
-.nametype,
-.passwordtype,
-.passwordcheck {
-  margin-top: 1rem;
-  width: 100%;
-  height: 2rem;
+/* 모달 내부 스타일 */
+.modal {
+  background-color: white;
   padding: 10px;
-  font-size: 1.2rem;
-  border: 1px solid rgb(71, 70, 70);
-  border-radius: 10px;
+  padding-top: 15px;
+  padding-bottom: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
-.passwordword {
+.modalcg {
+  background-color: white;
+  padding: 50px;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding-left: 7%;
+  padding-right: 7%;
+}
+.mydata1 {
+  padding: 10px;
+  border-radius: 20px;
   width: 50%;
-  height: 2rem;
-  display: flex;
-}
-.passwordword11 {
-  margin-right: 30rem;
-  width: 100%;
 }
 
-.phonecheck {
-  margin-right: 1rem;
-  width: 100%;
-  height: 2rem;
+.mydata {
+  margin-top: 20px;
+  margin-bottom: 20px;
   padding: 10px;
-  display: flex;
-
-  border: 1px solid rgb(71, 70, 70);
-  border-radius: 10px;
+  border-radius: 20px;
+  width: 50%;
 }
 
-.emailtype {
-  width: 85%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  border: 1px solid rgb(71, 70, 70);
+.mydatafix {
+  background-color: rgb(95, 178, 242);
+  color: white;
+  border: none;
+  padding: 10px 15px;
   border-radius: 10px;
-}
-.emailBtn {
-  margin-left: 1rem;
-  width: 10%;
-  border: 1px solid;
-  border-radius: 10px;
-  height: 100%;
-}
-.phoneBtn {
-  margin-left: 1rem;
-  width: 15%;
-  border: 1px solid;
-  border-radius: 10px;
-  height: 100%;
+  cursor: pointer;
+  margin-right: 100px;
 }
 
-.emailcheck,
-.password1 {
-  margin: 1%;
-  width: 100%;
-  height: 3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.delaccount {
-  width: 10%;
-  height: 2rem;
-}
-.save {
-  width: 10%;
-  height: 2rem;
+.mydatafix:hover {
+  background-color: #0056b3;
 }
 
-.end {
-  margin: 1rem;
-  width: 100%;
-  height: 2rem;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+.closebutton {
+  background-color: rgb(95, 178, 242);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.closebutton:hover {
+  background-color: #0056b3;
+}
+
+.showPasswordButton {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 18px;
+  margin-left: -40px;
+  margin-top: 6px;
+}
+
+.currentCategory {
+  margin-bottom: 20px;
+}
+
+.currentCategory p {
+  margin-bottom: 5px;
+}
+
+.Deletelist,
+.addlist {
+  margin-top: 20px;
+}
+
+.Deletelist b,
+.addlist b {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.Deletelist .inputBox,
+.addlist .inputBox {
+  margin-bottom: 10px;
+}
+
+.formBox {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 30px;
 }
