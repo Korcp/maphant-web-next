@@ -1,60 +1,36 @@
 "use client";
 import React from "react";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 import BoardPost from "./BoardPost";
 import styles from "./BoardPostList.module.css";
+import { BoardListItem } from "@/lib/type/boardType";
+import BoardAPI from "@/lib/api/BoardAPI";
 
 type PropsType = {
   SortType: string;
   boardType: number;
   boardPage: number;
+  boardLink: string;
 };
 
-type ArticleType = {
-  boardId: number;
-  commentCnt: number;
-  createdAt: string;
-  title: string;
-  likeCnt: number;
-  userNickname: string;
-};
 
-function BoardPostList({ SortType, boardType, boardPage }: PropsType) {
-  const [articles, setArticles] = useState<ArticleType[]>([]);
+function BoardPostList({ SortType, boardType, boardPage , boardLink}: PropsType) {
+  const [articles, setArticles] = useState<BoardListItem[]>([]);
   let sort: number = 1;
   if (SortType === "최신순") sort = 1;
   if (SortType === "추천순") sort = 2;
 
   useEffect(() => {
-    const myHeaders = new Headers();
-    myHeaders.append("x-auth", "maphant@pubKey");
-    myHeaders.append("x-timestamp", "100");
-    myHeaders.append("x-sign", "maphant@privKey");
-    myHeaders.append("x-category", "1");
-
-    fetch(
-      `https://dev.api.tovelop.esm.kr/board?boardTypeId=${boardType}&page=${boardPage}&pageSize=10&sortCriterionId=${sort}`,
-      {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      }
-    )
-      .then((resp) => {
-        return resp.json();
-      })
-      .then((json) => {
-        setArticles(json.data);
-      })
+    BoardAPI.listArticle(boardType, boardPage, 10, sort)
+      .then((data) => setArticles(data.data))
       .catch((error) => console.log("error", error));
-
   }, [boardPage, sort]);
 
   return (
     <div className={styles.BoardPostList}>
       {articles.slice(0, 10).map((content) => (
-        <BoardPost content={content} key={content.boardId} />
+        <BoardPost content={content} boardLink={boardLink} key={content.boardId} />
       ))}
     </div>
   );

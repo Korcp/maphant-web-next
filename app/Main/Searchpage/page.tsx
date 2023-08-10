@@ -5,30 +5,28 @@ import styles from "./Searchpage.module.css";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import BoardPost from "../[Board]/BoardPost/BoardPost";
 import SearchApi from "@/lib/api/SearchApi";
-
-type ArticleType = {
-  boardId: number;
-  commentCnt: number;
-  createdAt: string;
-  title: string;
-  likeCnt: number;
-  userNickname: string;
-};
+import { BoardListItem } from "@/lib/type/boardType";
 
 function Searchpage() {
   const search = useSearchParams();
   const query = search.get("query");
-  const [articles, setArticles] = useState<ArticleType[]>([]);
+  const [articles, setArticles] = useState<BoardListItem[]>([]);
   const [page, setPage] = useState<number>(1);
   const [maxPage, setMaxPage] = useState<number>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setIsLoading(true);
+
     if (query) {
       SearchApi.listArticle(query, 1)
         .then((res) => {
           setArticles(res.data);
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => console.log("error", error))
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
     setMaxPage(Math.floor(articles.length / 20) + 1);
     setPage(1);
@@ -43,8 +41,8 @@ function Searchpage() {
     }
   };
 
-console.log(articles.length)
-console.log(articles)
+  console.log(articles.length);
+  console.log(articles);
 
   return (
     <div className={styles.boardLayout}>
@@ -52,7 +50,9 @@ console.log(articles)
         {query ? `'${query}'` : "검색어"} 의 검색결과
       </div>
 
-      {articles.length > 0 ? (
+      {isLoading ? (
+        <div className={styles.searchnone}></div>
+      ) : articles.length > 0 ? (
         <>
           <div className={styles.postMenu}>
             <div className={styles.boardPage}>
@@ -60,28 +60,30 @@ console.log(articles)
                 {page} / {Math.floor(articles.length / 20) + 1}
               </p>
               <button className={styles.pageBtn} onClick={pageDownEvent}>
-                <MdArrowBack size='1rem' />
+                <MdArrowBack size="1rem" />
               </button>
               <button className={styles.pageBtn} onClick={pageUpEvent}>
-                <MdArrowForward size='1rem'/>
+                <MdArrowForward size="1rem" />
               </button>
             </div>
           </div>
           <div className={styles.postList}>
-            {articles.slice(20 * (page - 1) , 20 * page).map((content) => (
-              <BoardPost content={content} key={content.boardId} />
+            {articles.slice(20 * (page - 1), 20 * page).map((content, i) => (
+              <BoardPost content={content} key={i} />
             ))}
           </div>
           <div className={styles.postPage}>
             <div onClick={pageDownEvent} className={styles.pageIcon}>
-              <MdArrowBack size='1.5rem'/>
+              <MdArrowBack size="1.5rem" />
               Previous
             </div>
 
-            <div>{page} / {Math.floor(articles.length / 20) + 1}</div>
+            <div>
+              {page} / {Math.floor(articles.length / 20) + 1}
+            </div>
             <div onClick={pageUpEvent} className={styles.pageIcon}>
               Next
-              <MdArrowForward size='1.5rem'/>
+              <MdArrowForward size="1.5rem" />
             </div>
           </div>
         </>
