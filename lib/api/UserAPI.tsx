@@ -1,5 +1,11 @@
 import { UserData } from "../type/userType";
-import { dataResponse, GetAPI, PostAPI, statusResponse } from "./fetchAPI";
+import {
+  dataResponse,
+  GetAPI,
+  PostAPI,
+  DeleteAPI,
+  statusResponse,
+} from "./fetchAPI";
 
 type LoginResponse = {
   pubKey: string;
@@ -36,6 +42,13 @@ class UserAPI {
     return PostAPI<statusResponse>("/user/changeinfo/password", {
       newPassword,
       newPasswordCheck,
+    });
+  }
+
+  static DeleteCatagory(category: string, major: String) {
+    return DeleteAPI<statusResponse>("/user/changeinfo/categorymajor", {
+      category,
+      major,
     });
   }
 }
