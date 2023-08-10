@@ -6,6 +6,7 @@ import styles from "./Mypage.module.css";
 import { useRouter } from "next/navigation";
 import UserStorage from "@/lib/storage/UserStorage";
 import UserAPI from "@/lib/api/UserAPI";
+import { text } from "stream/consumers";
 
 function Page() {
   const router = useRouter();
@@ -14,6 +15,7 @@ function Page() {
   //모달 기능 구현
   const [mydataopen, setMydataOpen] = useState(false);
   const [pwopen, setPwOpen] = useState(false);
+  const [cgopen, setCgOpen] = useState(false);
   //닉네임 저장소
   const [newNickname, setNewNickname] = useState("");
   const [newPw, setNewPw] = useState("");
@@ -40,6 +42,13 @@ function Page() {
     setPwOpen(false);
     setNewPw("");
     setNewPwCheck("");
+  };
+  // 전공 수정 모달 열고닫기
+  const handlemycgopen = () => {
+    setCgOpen(true);
+  };
+  const handlemycgclose = () => {
+    setCgOpen(false);
   };
   //로그아웃 기능구현
   const Logout = () => {
@@ -132,7 +141,7 @@ function Page() {
           <br />
           <label onClick={handlepwopen}>비밀번호 수정</label>
           <br />
-          <label>계열 학과 수정</label>
+          <label onClick={handlemycgopen}>계열 학과 수정</label>
           <br />
           <label>소개 글 수정</label>
         </div>
@@ -235,6 +244,59 @@ function Page() {
               수정하기
             </button>
             <button className={styles.closebutton} onClick={handlepwclose}>
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {cgopen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalcg}>
+            <h2>개열/학과 수정</h2>
+            <div className={styles.formBox}>
+              <h3>지금 현재 나의 계열 학과</h3>
+              <div className={styles.currentCategory}>
+                {userData.category.map((item, index) => (
+                  <p key={index}>
+                    학과: {item.majorName} / 전공: {item.categoryName}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <form className={styles.Deletelist}>
+              <div className={styles.formBox}>
+                <b>전공계열 및 학과 삭제</b>
+                {userData.category.map((item, index) => (
+                  <div className={styles.categoryItem} key={index}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        className={styles.myCheckbox}
+                        value={index}
+                      />
+                      {item.majorName} / {item.categoryName}
+                    </label>
+                  </div>
+                ))}
+
+                <br />
+                <button className={styles.closebutton}>삭제하기</button>
+              </div>
+            </form>
+
+            <form className={styles.addlist}>
+              <div className={styles.formBox}>
+                <b>전공계열 및 학과 추가</b>
+                <label>학과 </label>
+                <input className={styles.mydata1} type="text" />
+                <br />
+                <label>전공 </label>
+                <input className={styles.mydata1} type="text" />
+              </div>
+            </form>
+            <button className={styles.closebutton} onClick={handlemycgclose}>
               닫기
             </button>
           </div>
