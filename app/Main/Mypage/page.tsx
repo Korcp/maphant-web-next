@@ -18,6 +18,11 @@ function Page() {
   const [newNickname, setNewNickname] = useState("");
   const [newPw, setNewPw] = useState("");
   const [newPwcheck, setNewPwCheck] = useState("");
+  //비밀번호 눈깔
+  const [showNewPw, setShowNewPw] = useState(false);
+  const toggleShowNewPw = () => {
+    setShowNewPw(!showNewPw);
+  };
 
   //내 정보 수정 모달 열고 닫기
   const handlemydataopen = () => {
@@ -196,14 +201,22 @@ function Page() {
             <br />
             <input
               className={styles.mydata}
-              type="text"
+              type={showNewPw ? "text" : "password"}
               placeholder="새 비밀번호"
               value={newPw}
               onChange={(e) => PWChange(e.target.value)}
             />
+            <button
+              type="button"
+              className={styles.showPasswordButton}
+              onClick={toggleShowNewPw}
+            >
+              {showNewPw ? "🙈" : "👁️"}
+            </button>
+
             <input
               className={styles.mydata}
-              type="text"
+              type="password"
               placeholder="비밀번호확인"
               value={newPwcheck}
               onChange={(e) => PWCheckChange(e.target.value)}

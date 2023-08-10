@@ -107,3 +107,12 @@
 .closebutton:hover {
   background-color: #0056b3;
 }
+
+.showPasswordButton {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 18px;
+  margin-left: -40px;
+  margin-top: 6px;
+}
