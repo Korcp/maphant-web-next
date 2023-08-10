@@ -38,6 +38,8 @@ function Page() {
   };
   const handlepwclose = () => {
     setPwOpen(false);
+    setNewPw("");
+    setNewPwCheck("");
   };
   //로그아웃 기능구현
   const Logout = () => {
@@ -76,10 +78,12 @@ function Page() {
 
   // 비밀번호 수정
   const handlePasswordUpdate = () => {
-    UserAPI.updateUserPassWordModify(newPw, newPwcheck).then((res) =>
-      alert("비밀번호가 수정되었습니다.")
-    );
-    handlepwclose();
+    UserAPI.updateUserPassWordModify(newPw, newPwcheck)
+      .then((res) => {
+        alert("비밀번호가 수정되었습니다.");
+        handlepwclose();
+      })
+      .catch((err) => alert(err));
   };
   //회원 기존 정보 받아오기
   useEffect(() => {
