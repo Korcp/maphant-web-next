@@ -26,6 +26,9 @@ function Page() {
     setShowNewPw(!showNewPw);
   };
 
+  //체크 박스 선택 및 삭제
+  const [selectcg, setSelcetCg] = useState<number[]>([]);
+
   //내 정보 수정 모달 열고 닫기
   const handlemydataopen = () => {
     setMydataOpen(true);
@@ -45,11 +48,13 @@ function Page() {
   };
   // 전공 수정 모달 열고닫기
   const handlemycgopen = () => {
+    setSelcetCg([]);
     setCgOpen(true);
   };
   const handlemycgclose = () => {
     setCgOpen(false);
   };
+
   //로그아웃 기능구현
   const Logout = () => {
     UserStorage.clear();
@@ -94,6 +99,43 @@ function Page() {
       })
       .catch((err) => alert(err));
   };
+
+  //회원 삭제
+
+  const handleCheckboxChange = (index: number) => {
+    if (selectcg.includes(index)) {
+      setSelcetCg(selectcg.filter((item) => item !== index));
+    } else {
+      setSelcetCg([...selectcg, index]);
+    }
+  };
+
+  const handleCategoryDelete = () => {
+    const categoriesToDelete = selectcg.map(
+      (index) => userData?.category[index]
+    );
+
+    if (categoriesToDelete.length > 0) {
+      Promise.all(
+        categoriesToDelete.map((category) =>
+          UserAPI.DeleteCatagory(category.categoryName, category.majorName)
+        )
+      )
+        .then((res) => {
+          console.log(res);
+
+          // 삭제 후에 userData 배열 업데이트
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            category: prevUserData.category.filter(
+              (_, index) => !selectcg.includes(index)
+            ),
+          }));
+        })
+        .catch((err) => alert(err));
+    }
+  };
+
   //회원 기존 정보 받아오기
   useEffect(() => {
     UserAPI.getMyProfile()
@@ -265,26 +307,26 @@ function Page() {
               </div>
             </div>
 
-            <form className={styles.Deletelist}>
-              <div className={styles.formBox}>
-                <b>전공계열 및 학과 삭제</b>
-                {userData.category.map((item, index) => (
-                  <div className={styles.categoryItem} key={index}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        className={styles.myCheckbox}
-                        value={index}
-                      />
-                      {item.majorName} / {item.categoryName}
-                    </label>
-                  </div>
-                ))}
-
-                <br />
-                <button className={styles.closebutton}>삭제하기</button>
-              </div>
-            </form>
+            <div className={styles.formBox}>
+              <h3>계열 학과 삭제</h3>
+              {userData.category.map((item, index) => (
+                <div className={styles.categoryItem} key={index}>
+                  <input
+                    type="checkbox"
+                    className={styles.myCheckbox}
+                    checked={selectcg.includes(index)}
+                    onChange={() => handleCheckboxChange(index)}
+                  />
+                  <label>
+                    학과: {item.majorName} / 전공: {item.categoryName}
+                  </label>
+                </div>
+              ))}
+              <br />
+              <button type="submit" onClick={handleCategoryDelete}>
+                삭제하기
+              </button>
+            </div>
 
             <form className={styles.addlist}>
               <div className={styles.formBox}>
