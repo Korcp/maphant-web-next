@@ -1,7 +1,7 @@
 "use client";
 import ErrorPage from "next/error";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdArrowBack, MdArrowForward, MdSearch, MdSort } from "react-icons/md";
 
@@ -17,6 +17,7 @@ function Borad() {
   const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
   const sortItems: string[] = ["최신순", "추천순"];
   const [sortNow, setSortNow] = useState<string>("최신순");
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   if (usePathname() === "/Main/Free") {
     boardName = "자유게시판";
@@ -75,6 +76,17 @@ function Borad() {
     setBoardPage(boardPage + 1);
   };
 
+  const searchSubmitEvent = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchInputRef.current?.value) {
+      router.push(
+        `/Main/${boardLink}/Search?search=${searchInputRef.current.value}`
+      );
+    } else {
+      alert("검색할 내용을 입력하세요");
+    }
+  };
+
   useEffect(() => {
     setBoardPage(1);
   }, [sortNow]);
@@ -114,16 +126,17 @@ function Borad() {
       </div>
 
       <div className={styles.postMenu2}>
-        <span className={styles.search}>
-          <button type="button" className={styles.searchIcon}>
+        <form className={styles.search} onSubmit={searchSubmitEvent}>
+          <button type="submit" className={styles.searchIcon}>
             <MdSearch size="1.125rem" />
           </button>
           <input
             type="text"
+            ref={searchInputRef}
             className={styles.searchInput}
             placeholder="검색"
           />
-        </span>
+        </form>
 
         <div className={styles.boardPage}>
           <p>{boardPage} / 992</p>
@@ -148,11 +161,11 @@ function Borad() {
       <div className={styles.postPage}>
         <div className={styles.pageBtn} onClick={pageDownEvent}>
           <MdArrowBack />
-          Previous
+           이전
         </div>
         <div>1 2 3 4 5 6 7 8 9... 999</div>
         <div className={styles.pageBtn} onClick={pageUpEvent}>
-          Next
+          다음 
           <MdArrowForward />
         </div>
       </div>

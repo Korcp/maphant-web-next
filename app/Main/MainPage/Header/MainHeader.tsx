@@ -20,7 +20,7 @@ function MainHeader() {
     e.preventDefault();
     const searchText = searchInputRef.current?.value;
     if (searchText) {
-      router.push(`/Main/Searchpage?query=${searchText}`);
+      router.push(`/Main/Searchpage?search=${searchText}`);
     } else {
       alert("검색할 내용을 입력하세요");
     }

@@ -10,7 +10,7 @@ class BoardAPI {
         content: string,
         boardTypeId:number
 	) {
-		return GetAPI<dataResponse<BoardListItem[]>>(`/board/search`, {
+		return GetAPI<dataResponse<BoardListItem[]>>(`/board/search/`, {
             content,
             boardTypeId
 		});

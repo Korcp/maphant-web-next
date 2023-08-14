@@ -49,7 +49,7 @@ const HashTagList = ({hashTag, setHashTag }: PropsType) => {
       <input
         className={styles.inputTag}
         type="text"
-        placeholder="# 내용과 관련된 해시태그를 등록해 주세요."
+        placeholder="# 내용과 관련된 해시태그를 입력후 엔터를 눌러주세요."
         ref={inputRef}
         onKeyUp={enterEvent}
       />

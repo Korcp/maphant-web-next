@@ -29,7 +29,7 @@ function BoardPostList({ SortType, boardType, boardPage , boardLink}: PropsType)
 
   return (
     <div className={styles.BoardPostList}>
-      {articles.slice(0, 10).map((content) => (
+      {articles && articles.slice(0, 10).map((content) => (
         <BoardPost content={content} boardLink={boardLink} key={content.boardId} />
       ))}
     </div>

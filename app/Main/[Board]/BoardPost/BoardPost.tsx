@@ -9,7 +9,7 @@ import Styles from "./BoardPost.module.css";
 
 type PropsType = {
   content: BoardListItem;
-  boardLink?: string;
+  boardLink: string;
 };
 function BoardPost({ content, boardLink }: PropsType) {
   const router = useRouter();
@@ -41,7 +41,7 @@ function BoardPost({ content, boardLink }: PropsType) {
     <div className={Styles.post}>
       <div className={Styles.postUser}>
         <div className={Styles.userLeft}>
-          <h4>{content.userNickname}</h4>
+          <h4>{content.userId ? content.userId : content.userNickname}</h4>
           <p style={{ fontSize: ".7rem" }}>{detailDate(content.createdAt)}</p>
         </div>
         <div className={Styles.cnt}>
@@ -52,7 +52,7 @@ function BoardPost({ content, boardLink }: PropsType) {
       </div>
       <div className={Styles.sd}>
         <p
-          onClick={() => titleClickEvent(content.boardId)}
+          onClick={() => titleClickEvent(content.id ? content.id: content.boardId ? content.boardId : 1)}
           className={Styles.postContent}
         >
           {content.title}

@@ -1,25 +1,45 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import styles from "./Searchpage.module.css";
+import styles from "./Search.module.css";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
-import BoardPost from "../[Board]/BoardPost/BoardPost";
+import BoardPost from "../BoardPost/BoardPost";
 import SearchApi from "@/lib/api/SearchApi";
 import { BoardListItem } from "@/lib/type/boardType";
+``;
 
 function Searchpage() {
   const search = useSearchParams();
   const query = search.get("search");
   const [articles, setArticles] = useState<BoardListItem[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [maxPage, setMaxPage] = useState<number>();
+  const [maxPage, setMaxPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const boardURL = usePathname();
+  const parts = boardURL.split("/");
+  const boardLink = parts[parts.length - 2];
+  var boardType: number;
+
+  if (boardLink === "Free") {
+    boardType = 1;
+  } else if (boardLink === "Knowledge") {
+    boardType = 3;
+  } else if (boardLink === "QnA") {
+    boardType = 2;
+  } else if (boardLink === "Promotion") {
+    boardType = 5;
+  } else if (boardLink === "Career") {
+    boardType = 4;
+  } else if (boardLink === "Hobby") {
+    boardType = 6;
+  }
 
   useEffect(() => {
     setIsLoading(true);
 
     if (query) {
-      SearchApi.listArticle(query, 1)
+      SearchApi.listArticle(query, boardType)
         .then((res) => {
           setArticles(res.data);
           setMaxPage(Math.floor(res.data.length / 20) + 1);
@@ -66,7 +86,7 @@ function Searchpage() {
           </div>
           <div className={styles.postList}>
             {articles.slice(20 * (page - 1), 20 * page).map((content, i) => (
-              <BoardPost content={content} boardLink="Free" key={i} />
+              <BoardPost content={content} boardLink={boardLink} key={i} />
             ))}
           </div>
           <div className={styles.postPage}>

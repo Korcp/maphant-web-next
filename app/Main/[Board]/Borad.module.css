@@ -34,7 +34,6 @@
   background-color: rgb(240, 240, 240);
   font-size: 1.5rem;
   color: black;
-
 }
 .dark .boardName {
   margin: 1rem;
@@ -47,7 +46,6 @@
   background-color: rgb(240, 240, 240);
   font-size: 1.5rem;
   color: black;
-
 }
 .postMenu1 {
   margin: 1rem;
@@ -162,10 +160,12 @@
 }
 .pageBtn {
   background-color: white;
+  display: flex;
+  align-items: center;
   border: 0;
 }
 .pageBtn:hover {
-  background-color: rgb(233, 233, 233);
+  color: #5299eb;
   cursor: pointer;
 }
 
@@ -178,7 +178,6 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 @keyframes dropdown {
