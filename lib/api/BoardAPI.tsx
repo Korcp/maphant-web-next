@@ -1,6 +1,6 @@
 import { statusResponse } from "@/app/fetchAPI";
 import { BoardListItem } from "../type/boardType";
-import { PostType } from "../type/postType";
+import { PostType, readPostType } from "../type/postType";
 import { dataResponse, GetAPI, PostAPI } from "./fetchAPI";
 
 class BoardAPI {
@@ -24,6 +24,14 @@ class BoardAPI {
 
   static imgUpload(imgFile: FormData) {
     return PostAPI<statusResponse>(`/image`, imgFile);
+  }
+
+  static readPost(boardId: number) {
+    return GetAPI<dataResponse<readPostType>>(`/board/${boardId}/`);
+  }
+
+  static postLike(boardId: number) {
+    return PostAPI<statusResponse>(`/board/like/${boardId}/`);
   }
 }
 
