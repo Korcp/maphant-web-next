@@ -51,6 +51,14 @@ class UserAPI {
       major,
     });
   }
+
+  static addCategory(email: string, category: string, major: String) {
+    return PostAPI<statusResponse>("/user/changeinfo/categorymajor", {
+      email,
+      category,
+      major,
+    });
+  }
 }
 
 export default UserAPI;

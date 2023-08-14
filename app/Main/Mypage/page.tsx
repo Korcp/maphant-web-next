@@ -143,25 +143,8 @@ export default function Page() {
           )
         );
 
-        // 변경 사항을 반영하기 위해 업데이트된 사용자 프로필을 가져옵니다
-        const response = await UserAPI.getMyProfile();
-        const updatedUserData = response.data;
-
-        // 카테고리 정보도 업데이트합니다
-        setUserData(updatedUserData);
-
-        // 로컬 스토리지에 업데이트된 사용자 프로필 저장
-        UserStorage.setUserProfile(updatedUserData);
-
-        // 삭제 성공 후 사용자 데이터 상태를 업데이트합니다
-        setUserData((prevUserData) => ({
-          ...prevUserData,
-          category: prevUserData.category.filter(
-            (_, index) => !selectcg.includes(index)
-          ),
-        }));
-
-        // 선택을 초기화합니다
+        // 사용자 데이터 새로고침
+        loadUserData();
         setSelcetCg([]);
 
         console.log("카테고리 삭제 성공!");
@@ -218,29 +201,21 @@ export default function Page() {
       });
   }, []);
 
-  const addcg = () => {
+  const addcg = async () => {
     if (!major || !depart) {
       alert("전공계열과 학과를 모두 선택하여 주세요");
     } else {
-      // API 호출을 통해 선택한 전공계열과 학과를 추가합니다.
-      fetch("https://dev.api.tovelop.esm.kr/user/selection/categorymajor", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: userData.email, // userData의 email을 사용
-          category: major,
-          major: depart,
-        }),
-      })
-        .then((res) => res.json())
-        .then(() => {
-          // 선택한 전공계열과 학과가 추가되었으므로 사용자 데이터를 업데이트합니다.
-          loadUserData();
-          setCgOpen(false); // 모달을 닫습니다.
-        })
-        .catch((err) => console.log(err));
+      try {
+        // 학과 추가 API 요청 보내기
+        await UserAPI.addCategory(userData.email, major, depart);
+
+        // 사용자 데이터 새로고침
+        loadUserData();
+        setCgOpen(false);
+      } catch (error) {
+        console.error("Error adding category:", error);
+        alert("카테고리 추가 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
     }
   };
 
