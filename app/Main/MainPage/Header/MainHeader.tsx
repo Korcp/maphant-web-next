@@ -20,8 +20,9 @@ function MainHeader() {
     major: categoryItem.majorName,
   }));
 
-  const [selectedCategory, setSelectedCategory] =
-    useState<string>("소프트웨어학과");
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    catagorylist.length > 0 ? catagorylist[0].major : ""
+  );
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
   const toggleDropdown = () => {
@@ -30,8 +31,28 @@ function MainHeader() {
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
-    setIsDropdownOpen(false); // 드롭다운 닫기
+    setIsDropdownOpen(false); // 새로운 학과를 선택하면 리스트 창이 닫힘
   };
+
+  const handleListClick = (category: string) => {
+    setSelectedCategory(category);
+    setIsDropdownOpen(false); // 리스트를 선택하면 리스트 창이 닫힘
+  };
+
+  const renderCategoryList = (
+    <ul className={Styles.menuList}>
+      {catagorylist.map((item, index) => (
+        <li key={index} className={Styles.menuItem}>
+          <button
+            onClick={() => handleListClick(item.major)}
+            className={`${Styles.boardLink} ${Styles.menuLink}`}
+          >
+            {item.major}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
 
   useEffect(() => {
     console.log(catagorylist);
@@ -101,22 +122,9 @@ function MainHeader() {
       <Link href="/Main/MainPage" className={Styles.icon}>
         <Image src={logo_kr} alt="" width={70} height={60} />
       </Link>
-      <div className={Styles.major} onClick={toggleDropdown}>
-        <h3>{selectedCategory}</h3>
-        {isDropdownOpen && (
-          <ul className={Styles.dropdown}>
-            {catagorylist.map((item, index) => (
-              <li key={index}>
-                <button
-                  onClick={() => handleCategoryClick(item.major)}
-                  className={Styles.boardLink}
-                >
-                  {item.major}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+      <div className={Styles.major}>
+        <h3 onClick={toggleDropdown}>{selectedCategory}</h3>
+        {isDropdownOpen && renderCategoryList}
       </div>
 
       <div className={Styles.boardList}>
