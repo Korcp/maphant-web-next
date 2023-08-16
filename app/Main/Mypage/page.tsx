@@ -52,6 +52,8 @@ export default function Page() {
   };
   const handlemycgclose = () => {
     setCgOpen(false);
+    setmajor("");
+    setdepart("");
   };
 
   //로그아웃 기능구현
@@ -209,6 +211,8 @@ export default function Page() {
         // 사용자 데이터 새로고침
         loadUserData();
         setCgOpen(false);
+        setmajor("");
+        setdepart("");
       } catch (error) {
         console.error("Error adding category:", error);
         alert("카테고리 추가 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -409,24 +413,29 @@ export default function Page() {
                     checked={selectcg.includes(index)}
                     onChange={() => handleCheckboxChange(index)}
                   />
-                  <label>
+                  <label className="Dlist">
                     학과: {item.majorName} / 전공: {item.categoryName}
                   </label>
                 </div>
               ))}
               <br />
-              <button type="submit" onClick={handleCategoryDelete}>
+              <button
+                className={styles.closebutton}
+                type="submit"
+                onClick={handleCategoryDelete}
+              >
                 삭제하기
               </button>
             </div>
 
             <div className={styles.formBox}>
-              <b>전공계열 및 학과 추가</b>
+              <b className={styles.blist}>전공계열 및 학과 추가</b>
               <br />
               <br />
-              <label>전공계열</label>
+              <label className={styles.llist}>⊙전공계열</label>
               <br />
               <input
+                className={styles.mydata3}
                 type="Text"
                 id="major"
                 placeholder="전공계열을 선택하여주세요"
@@ -440,10 +449,10 @@ export default function Page() {
                 ))}
               </datalist>
               <br />
-              <br />
-              <label>학과</label>
+              <label className={styles.llist}>⊙학과</label>
               <br />
               <input
+                className={styles.mydata3}
                 type="text"
                 id="departId"
                 placeholder="학과를 입력해주세요."
@@ -456,14 +465,12 @@ export default function Page() {
                   <option key={index} value={data} />
                 ))}
               </datalist>
-              <br />
-              <br />
               <button className={styles.closebutton} onClick={addcg}>
                 추가하기
               </button>
             </div>
 
-            <button className={styles.closebutton} onClick={handlemycgclose}>
+            <button className={styles.closebutton2} onClick={handlemycgclose}>
               닫기
             </button>
           </div>
