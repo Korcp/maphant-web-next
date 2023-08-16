@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdDensityMedium, MdSearch } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import DarkToggle from "@/app/DarkMode/DarkToggle";
@@ -14,9 +14,28 @@ import UserMenu from "./UserMenu";
 import UserStorage from "@/lib/storage/UserStorage";
 
 function MainHeader() {
-  const [userCategory, setUserCategory] = useState(
-    UserStorage.getUserCategory()!!
-  );
+  const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
+
+  const catagorylist = userData.category.map((categoryItem) => ({
+    major: categoryItem.majorName,
+  }));
+
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>("소프트웨어학과");
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+    setIsDropdownOpen(false); // 드롭다운 닫기
+  };
+
+  useEffect(() => {
+    console.log(catagorylist);
+  });
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -82,9 +101,23 @@ function MainHeader() {
       <Link href="/Main/MainPage" className={Styles.icon}>
         <Image src={logo_kr} alt="" width={70} height={60} />
       </Link>
-      <Link href="/Main/MainPage" className={Styles.major}>
-        <h3>소프트웨어학과</h3>
-      </Link>
+      <div className={Styles.major} onClick={toggleDropdown}>
+        <h3>{selectedCategory}</h3>
+        {isDropdownOpen && (
+          <ul className={Styles.dropdown}>
+            {catagorylist.map((item, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => handleCategoryClick(item.major)}
+                  className={Styles.boardLink}
+                >
+                  {item.major}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <div className={Styles.boardList}>
         <BoardList />
