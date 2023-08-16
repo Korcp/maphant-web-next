@@ -220,7 +220,10 @@ export default function Page() {
 
   const [delstate, delsetState] = useState(false);
   const IDDelete = async () => {
-    const delstate = confirm("회원탈퇴하시겠습니끼?");
+    const delstate = confirm(
+      `회원탈퇴하시겠습니끼? 
+탈퇴하시게 되시면 이 아이디로 재가입 불가합니다 (중요)`
+    );
     if (delstate) {
       alert(
         `회원탈퇴가 완료되었습니다.
