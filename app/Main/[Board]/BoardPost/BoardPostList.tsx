@@ -14,24 +14,33 @@ type PropsType = {
   boardLink: string;
 };
 
-
-function BoardPostList({ SortType, boardType, boardPage , boardLink}: PropsType) {
-  const [articles, setArticles] = useState<BoardListItem[]>([]);
+function BoardPostList({
+  SortType,
+  boardType,
+  boardPage,
+  boardLink,
+}: PropsType) {
+  const [articles, setArticles] = useState<BoardListItem>();
   let sort: number = 1;
   if (SortType === "최신순") sort = 1;
   if (SortType === "추천순") sort = 2;
 
   useEffect(() => {
-    BoardAPI.listArticle(boardType, boardPage, 10, sort)
-      .then((data) => setArticles(data.data))
+    BoardAPI.listArticle(boardType, boardPage, 10, 10, sort)
+      .then((res) => setArticles(res.data))
       .catch((error) => console.log("error", error));
   }, [boardPage, sort]);
 
   return (
     <div className={styles.BoardPostList}>
-      {articles && articles.slice(0, 10).map((content) => (
-        <BoardPost content={content} boardLink={boardLink} key={content.boardId} />
-      ))}
+      {articles &&
+        articles.list.map((content) => (
+          <BoardPost
+            content={content}
+            boardLink={boardLink}
+            key={content.boardId}
+          />
+        ))}
     </div>
   );
 }

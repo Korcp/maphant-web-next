@@ -5,10 +5,9 @@ import { FiThumbsUp } from "react-icons/fi";
 import { MdOutlineComment } from "react-icons/md";
 
 import Styles from "./Post.module.css";
-import { BoardListItem } from "@/lib/type/boardType";
+import { BoardDetail } from "@/lib/type/boardType";
 
-
-function Post({ content }: { content: BoardListItem }) {
+function Post({ content }: { content: BoardDetail }) {
   const detailDate = (a: string) => {
     const milliSeconds = +new Date() - +new Date(a);
     const seconds = milliSeconds / 1000;

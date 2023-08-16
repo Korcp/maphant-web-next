@@ -158,13 +158,20 @@
   align-items: center;
   gap: 1rem;
 }
-.pageBtn {
+.pageBtnOn {
   background-color: white;
   display: flex;
   align-items: center;
   border: 0;
 }
-.pageBtn:hover {
+.pageBtnOff {
+  background-color: white;
+  color: #ababab;
+  display: flex;
+  align-items: center;
+  border: 0;
+}
+.pageBtnOn:hover {
   color: #5299eb;
   cursor: pointer;
 }

@@ -34,8 +34,15 @@
 .postHash {
   font-size: 0.8rem;
   margin: 0;
+  display: flex;
+  gap: 1rem;
   color: #5299eb;
 }
+
+.hashTag{
+  margin: 0;
+}
+
 
 .cnt {
   display: flex;

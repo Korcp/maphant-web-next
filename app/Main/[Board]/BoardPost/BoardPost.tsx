@@ -2,13 +2,13 @@
 import React from "react";
 import { FiThumbsUp } from "react-icons/fi";
 import { MdOutlineComment } from "react-icons/md";
-import { BoardListItem } from "@/lib/type/boardType";
+import { BoardDetail } from "@/lib/type/boardType";
 import { useRouter } from "next/navigation";
 
 import Styles from "./BoardPost.module.css";
 
 type PropsType = {
-  content: BoardListItem;
+  content: BoardDetail;
   boardLink: string;
 };
 function BoardPost({ content, boardLink }: PropsType) {
@@ -36,7 +36,6 @@ function BoardPost({ content, boardLink }: PropsType) {
     return `${Math.floor(years)}년 전`;
   };
 
-
   return (
     <div className={Styles.post}>
       <div className={Styles.postUser}>
@@ -52,14 +51,20 @@ function BoardPost({ content, boardLink }: PropsType) {
       </div>
       <div className={Styles.sd}>
         <p
-          onClick={() => titleClickEvent(content.id ? content.id: content.boardId ? content.boardId : 1)}
+          onClick={() =>
+            titleClickEvent(
+              content.id ? content.id : content.boardId ? content.boardId : 1
+            )
+          }
           className={Styles.postContent}
         >
           {content.title}
         </p>
       </div>
 
-      <p className={Styles.postHash}>#해시태그</p>
+      <div className={Styles.postHash}>
+        {content.tags && content.tags.map((item,i) => <p className={Styles.hashTag} key={i}>{`#${item} `}</p>)}&nbsp;
+      </div>
     </div>
   );
 }

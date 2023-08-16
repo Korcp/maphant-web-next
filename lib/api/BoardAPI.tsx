@@ -7,12 +7,14 @@ class BoardAPI {
   static listArticle(
     boardTypeId: number,
     page: number = 1,
+	recordSize:number,
     pageSize: number = 10,
     sortCriterionId: number
   ) {
-    return GetAPI<dataResponse<BoardListItem[]>>(`/board/`, {
+    return GetAPI<dataResponse<BoardListItem>>(`/board/`, {
       boardTypeId,
       page,
+	  recordSize,
       pageSize,
       sortCriterionId,
     });

@@ -84,6 +84,7 @@ function NewPost() {
 
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value) {
+      console.log(hashTag)
       setPostData({
         typeId: boardType,
         title: titleRef.current.value,

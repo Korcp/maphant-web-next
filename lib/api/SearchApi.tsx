@@ -2,17 +2,20 @@ import { BoardListItem } from "../type/boardType";
 import { dataResponse, GetAPI } from "./fetchAPI";
 
 
-//https://dev.api.tovelop.esm.kr/board/search?content=Sample&boardTypeId=1
-
-
 class BoardAPI {
 	static listArticle(
         content: string,
-        boardTypeId:number
+        boardTypeId:number,
+		tagName:string,
+		page:number,
+		recordSize:number
 	) {
-		return GetAPI<dataResponse<BoardListItem[]>>(`/board/search/`, {
+		return GetAPI<dataResponse<BoardListItem>>(`/board/search/`, {
             content,
-            boardTypeId
+            boardTypeId,
+			tagName,
+			page,
+			recordSize
 		});
 	}
 }
