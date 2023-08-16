@@ -10,10 +10,21 @@ import styles from "./newPost.module.css";
 import { PostType } from "@/lib/type/postType";
 import BoardAPI from "@/lib/api/BoardAPI";
 
+type fileListType = {
+  imgFile: File[];
+  imgURL: string[];
+};
+
 function NewPost() {
   const router = useRouter();
   const [postData, setPostData] = useState<PostType>();
   const [hashTag, setHashTag] = useState<string[]>([]);
+  const [fileList, setFileList] = useState<fileListType>({
+    imgFile: [],
+    imgURL: [],
+  });
+
+  const [changed, setChanged] = useState<boolean>(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
@@ -23,8 +34,6 @@ function NewPost() {
   let boardName: string = "";
   let boardType: number = 0;
   let boardText: string = "";
-
-  console.log(boardName);
 
   if (boardLink === "Free") {
     boardName = "자유게시판";
@@ -54,6 +63,25 @@ function NewPost() {
     return <ErrorPage statusCode={404} />;
   }
 
+  const WritingEvent = () => {
+    setChanged(true);
+  };
+
+  useEffect(() => {
+    const unloadListner = (event: BeforeUnloadEvent) => {
+      if (changed) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", unloadListner);
+
+    return () => {
+      window.removeEventListener("beforeunload", unloadListner);
+    };
+  }, [changed]);
+
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value) {
       setPostData({
@@ -65,11 +93,22 @@ function NewPost() {
         isHide: 0,
         tagNames: hashTag ? hashTag : undefined,
       });
+    } else {
+      alert("제목과 내용을 모두 입력해 주세요.");
     }
   };
-  console.log(postData);
+
   useEffect(() => {
     if (postData) {
+      const imgData = new FormData();
+      fileList.imgFile.forEach((item) => {
+        imgData.append("img", item);
+      });
+      console.log(imgData);
+      BoardAPI.imgUpload(imgData).catch((err) => {
+        console.log(err);
+      });
+      console.log(postData);
       BoardAPI.newPostArticle(postData)
         .then(() => {
           router.push(`/Main/${boardLink}`);
@@ -94,6 +133,7 @@ function NewPost() {
           className={styles.inputTitle}
           type="text"
           placeholder="제목을 입력해주세요."
+          onChange={WritingEvent}
         />
       </div>
 
@@ -104,7 +144,7 @@ function NewPost() {
 
       <div className={styles.imgUpload}>
         <p style={{ margin: "1%" }}>- 사진 {"( 최대 5개 )"}</p>
-        <ImgList />
+        <ImgList fileList={fileList} setFileList={setFileList} />
       </div>
 
       <div className={styles.newContent}>
@@ -113,6 +153,7 @@ function NewPost() {
           ref={contentRef}
           className={styles.inputContent}
           maxLength={1450}
+          onChange={WritingEvent}
         ></textarea>
       </div>
       <div className={styles.newPostMenu}>

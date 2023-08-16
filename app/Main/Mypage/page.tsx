@@ -402,6 +402,23 @@ export default function Page() {
               <b>전공계열 및 학과 추가</b>
               <br />
               <br />
+              <label>전공계열</label>
+              <br />
+              <input
+                type="Text"
+                id="major"
+                placeholder="전공계열을 선택하여주세요"
+                list="majorlist"
+                value={major}
+                onChange={onmajor}
+              />
+              <datalist id="majorlist">
+                {mlist.map((data, index) => (
+                  <option key={index} value={data} />
+                ))}
+              </datalist>
+              <br />
+              <br />
               <label>학과</label>
               <br />
               <input
@@ -418,21 +435,7 @@ export default function Page() {
                 ))}
               </datalist>
               <br />
-              <label>전공계열</label>
               <br />
-              <input
-                type="Text"
-                id="major"
-                placeholder="전공계열을 선택하여주세요"
-                list="majorlist"
-                value={major}
-                onChange={onmajor}
-              />
-              <datalist id="majorlist">
-                {mlist.map((data, index) => (
-                  <option key={index} value={data} />
-                ))}
-              </datalist>
               <button className={styles.closebutton} onClick={addcg}>
                 추가하기
               </button>

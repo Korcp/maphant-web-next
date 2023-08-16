@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useRef,useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 
 import styles from "./ImgList.module.css";
@@ -13,15 +13,20 @@ type fileListType = {
   imgURL: string[];
 };
 
-const ImgList = () => {
-  const [fileList, setFileList] = useState<fileListType>();
+type PropsType = {
+  fileList: fileListType;
+  setFileList: React.Dispatch<React.SetStateAction<fileListType>>;
+};
+
+const ImgList = ({ fileList, setFileList }: PropsType) => {
   const fileRef = useRef<HTMLInputElement>(null);
   const uploadBtnRef = useRef<HTMLButtonElement>(null);
-
+  const imgData = new FormData();
 
   const uploadEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
+
       const URLArray = Array.from(files, (file) =>
         window.URL.createObjectURL(file)
       );
@@ -43,8 +48,8 @@ const ImgList = () => {
     if (fileList) {
       if (fileList.imgFile.length >= 5)
         alert("사진은 최대 5개까지 등록 할 수 있습니다.");
-      else fileRef.current?.click();
-    } else fileRef.current?.click();
+      else fileRef.current!.click();
+    } else fileRef.current!.click();
   };
 
   const imgDel = (index: number, url: string) => {
@@ -62,20 +67,21 @@ const ImgList = () => {
 
   const Imgs = ({ url, index }: ImgType) => {
     return (
-      <div className={styles.imgItem} onClick={(e) => imgDel(index, url)}>
+      <div className={styles.imgItem} onClick={() => imgDel(index, url)}>
         <Image src={url} alt="" fill />
         <IoMdCloseCircleOutline className={styles.delBtn} size="1.5rem" />
       </div>
     );
   };
 
-//--------렌더링 될 때마다 파일 5개넘는지 체크 
-  if (fileList && fileList.imgFile.length > 5) {
-    setFileList({
-      imgFile: fileList.imgFile.slice(0, 5),
-      imgURL: fileList.imgURL.slice(0, 5),
-    });
-  }
+  useEffect(() => {
+    if (fileList && fileList.imgFile.length > 5) {
+      setFileList({
+        imgFile: fileList.imgFile.slice(0, 5),
+        imgURL: fileList.imgURL.slice(0, 5),
+      });
+    }
+  }, [fileList]);
 
   return (
     <div className={styles.imgListBox}>

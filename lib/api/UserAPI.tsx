@@ -45,7 +45,7 @@ class UserAPI {
     });
   }
 
-  static DeleteCatagory(category: number, major: number) {
+  static DeleteCatagory(category: string, major: string) {
     return DeleteAPI<statusResponse>("/user/changeinfo/categorymajor", {
       category,
       major,
