@@ -9,8 +9,6 @@ import UserAPI from "@/lib/api/UserAPI";
 import { text } from "stream/consumers";
 
 export default function Page() {
-  const initialUserData = {};
-
   const router = useRouter();
   //userdata받아오기
   const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
@@ -121,7 +119,6 @@ export default function Page() {
   };
 
   //회원 삭제
-
   const handleCheckboxChange = (index: number) => {
     if (selectcg.includes(index)) {
       setSelcetCg(selectcg.filter((item) => item !== index));
@@ -132,28 +129,28 @@ export default function Page() {
 
   const handleCategoryDelete = async () => {
     try {
-      const categoriesToDelete = selectcg.map(
-        (index) => userData?.category[index]
-      );
+      const categoriesToDelete = selectcg.map((index) => ({
+        category: userData?.category[index].categoryName,
+        major: userData?.category[index].majorName,
+      }));
 
       if (categoriesToDelete.length > 0) {
         await Promise.all(
-          categoriesToDelete.map((category) =>
-            UserAPI.DeleteCatagory(category.categoryName, category.majorName)
-          )
+          categoriesToDelete.map((index) => {
+            return UserAPI.DeleteCatagory(index.category, index.major);
+          })
         );
 
         // 사용자 데이터 새로고침
         loadUserData();
         setSelcetCg([]);
-
-        console.log("카테고리 삭제 성공!");
       }
     } catch (error) {
       console.error("Error deleting category:", error);
       alert("카테고리 삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
+
   //전공계열,학과
   const [major, setmajor] = useState("");
   const [depart, setdepart] = useState("");
@@ -396,7 +393,9 @@ export default function Page() {
                 </div>
               ))}
               <br />
-              <button onClick={handleCategoryDelete}>삭제하기</button>
+              <button type="submit" onClick={handleCategoryDelete}>
+                삭제하기
+              </button>
             </div>
 
             <div className={styles.formBox}>
