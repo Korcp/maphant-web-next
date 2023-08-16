@@ -59,6 +59,10 @@ class UserAPI {
       major,
     });
   }
+
+  static UserDelete() {
+    return DeleteAPI<statusResponse>("/user");
+  }
 }
 
 export default UserAPI;

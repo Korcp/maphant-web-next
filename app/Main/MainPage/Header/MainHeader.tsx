@@ -11,8 +11,12 @@ import BoardList from "./BoardList";
 import logo_kr from "./img/icon3.png";
 import Styles from "./MainHeader.module.css";
 import UserMenu from "./UserMenu";
+import UserStorage from "@/lib/storage/UserStorage";
 
 function MainHeader() {
+  const [userCategory, setUserCategory] = useState(
+    UserStorage.getUserCategory()!!
+  );
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 

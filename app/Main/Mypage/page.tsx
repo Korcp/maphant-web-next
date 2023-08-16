@@ -216,6 +216,23 @@ export default function Page() {
     }
   };
 
+  //회원탈퇴
+
+  const [delstate, delsetState] = useState(false);
+  const IDDelete = async () => {
+    const delstate = confirm("회원탈퇴하시겠습니끼?");
+    if (delstate) {
+      alert(
+        `회원탈퇴가 완료되었습니다.
+해당 정보는 사용할수없으며 한달간 같은아이디로 회원가입불가합니다.`
+      );
+      await UserAPI.UserDelete();
+      router.push("/");
+    } else {
+      alert("탈퇴가 취소되었습니다.");
+    }
+  };
+
   return (
     <div className={styles.container}>
       <section className={styles.userInfo}>
@@ -271,7 +288,9 @@ export default function Page() {
       <section className={styles.etc}>
         <h2>기타</h2>
         <div className={styles.list}>
-          <label>회원 탈퇴</label>
+          <label onClick={IDDelete} font-color="red">
+            회원 탈퇴
+          </label>
           <br />
           <label onClick={Logout}>로그아웃</label>
         </div>
