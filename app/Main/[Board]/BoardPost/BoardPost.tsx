@@ -37,33 +37,35 @@ function BoardPost({ content, boardLink }: PropsType) {
   };
 
   return (
-    <div className={Styles.post}>
+    <div
+      className={Styles.post}
+      onClick={() => {
+        titleClickEvent(content.boardId ? content.boardId : 1);
+      }}
+    >
       <div className={Styles.postUser}>
         <div className={Styles.userLeft}>
-          <h4>{content.userId ? content.userId : content.userNickname}</h4>
-          <p style={{ fontSize: ".7rem" }}>{detailDate(content.createdAt)}</p>
+          <p className={Styles.title}>{content.title}</p>
+          <p className={Styles.nickname}>{content.userNickname}</p>
+          <p style={{ fontSize: ".6rem", opacity: ".75" }}>
+            {detailDate(content.createdAt)}
+          </p>
         </div>
+
         <div className={Styles.cnt}>
           <FiThumbsUp />
           {content.likeCnt}
           <MdOutlineComment size="1rem" /> {content.commentCnt}
         </div>
       </div>
-      <div className={Styles.sd}>
-        <p
-          onClick={() =>
-            titleClickEvent(
-              content.id ? content.id : content.boardId ? content.boardId : 1
-            )
-          }
-          className={Styles.postContent}
-        >
-          {content.title}
-        </p>
-      </div>
+
+      <p className={Styles.content}>{content.body}</p>
 
       <div className={Styles.postHash}>
-        {content.tags && content.tags.map((item,i) => <p className={Styles.hashTag} key={i}>{`#${item} `}</p>)}&nbsp;
+        {content.tags &&
+          content.tags.map((item, i) => (
+            <p className={Styles.hashTag} key={i}>{`#${item}`}</p>
+          ))}
       </div>
     </div>
   );

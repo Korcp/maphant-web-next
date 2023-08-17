@@ -6,7 +6,6 @@ import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import BoardPost from "../BoardPost/BoardPost";
 import SearchApi from "@/lib/api/SearchApi";
 import { BoardListItem } from "@/lib/type/boardType";
-``;
 
 function Searchpage() {
   const search = useSearchParams();

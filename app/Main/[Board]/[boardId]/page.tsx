@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import BoardAPI from "@/lib/api/BoardAPI";
 import { readPostType } from "@/lib/type/postType";
 import { MdThumbUp } from "react-icons/md";
+import CommentList from "./CommentList";
+
 const page = () => {
   const router = useRouter();
   const boardURL = usePathname();
@@ -15,7 +17,6 @@ const page = () => {
   const [article, setArticle] = useState<readPostType>();
 
   const boardLink = parts[parts.length - 2];
-  const [likeBoard, setlikeBoard] = useState<number>(0);
 
   let boardName: string = "";
   let boardType: number = 0;
@@ -41,27 +42,21 @@ const page = () => {
 
   if (boardLink === "Free") {
     boardName = "자유게시판";
-
     boardType = 1;
   } else if (boardLink === "Knowledge") {
     boardName = "지식게시판";
-
     boardType = 3;
   } else if (boardLink === "QnA") {
     boardName = "QnA";
-
     boardType = 2;
   } else if (boardLink === "Promotion") {
     boardName = "홍보게시판";
-
     boardType = 5;
   } else if (boardLink === "Career") {
     boardName = "취업/진로";
-
     boardType = 4;
   } else if (boardLink === "Hobby") {
     boardName = "취미";
-
     boardType = 6;
   } else {
     return <ErrorPage statusCode={404} />;
@@ -151,7 +146,9 @@ const page = () => {
           </div>
         </div>
 
-        <div className={styles.messag}>댓글달기</div>
+        <div className={styles.messag}>
+          <CommentList boardId={parseInt(boardId)} />
+        </div>
       </div>
     </div>
   );
