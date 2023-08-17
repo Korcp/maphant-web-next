@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import UserAPI from "@/lib/api/BoardAPI";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import "./MyChat.css";
 
 export default function MyChat() {
@@ -27,7 +27,7 @@ export default function MyChat() {
   useEffect(() => {
     loadMyChatData(currentPage);
   }, [currentPage]);
-
+  //데이터 가져오가ㅣ
   const loadMyChatData = (page: number) => {
     UserAPI.MyChatLoad(page, recordSize)
       .then((response) => {
@@ -38,14 +38,37 @@ export default function MyChat() {
         console.error("채팅 데이터를 가져오는 중 오류 발생:", error);
       });
   };
-
+  //페이지이동
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+  //클릭시 페이지이동
+  const getBoardPath = (board_Type: string) => {
+    // 게시판 타입에 따라 URL 경로를 반환
+    switch (board_Type) {
+      case "자유 게시판":
+        return "Free";
+      case "지식 게시판":
+        return "Knowledge";
+      case "홍보 게시판":
+        return "Promotion";
+      case "취업/진로 게시판":
+        return "Career";
+      case "취미 게시판":
+        return "Hobby";
+      default:
+        return "";
+    }
+  };
 
-  const handleCommentClick = (comment: object) => {
-    // 여기에서 댓글을 클릭한 후 해당 댓글의 위치로 이동하는 로직을 추가하세요.
-    console.log("댓글 클릭:", comment);
+  const router = useRouter();
+  const handleCommentClick = (comment: any) => {
+    console.log(comment);
+    // 댓글을 클릭하면 해당 보드의 ID와 타입에 따라 적절한 경로로 이동
+    const boardPath = getBoardPath(comment.board_type);
+    if (boardPath) {
+      router.replace(`/Main/${boardPath}/${comment.board_id}`);
+    }
   };
   return (
     <div className="MyChatCSS">
@@ -65,14 +88,14 @@ export default function MyChat() {
           <hr />
           <ul>
             {myChatData.map((comment) => (
-              <p key={comment.id} onClick={() => handleCommentClick(comment)}>
+              <li key={comment.id} onClick={() => handleCommentClick(comment)}>
                 <div className="comment-box">
                   <p className="comment-type">{comment.board_type}</p>
                   <p className="comment-title">제목: {comment.board_title}</p>
                   <p className="comment-date">작성일자: {comment.created_at}</p>
                   <p className="comment-body">내용: {comment.body}</p>
                 </div>
-              </p>
+              </li>
             ))}
           </ul>
           <div className="pagediv">

@@ -243,7 +243,7 @@ export default function Page() {
   // 작성한 댓글 목록
 
   const MyChat = () => {
-    router.replace(`/Main/MyChat?targetUserId=${userData.id}`);
+    router.replace(`/Main/MyChat?=${userData.id}`);
   };
   return (
     <div className={styles.container}>
