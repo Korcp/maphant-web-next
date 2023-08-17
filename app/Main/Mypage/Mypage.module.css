@@ -74,9 +74,9 @@
 }
 .modalcg {
   background-color: white;
-  padding: 50px;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  padding: 30px;
+  padding-top: 0.3%;
+  padding-bottom: 0.3%;
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   padding-left: 7%;
