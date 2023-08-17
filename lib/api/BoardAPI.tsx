@@ -33,6 +33,10 @@ class BoardAPI {
   static postLike(boardId: number) {
     return PostAPI<statusResponse>(`/board/like/${boardId}/`);
   }
+
+  static MyChatLoad() {
+    return GetAPI<dataResponse>("/profile/comment?page=1&recordSize=10");
+  }
 }
 
 export default BoardAPI;
