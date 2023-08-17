@@ -10,7 +10,7 @@ import { BoardListItem } from "@/lib/type/boardType";
 function Searchpage() {
   const search = useSearchParams();
   const query = search.get("search");
-  const [articles, setArticles] = useState<BoardListItem[]>([]);
+  const [articles, setArticles] = useState<BoardListItem>();
   const [page, setPage] = useState<number>(1);
   const [maxPage, setMaxPage] = useState<number>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -19,10 +19,10 @@ function Searchpage() {
     setIsLoading(true);
 
     if (query) {
-      SearchApi.listArticle(query, 1)
+      SearchApi.listArticle(query, 1, query, 1, 20)
         .then((res) => {
           setArticles(res.data);
-          setMaxPage(Math.floor(res.data.length / 20) + 1);
+          setMaxPage(Math.floor(res.data.list.length / 20) + 1);
         })
         .catch((error) => console.log("error", error))
         .finally(() => {
@@ -49,12 +49,12 @@ function Searchpage() {
 
       {isLoading ? (
         <div className={styles.searchnone}></div>
-      ) : articles.length > 0 ? (
+      ) : articles && articles?.list.length > 0 ? (
         <>
           <div className={styles.postMenu}>
             <div className={styles.boardPage}>
               <p>
-                {page} / {Math.floor(articles.length / 20) + 1}
+                {page} / {Math.floor(articles.list.length / 20) + 1}
               </p>
               <button className={styles.pageBtn} onClick={pageDownEvent}>
                 <MdArrowBack size="1rem" />
@@ -65,7 +65,7 @@ function Searchpage() {
             </div>
           </div>
           <div className={styles.postList}>
-            {articles.slice(20 * (page - 1), 20 * page).map((content, i) => (
+            {articles.list.slice(20 * (page - 1), 20 * page).map((content, i) => (
               <BoardPost content={content} boardLink="Free" key={i} />
             ))}
           </div>
@@ -76,7 +76,7 @@ function Searchpage() {
             </div>
 
             <div>
-              {page} / {Math.floor(articles.length / 20) + 1}
+              {page} / {Math.floor(articles.list.length / 20) + 1}
             </div>
             <div onClick={pageUpEvent} className={styles.pageIcon}>
               Next

@@ -90,7 +90,7 @@ function NewPost() {
         title: titleRef.current.value,
         body: contentRef.current.value,
         isAnonymous: 0,
-        isComplete: 1,
+        isComplete: 0,
         isHide: 0,
         tagNames: hashTag ? hashTag : undefined,
       });

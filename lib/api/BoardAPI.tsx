@@ -2,6 +2,7 @@ import { statusResponse } from "@/app/fetchAPI";
 import { BoardListItem } from "../type/boardType";
 import { PostType, readPostType } from "../type/postType";
 import { dataResponse, GetAPI, PostAPI } from "./fetchAPI";
+import { DeleteAPI } from "./fetchAPI";
 
 class BoardAPI {
   static listArticle(
@@ -35,6 +36,13 @@ class BoardAPI {
   static postLike(boardId: number) {
     return PostAPI<statusResponse>(`/board/like/${boardId}/`);
   }
+  static reportPost(boardId: number){
+    return PostAPI<statusResponse>(`/board/report/?boardId=${boardId}&reportId=1`);
+  }
+  static PostDelete(boardId: number){
+    return DeleteAPI<statusResponse>(`/board/${boardId}/`);
+  }
+  
 }
 
 export default BoardAPI;
