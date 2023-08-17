@@ -25,7 +25,8 @@ type BoardDetail = {
   isLike: boolean | null;
   imagesUrl: string[] | null;
   userId?: number;
-  tags?: string[]
+  tags?: string[];
+  body:string;
 };
 
 export type { BoardListItem , BoardDetail};
