@@ -36,10 +36,9 @@ function PostList({ boardName }: BoardName) {
   return (
     <div className={Styles.postList}>
       <div className={Styles.boardTitle}>{boardName}</div>
-      {articles &&
-        articles.list.map((content) => (
-          <Post content={content} key={content.boardId} />
-        ))}
+      {articles && articles.map((content) => (
+        <Post content={content} key={content.boardId} />
+      ))}
     </div>
   );
 }

@@ -45,11 +45,23 @@ class UserAPI {
     });
   }
 
-  static DeleteCatagory(category: string, major: String) {
+  static DeleteCatagory(category: string, major: string) {
     return DeleteAPI<statusResponse>("/user/changeinfo/categorymajor", {
       category,
       major,
     });
+  }
+
+  static addCategory(email: string, category: string, major: String) {
+    return PostAPI<statusResponse>("/user/changeinfo/categorymajor", {
+      email,
+      category,
+      major,
+    });
+  }
+
+  static UserDelete() {
+    return DeleteAPI<statusResponse>("/user");
   }
 }
 
