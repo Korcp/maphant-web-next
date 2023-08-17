@@ -35,7 +35,20 @@ class BoardAPI {
   }
 
   static MyChatLoad() {
-    return GetAPI<dataResponse>("/profile/comment?page=1&recordSize=10");
+    return GetAPI<
+      dataResponse<{
+        list: {
+          board_id: number;
+          board_title: string;
+          board_type: string;
+          boardtype_id: number;
+          body: string;
+          nickname: string;
+          created_at: string;
+          id: number;
+        }[];
+      }>
+    >("/profile/comment?page=1&recordSize=10");
   }
 }
 

@@ -5,15 +5,26 @@ import UserAPI from "@/lib/api/BoardAPI";
 import { useSearchParams } from "next/navigation";
 
 export default function MyChat() {
-  const [myChatData, setMyChatData] = useState([]);
+  const [myChatData, setMyChatData] = useState<
+    {
+      board_id: number;
+      board_title: string;
+      board_type: string;
+      boardtype_id: number;
+      body: string;
+      nickname: string;
+      created_at: string;
+      id: number;
+    }[]
+  >([]);
 
   const searchParams = useSearchParams();
-  const id = searchParams.get("id"); // Extract the "id" query parameter from the URL
+  const id = searchParams.get("id");
 
   useEffect(() => {
     UserAPI.MyChatLoad()
       .then((response) => {
-        // Assuming response.data.list is the array you want to set
+        console.log(response);
         setMyChatData(response.data.list);
       })
       .catch((error) => {
