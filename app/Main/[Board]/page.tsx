@@ -5,7 +5,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdArrowBack, MdArrowForward, MdSearch, MdSort } from "react-icons/md";
 
-import BoardPostList from "./BoardPost/BoardPostList";
+import { BoardListItem } from "@/lib/type/boardType";
+import BoardAPI from "@/lib/api/BoardAPI";
+import BoardPost from "./BoardPost/BoardPost";
 import styles from "./Borad.module.css";
 
 function Borad() {
@@ -18,6 +20,11 @@ function Borad() {
   const sortItems: string[] = ["최신순", "추천순"];
   const [sortNow, setSortNow] = useState<string>("최신순");
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const [articles, setArticles] = useState<BoardListItem>();
+  let sort: number = 1;
+  if (sortNow === "최신순") sort = 1;
+  if (sortNow === "추천순") sort = 2;
 
   if (usePathname() === "/Main/Free") {
     boardName = "자유게시판";
@@ -88,6 +95,12 @@ function Borad() {
   };
 
   useEffect(() => {
+    BoardAPI.listArticle(boardType, boardPage, 10, 1, sort)
+      .then((res) => setArticles(res.data))
+      .catch((error) => console.log("error", error));
+  }, [boardPage, sort]);
+
+  useEffect(() => {
     setBoardPage(1);
   }, [sortNow]);
 
@@ -98,21 +111,7 @@ function Borad() {
       <div className={styles.boardName}>{boardName}</div>
 
       <div className={styles.postMenu1}>
-        <button
-          className={styles.postBtn}
-          onClick={() => {
-            router.push(`/Main/${boardLink}/NewPost`);
-          }}
-        >
-          글쓰기
-          <CiEdit size="1.375rem" />
-        </button>
-        <div className={styles.hashTags}>
-          <p>#해시태그1</p>
-          <p>#해시태그2</p>
-          <p>#해시태그3</p>
-          <p>#해시태그4</p>
-        </div>
+
         <div className={styles.sortBox}>
           <button
             className={styles.sortBtn}
@@ -123,6 +122,21 @@ function Borad() {
           </button>
           {onSortMenu && <SortItem />}
         </div>
+        <div className={styles.hashTags}>
+          <p>#해시태그1</p>
+          <p>#해시태그2</p>
+          <p>#해시태그3</p>
+          <p>#해시태그4</p>
+        </div>
+        <button
+          className={styles.postBtn}
+          onClick={() => {
+            router.push(`/Main/${boardLink}/NewPost`);
+          }}
+        >
+          글쓰기
+          <CiEdit size="1.375rem" />
+        </button>
       </div>
 
       <div className={styles.postMenu2}>
@@ -138,37 +152,78 @@ function Borad() {
           />
         </form>
 
-        <div className={styles.boardPage}>
-          <p>{boardPage} / 992</p>
-          <button className={styles.pageBtn} onClick={pageDownEvent}>
-            <MdArrowBack />
-          </button>
-          <button className={styles.pageBtn} onClick={pageUpEvent}>
-            <MdArrowForward />
-          </button>
-        </div>
+        {articles && (
+          <div className={styles.boardPage}>
+            <p>
+              {boardPage} / {articles!.pagination.totalPageCount}
+            </p>
+            <button
+              className={`${
+                articles?.pagination.existPrevPage
+                  ? styles.pageBtnOn
+                  : styles.pageBtnOff
+              }`}
+              onClick={pageDownEvent}
+              disabled={!articles?.pagination.existPrevPage}
+            >
+              <MdArrowBack />
+            </button>
+            <button
+              className={`${
+                articles?.pagination.existNextPage
+                  ? styles.pageBtnOn
+                  : styles.pageBtnOff
+              }`}
+              disabled={!articles?.pagination.existNextPage}
+              onClick={pageUpEvent}
+            >
+              <MdArrowForward />
+            </button>
+          </div>
+        )}
       </div>
 
       <div className={styles.postList}>
-        <BoardPostList
-          SortType={sortNow}
-          boardType={boardType}
-          boardPage={boardPage}
-          boardLink={boardLink}
-        />
-      </div>
-
-      <div className={styles.postPage}>
-        <div className={styles.pageBtn} onClick={pageDownEvent}>
-          <MdArrowBack />
-           이전
-        </div>
-        <div>1 2 3 4 5 6 7 8 9... 999</div>
-        <div className={styles.pageBtn} onClick={pageUpEvent}>
-          다음 
-          <MdArrowForward />
+        <div className={styles.BoardPostList}>
+          {articles &&
+            articles.list.map((content) => (
+              <BoardPost
+                content={content}
+                boardLink={boardLink}
+                key={content.boardId}
+              />
+            ))}
         </div>
       </div>
+      {articles && (
+        <div className={styles.postPage}>
+          <button
+            className={`${
+              articles?.pagination.existPrevPage
+                ? styles.pageBtnOn
+                : styles.pageBtnOff
+            }`}
+            onClick={pageDownEvent}
+            disabled={!articles?.pagination.existPrevPage}
+          >
+            <MdArrowBack />
+            이전
+          </button>
+          {boardPage} / {articles!.pagination.totalPageCount}
+          <button
+            className={`${
+              articles?.pagination.existNextPage
+                ? styles.pageBtnOn
+                : styles.pageBtnOff
+            }`}
+            disabled={!articles?.pagination.existNextPage}
+            onClick={pageUpEvent}
+          >
+            다음
+            <MdArrowForward />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,20 +1,22 @@
 "use client";
 import React from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "./BoardId.module.css";
 import ErrorPage from "next/error";
 import { useEffect, useState } from "react";
 import BoardAPI from "@/lib/api/BoardAPI";
 import { readPostType } from "@/lib/type/postType";
+import { MdThumbUp } from "react-icons/md";
+import CommentList from "./CommentList";
 
 const page = () => {
+  const router = useRouter();
   const boardURL = usePathname();
   const parts = boardURL.split("/");
   const boardId = parts[parts.length - 1];
   const [article, setArticle] = useState<readPostType>();
 
   const boardLink = parts[parts.length - 2];
-  const [likeBoard, setlikeBoard] = useState<number>(0);
 
   let boardName: string = "";
   let boardType: number = 0;
@@ -40,27 +42,21 @@ const page = () => {
 
   if (boardLink === "Free") {
     boardName = "자유게시판";
-
     boardType = 1;
   } else if (boardLink === "Knowledge") {
     boardName = "지식게시판";
-
     boardType = 3;
   } else if (boardLink === "QnA") {
     boardName = "QnA";
-
     boardType = 2;
   } else if (boardLink === "Promotion") {
     boardName = "홍보게시판";
-
     boardType = 5;
   } else if (boardLink === "Career") {
     boardName = "취업/진로";
-
     boardType = 4;
   } else if (boardLink === "Hobby") {
     boardName = "취미";
-
     boardType = 6;
   } else {
     return <ErrorPage statusCode={404} />;
@@ -93,6 +89,23 @@ const page = () => {
       })
       .catch((err) => alert(err));
   };
+  const reportEvent = () => {
+    BoardAPI.reportPost(parseInt(boardId))
+      .then(() => {
+        alert("신고되었습니다");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const DeleteEvent = () => {
+    if (window.confirm("정말 삭제하시겠습니가?")) {
+      BoardAPI.PostDelete(parseInt(boardId)).then(() => {
+        alert("글을 삭제되었습니다");
+        router.back();
+      });
+    }
+  };
 
   return (
     <div className={styles.layout}>
@@ -101,17 +114,29 @@ const page = () => {
 
         <div className={styles.postman}>
           <div className={styles.nickname}>{article?.board.userId}</div>
-          <p style={{ fontSize: ".7rem" }}>
+          <div className={styles.timeset} style={{ fontSize: ".7rem" }}>
             {article ? detailDate(article?.board.createdAt) : ""}
-          </p>
+
+            <button className={styles.fix}> 수정</button>
+            <button className={styles.delete} onClick={DeleteEvent}>
+              {" "}
+              삭제{" "}
+            </button>
+          </div>
+
           <div className={styles.content}> {boardId}</div>
 
           {boardId}
 
           <div>#해시태그</div>
-          <p>좋아요{article?.board.likeCnt}</p>
+          <div className={styles.likeIcon}>
+            {" "}
+            <MdThumbUp /> {article?.board.likeCnt}
+          </div>
           <div className={styles.report}>
-            <button className={styles.bTn1}>글 신고</button>
+            <button className={styles.bTn1} onClick={reportEvent}>
+              글 신고
+            </button>
             <button className={styles.bTn2} onClick={likeUpEvent}>
               글 추천
             </button>
@@ -121,7 +146,9 @@ const page = () => {
           </div>
         </div>
 
-        <div className={styles.messag}>댓글달기</div>
+        <div className={styles.messag}>
+          <CommentList boardId={parseInt(boardId)} />
+        </div>
       </div>
     </div>
   );

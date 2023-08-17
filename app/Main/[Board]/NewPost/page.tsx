@@ -84,12 +84,13 @@ function NewPost() {
 
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value) {
+      console.log(hashTag)
       setPostData({
         typeId: boardType,
         title: titleRef.current.value,
         body: contentRef.current.value,
         isAnonymous: 0,
-        isComplete: 1,
+        isComplete: 0,
         isHide: 0,
         tagNames: hashTag ? hashTag : undefined,
       });

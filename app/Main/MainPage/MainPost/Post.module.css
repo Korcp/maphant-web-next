@@ -17,7 +17,6 @@
   align-items: center;
   background-color: white;
   /* color: rgb(31,41,55); */
-  color: gray;
   max-height: 1rem;
   padding: 0.1rem;
   font-size: 0.75rem;
@@ -53,5 +52,6 @@
   justify-content: space-evenly;
   align-items: center;
   gap: 3px;
+  color: black;
 }
 

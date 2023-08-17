@@ -6,6 +6,7 @@ type PostType = {
   isHide: number;
   isComplete: number;
   isAnonymous: number;
+  imageUrl? : string[];
   tagNames?: string[];
 };
 

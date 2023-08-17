@@ -2,17 +2,20 @@ import { statusResponse } from "@/app/fetchAPI";
 import { BoardListItem } from "../type/boardType";
 import { PostType, readPostType } from "../type/postType";
 import { dataResponse, GetAPI, PostAPI } from "./fetchAPI";
+import { DeleteAPI } from "./fetchAPI";
 
 class BoardAPI {
   static listArticle(
     boardTypeId: number,
     page: number = 1,
+    recordSize: number,
     pageSize: number = 10,
     sortCriterionId: number
   ) {
-    return GetAPI<dataResponse<BoardListItem[]>>(`/board/`, {
+    return GetAPI<dataResponse<BoardListItem>>(`/board/`, {
       boardTypeId,
       page,
+      recordSize,
       pageSize,
       sortCriterionId,
     });
@@ -34,7 +37,8 @@ class BoardAPI {
     return PostAPI<statusResponse>(`/board/like/${boardId}/`);
   }
 
-  static MyChatLoad() {
+  static MyChatLoad(page, recordSize) {
+    const queryParams = `?page=${page}&recordSize=${recordSize}`;
     return GetAPI<
       dataResponse<{
         list: {
@@ -48,7 +52,16 @@ class BoardAPI {
           id: number;
         }[];
       }>
-    >("/profile/comment?page=1&recordSize=10");
+    >(`/profile/comment${queryParams}`);
+  }
+
+  static reportPost(boardId: number) {
+    return PostAPI<statusResponse>(
+      `/board/report/?boardId=${boardId}&reportId=1`
+    );
+  }
+  static PostDelete(boardId: number) {
+    return DeleteAPI<statusResponse>(`/board/${boardId}/`);
   }
 }
 

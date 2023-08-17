@@ -17,20 +17,30 @@ export default function MyChat() {
       id: number;
     }[]
   >([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordSize = 8;
 
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
   useEffect(() => {
-    UserAPI.MyChatLoad()
+    loadMyChatData(currentPage);
+  }, [currentPage]);
+
+  const loadMyChatData = (page: number) => {
+    UserAPI.MyChatLoad(page, recordSize)
       .then((response) => {
         console.log(response);
         setMyChatData(response.data.list);
       })
       .catch((error) => {
-        console.error("Error fetching chat data:", error);
+        console.error("채팅 데이터를 가져오는 중 오류 발생:", error);
       });
-  }, []);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
   return (
     <div className="MyChatCSS">
       <div className="Myheader">
@@ -60,6 +70,17 @@ export default function MyChat() {
               </li>
             ))}
           </ul>
+          <div>
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              이전 페이지
+            </button>
+            <button onClick={() => handlePageChange(currentPage + 1)}>
+              다음 페이지
+            </button>
+          </div>
         </section>
       </div>
     </div>
