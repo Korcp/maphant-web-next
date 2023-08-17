@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdDensityMedium, MdSearch } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import DarkToggle from "@/app/DarkMode/DarkToggle";
@@ -11,8 +11,52 @@ import BoardList from "./BoardList";
 import logo_kr from "./img/icon3.png";
 import Styles from "./MainHeader.module.css";
 import UserMenu from "./UserMenu";
+import UserStorage from "@/lib/storage/UserStorage";
 
 function MainHeader() {
+  const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
+
+  const catagorylist = userData.category.map((categoryItem) => ({
+    major: categoryItem.majorName,
+  }));
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    catagorylist.length > 0 ? catagorylist[0].major : ""
+  );
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+    setIsDropdownOpen(false); // 새로운 학과를 선택하면 리스트 창이 닫힘
+  };
+
+  const handleListClick = (category: string) => {
+    setSelectedCategory(category);
+    setIsDropdownOpen(false); // 리스트를 선택하면 리스트 창이 닫힘
+  };
+
+  const renderCategoryList = (
+    <ul className={Styles.menuList}>
+      {catagorylist.map((item, index) => (
+        <li key={index} className={Styles.menuItem}>
+          <button
+            onClick={() => handleListClick(item.major)}
+            className={`${Styles.boardLink} ${Styles.menuLink}`}
+          >
+            {item.major}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+
+  useEffect(() => {
+    console.log(catagorylist);
+  });
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -78,9 +122,10 @@ function MainHeader() {
       <Link href="/Main/MainPage" className={Styles.icon}>
         <Image src={logo_kr} alt="" width={70} height={60} />
       </Link>
-      <Link href="/Main/MainPage" className={Styles.major}>
-        <h3>소프트웨어학과</h3>
-      </Link>
+      <div className={Styles.major}>
+        <h3 onClick={toggleDropdown}>{selectedCategory}</h3>
+        {isDropdownOpen && renderCategoryList}
+      </div>
 
       <div className={Styles.boardList}>
         <BoardList />
