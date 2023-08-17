@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import UserAPI from "@/lib/api/BoardAPI";
 import { useSearchParams } from "next/navigation";
+import "./MyChat.css";
 
 export default function MyChat() {
   const [myChatData, setMyChatData] = useState<
@@ -41,6 +42,11 @@ export default function MyChat() {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+
+  const handleCommentClick = (comment: object) => {
+    // 여기에서 댓글을 클릭한 후 해당 댓글의 위치로 이동하는 로직을 추가하세요.
+    console.log("댓글 클릭:", comment);
+  };
   return (
     <div className="MyChatCSS">
       <div className="Myheader">
@@ -59,25 +65,28 @@ export default function MyChat() {
           <hr />
           <ul>
             {myChatData.map((comment) => (
-              <li key={comment.id}>
-                {comment.board_type}
-                <br />
-                제목 :{comment.board_title} / 작성일자 : {comment.created_at}
-                <br />
-                내용 :{comment.body}
-                <br />
-                <br />
-              </li>
+              <p key={comment.id} onClick={() => handleCommentClick(comment)}>
+                <div className="comment-box">
+                  <p className="comment-type">{comment.board_type}</p>
+                  <p className="comment-title">제목: {comment.board_title}</p>
+                  <p className="comment-date">작성일자: {comment.created_at}</p>
+                  <p className="comment-body">내용: {comment.body}</p>
+                </div>
+              </p>
             ))}
           </ul>
-          <div>
+          <div className="pagediv">
             <button
+              className="pagebutton1"
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
             >
               이전 페이지
             </button>
-            <button onClick={() => handlePageChange(currentPage + 1)}>
+            <button
+              className="pagebutton"
+              onClick={() => handlePageChange(currentPage + 1)}
+            >
               다음 페이지
             </button>
           </div>

@@ -37,7 +37,7 @@ class BoardAPI {
     return PostAPI<statusResponse>(`/board/like/${boardId}/`);
   }
 
-  static MyChatLoad(page, recordSize) {
+  static MyChatLoad(page: number, recordSize: number) {
     const queryParams = `?page=${page}&recordSize=${recordSize}`;
     return GetAPI<
       dataResponse<{
