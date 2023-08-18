@@ -240,6 +240,11 @@ export default function Page() {
     }
   };
 
+  // 작성한 댓글 목록
+
+  const MyChat = () => {
+    router.replace(`/Main/MyChat?=${userData.id}`);
+  };
   return (
     <div className={styles.container}>
       <section className={styles.userInfo}>
@@ -289,7 +294,7 @@ export default function Page() {
           <br />
           <label>즐겨찾기 한 게시판</label>
           <br />
-          <label>작성한 댓글 목록</label>
+          <label onClick={MyChat}>작성한 댓글 목록</label>
         </div>
       </section>
       <section className={styles.etc}>

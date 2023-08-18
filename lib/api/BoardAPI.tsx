@@ -8,14 +8,14 @@ class BoardAPI {
   static listArticle(
     boardTypeId: number,
     page: number = 1,
-	recordSize:number,
+    recordSize: number,
     pageSize: number = 10,
     sortCriterionId: number
   ) {
     return GetAPI<dataResponse<BoardListItem>>(`/board/`, {
       boardTypeId,
       page,
-	  recordSize,
+      recordSize,
       pageSize,
       sortCriterionId,
     });
@@ -36,13 +36,33 @@ class BoardAPI {
   static postLike(boardId: number) {
     return PostAPI<statusResponse>(`/board/like/${boardId}/`);
   }
-  static reportPost(boardId: number){
-    return PostAPI<statusResponse>(`/board/report/?boardId=${boardId}&reportId=1`);
+
+  static MyChatLoad(page: number, recordSize: number) {
+    const queryParams = `?page=${page}&recordSize=${recordSize}`;
+    return GetAPI<
+      dataResponse<{
+        list: {
+          board_id: number;
+          board_title: string;
+          board_type: string;
+          boardtype_id: number;
+          body: string;
+          nickname: string;
+          created_at: string;
+          id: number;
+        }[];
+      }>
+    >(`/profile/comment${queryParams}`);
   }
-  static PostDelete(boardId: number){
+
+  static reportPost(boardId: number) {
+    return PostAPI<statusResponse>(
+      `/board/report/?boardId=${boardId}&reportId=1`
+    );
+  }
+  static PostDelete(boardId: number) {
     return DeleteAPI<statusResponse>(`/board/${boardId}/`);
   }
-  
 }
 
 export default BoardAPI;
