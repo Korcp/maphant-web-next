@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import ErrorPage from "next/error";
@@ -84,7 +83,7 @@ function NewPost() {
 
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value) {
-      console.log(hashTag)
+      console.log(hashTag);
       setPostData({
         typeId: boardType,
         title: titleRef.current.value,
@@ -158,7 +157,12 @@ function NewPost() {
         ></textarea>
       </div>
       <div className={styles.newPostMenu}>
-        <button className={styles.cancelBtn}>취소</button>
+        <button
+          className={styles.cancelBtn}
+          onClick={() => router.push(`/Main/${boardLink}`)}
+        >
+          취소
+        </button>
         <button className={styles.postBtn} onClick={() => PostEvent()}>
           등록
         </button>
