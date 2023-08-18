@@ -4,11 +4,11 @@ import { MdClose } from "react-icons/md";
 import styles from "./HashTagList.module.css";
 
 type PropsType = {
-  hashTag: string[]
+  hashTag: string[];
   setHashTag: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-const HashTagList = ({hashTag, setHashTag }: PropsType) => {
+const HashTagList = ({ hashTag, setHashTag }: PropsType) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const enterEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -49,9 +49,10 @@ const HashTagList = ({hashTag, setHashTag }: PropsType) => {
       <input
         className={styles.inputTag}
         type="text"
-        placeholder="# 내용과 관련된 해시태그를 입력후 엔터를 눌러주세요."
+        placeholder="# 내용과 관련된 해시태그를 입력해 주세요"
         ref={inputRef}
         onKeyUp={enterEvent}
+        onBlur={submitEvent}
       />
       {hashTag.length > 0 && (
         <div className={styles.hashTags}>
