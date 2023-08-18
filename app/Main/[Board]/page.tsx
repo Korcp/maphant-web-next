@@ -9,12 +9,17 @@ import { BoardListItem } from "@/lib/type/boardType";
 import BoardAPI from "@/lib/api/BoardAPI";
 import BoardPost from "./BoardPost/BoardPost";
 import styles from "./Borad.module.css";
+import { BoardInfo } from "@/lib/Function/boardFunction";
 
 function Borad() {
   const router = useRouter();
-  let boardName: string = "";
-  let boardType: number = 0;
-  let boardLink: string = "";
+  const boardURL = usePathname();
+  const parts = boardURL.split("/");
+  const boardLink = parts[parts.length - 1];
+  let boardName: string = BoardInfo.getBoardName(boardLink);
+  let boardType: number = BoardInfo.getBoardId(boardLink);
+  if (BoardInfo.URL_Check(boardLink)) return <ErrorPage statusCode={404} />;
+
   const [boardPage, setBoardPage] = useState<number>(1);
   const [onSortMenu, setOnSortMenu] = useState<boolean>(false);
   const sortItems: string[] = ["최신순", "추천순"];
@@ -25,34 +30,6 @@ function Borad() {
   let sort: number = 1;
   if (sortNow === "최신순") sort = 1;
   if (sortNow === "추천순") sort = 2;
-
-  if (usePathname() === "/Main/Free") {
-    boardName = "자유게시판";
-    boardLink = "Free";
-    boardType = 1;
-  } else if (usePathname() === "/Main/Knowledge") {
-    boardName = "지식게시판";
-    boardLink = "Knowledge";
-    boardType = 3;
-  } else if (usePathname() === "/Main/QnA") {
-    boardName = "QnA";
-    boardLink = "QnA";
-    boardType = 2;
-  } else if (usePathname() === "/Main/Promotion") {
-    boardName = "홍보게시판";
-    boardLink = "Promotion";
-    boardType = 5;
-  } else if (usePathname() === "/Main/Career") {
-    boardName = "취업/진로";
-    boardLink = "Career";
-    boardType = 4;
-  } else if (usePathname() === "/Main/Hobby") {
-    boardName = "취미";
-    boardLink = "Hobby";
-    boardType = 6;
-  } else {
-    return <ErrorPage statusCode={404} />;
-  }
 
   const SortItem = () => {
     return (
@@ -77,7 +54,7 @@ function Borad() {
   };
 
   const pageDownEvent = () => {
-   setBoardPage(boardPage - 1);
+    setBoardPage(boardPage - 1);
   };
   const pageUpEvent = () => {
     setBoardPage(boardPage + 1);
@@ -111,7 +88,6 @@ function Borad() {
       <div className={styles.boardName}>{boardName}</div>
 
       <div className={styles.postMenu1}>
-
         <div className={styles.sortBox}>
           <button
             className={styles.sortBtn}
