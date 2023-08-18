@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import BoardAPI from "@/lib/api/BoardAPI";
 import { readPostType } from "@/lib/type/postType";
 import { MdThumbUp } from "react-icons/md";
+import { FiThumbsUp } from "react-icons/fi";
+import Comment from "./Comment";
 import CommentList from "./CommentList";
 
 const page = () => {
@@ -38,7 +40,6 @@ const page = () => {
     const years = days / 365;
     return `${Math.floor(years)}년 전`;
   };
-  console.log(boardName);
 
   if (boardLink === "Free") {
     boardName = "자유게시판";
@@ -63,7 +64,6 @@ const page = () => {
   }
 
   useEffect(() => {
-    console.log("api 실행");
     BoardAPI.readPost(parseInt(boardId))
       .then((res) => {
         setArticle(res.data);
@@ -113,15 +113,20 @@ const page = () => {
         <div className={styles.boardss}>{boardName}</div>
 
         <div className={styles.postman}>
-          <div className={styles.nickname}>{article?.board.userId}</div>
-          <div className={styles.timeset} style={{ fontSize: ".7rem" }}>
-            {article ? detailDate(article?.board.createdAt) : ""}
+          <div className={styles.nickname}>
+            {article && article.board.userId}
+          </div>
 
-            <button className={styles.fix}> 수정</button>
-            <button className={styles.delete} onClick={DeleteEvent}>
-              {" "}
-              삭제{" "}
-            </button>
+          <div className={styles.timeset} style={{ fontSize: ".7rem" }}>
+            {article && detailDate(article.board.createdAt)}
+            {article && article.board.isMyBoard && (
+              <div>
+                <button className={styles.fix}> 수정</button>
+                <button className={styles.delete} onClick={DeleteEvent}>
+                  삭제
+                </button>
+              </div>
+            )}
           </div>
 
           <div className={styles.content}> {boardId}</div>
@@ -130,8 +135,8 @@ const page = () => {
 
           <div>#해시태그</div>
           <div className={styles.likeIcon}>
-            {" "}
-            <MdThumbUp /> {article?.board.likeCnt}
+            {article?.board.isLike ? <MdThumbUp /> : <FiThumbsUp />}
+            {article?.board.likeCnt}
           </div>
           <div className={styles.report}>
             <button className={styles.bTn1} onClick={reportEvent}>
@@ -146,9 +151,19 @@ const page = () => {
           </div>
         </div>
 
-        <div className={styles.messag}>
-          <CommentList boardId={parseInt(boardId)} />
-        </div>
+        {
+          <div className={styles.messag}>
+            <div>댓글 {article && article?.board.commentCnt}</div>
+            <Comment boardId={parseInt(boardId)} />
+            {article && (
+              <CommentList
+                boardId={parseInt(boardId)}
+                isMyArticle={article.board.isMyBoard}
+                commentCnt={article.board.commentCnt}
+              />
+            )}
+          </div>
+        }
       </div>
     </div>
   );

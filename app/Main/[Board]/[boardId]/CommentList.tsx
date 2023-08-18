@@ -1,49 +1,45 @@
-import React, { useRef } from "react";
-
-import styles from "./CommentList.module.css";
-import CommentAPi from "@/lib/api/CommentAPI";
+import React, { useEffect, useState } from "react";
+import CommentAPI from "@/lib/api/CommentAPI";
+import { CommentType } from "@/lib/type/CommentType";
+import CommentDetail from "./CommentDetail";
 
 type PropsType = {
   boardId: number;
+  isMyArticle: boolean;
+  commentCnt: number;
 };
+const commentList = ({ boardId, isMyArticle, commentCnt }: PropsType) => {
+  const [commentList, setCommentList] = useState<CommentType>();
 
-const CommentList = ({ boardId }: PropsType) => {
-  const textRef = useRef<HTMLTextAreaElement>(null);
-  const resizeTextEvent = () => {
-    textRef.current!.style.height = "auto";
-    textRef.current!.style.height = textRef.current!.scrollHeight + "px";
+  const getComment = () => {
+    CommentAPI.readComment(boardId, 1, commentCnt)
+      .then((res) => {
+        setCommentList(res.data);
+      })
+      .catch((err) => console.log(err));
   };
-
-  const commentPostEvent = () => {
-    if (textRef.current?.value) {
-      CommentAPi.commentPost(boardId, textRef.current.value, 0)
-        .then(() => {})
-        .catch((err) => console.log(err));
-    }
-    else {
-      alert("댓글 내용을 입력하세요")
-    }
+  const likeEvent = (id: number) => {
+    CommentAPI.likeComment(id)
+      .then(() => getComment())
+      .catch((err) => console.log(err));
   };
+  useEffect(() => {
+    getComment();
+  }, []);
 
   return (
     <div>
-      <div className={styles.commentInput}>
-        <textarea
-          ref={textRef}
-          className={styles.textBox}
-          placeholder="댓글을 작성하세요"
-          onChange={resizeTextEvent}
-          rows={1}
-        />
-        <button className={styles.commentBtn} onClick={commentPostEvent}>
-          댓글 쓰기
-        </button>
-      </div>
-      <div>
-
-      </div>
+      {commentList &&
+        commentList.list.map((content) => (
+          <CommentDetail
+            content={content}
+            isMyArticle={isMyArticle}
+            likeEvent={likeEvent}
+            key={content.id}
+          />
+        ))}
     </div>
   );
 };
 
-export default CommentList;
+export default commentList;

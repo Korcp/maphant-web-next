@@ -77,7 +77,7 @@ function Borad() {
   };
 
   const pageDownEvent = () => {
-    if (boardPage > 1) setBoardPage(boardPage - 1);
+   setBoardPage(boardPage - 1);
   };
   const pageUpEvent = () => {
     setBoardPage(boardPage + 1);
