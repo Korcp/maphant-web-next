@@ -1,5 +1,5 @@
 type CommentType = {
-  list: CommentDetail[];
+  list: CommentDetailType[];
   pagination: {
     totalRecordCount: number;
     totalPageCount: number;
@@ -10,7 +10,7 @@ type CommentType = {
     existNextPage: Boolean;
   };
 };
-type CommentDetail = {
+type CommentDetailType = {
   id: number;
   user_id: number;
   nickname: string;
@@ -24,4 +24,4 @@ type CommentDetail = {
   time: string;
 };
 
-export type { CommentType, CommentDetail };
+export type { CommentType, CommentDetailType };
