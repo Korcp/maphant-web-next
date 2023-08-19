@@ -36,7 +36,24 @@ export const BoardInfo = {
     else if (boardLink === "Hobby") return "취미를 공유해보세요";
     else return "게시판 주소가 잘못되었습니다.";
   },
-  URL_Check(boardLink: string):boolean {
+  URL_Check(boardLink: string): boolean {
     return !AllowPageLink.includes(boardLink);
+  },
+  GetDetailDate(created_at: string): string {
+    const milliSeconds = +new Date() - +new Date(created_at);
+    const seconds = milliSeconds / 1000;
+    if (seconds < 60) return `방금 전`;
+    const minutes = seconds / 60;
+    if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+    const hours = minutes / 60;
+    if (hours < 24) return `${Math.floor(hours)}시간 전`;
+    const days = hours / 24;
+    if (days < 7) return `${Math.floor(days)}일 전`;
+    const weeks = days / 7;
+    if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+    const months = days / 30;
+    if (months < 12) return `${Math.floor(months)}개월 전`;
+    const years = days / 365;
+    return `${Math.floor(years)}년 전`;
   },
 };
