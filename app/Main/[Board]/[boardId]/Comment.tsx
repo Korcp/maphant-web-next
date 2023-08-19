@@ -5,9 +5,10 @@ import CommentAPi from "@/lib/api/CommentAPI";
 
 type PropsType = {
   boardId: number;
+  getPost: () => void;
 };
 
-const Comment = ({ boardId }: PropsType) => {
+const Comment = ({ boardId, getPost }: PropsType) => {
   const textRef = useRef<HTMLTextAreaElement>(null);
   const resizeTextEvent = () => {
     textRef.current!.style.height = "auto";
@@ -17,7 +18,10 @@ const Comment = ({ boardId }: PropsType) => {
   const commentPostEvent = () => {
     if (textRef.current?.value) {
       CommentAPi.commentPost(boardId, textRef.current.value, 0)
-        .then(() => {})
+        .then(() => {
+          textRef.current!.value = "";
+          getPost();
+        })
         .catch((err) => console.log(err));
     } else {
       alert("댓글 내용을 입력하세요");

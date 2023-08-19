@@ -5,18 +5,22 @@ import styles from "./BoardId.module.css";
 import ErrorPage from "next/error";
 import { useEffect, useState } from "react";
 import BoardAPI from "@/lib/api/BoardAPI";
+import CommentAPI from "@/lib/api/CommentAPI";
 import { readPostType } from "@/lib/type/postType";
 import { MdThumbUp } from "react-icons/md";
 import { FiThumbsUp } from "react-icons/fi";
 import Comment from "./Comment";
 import CommentList from "./CommentList";
+import { CommentType } from "@/lib/type/CommentType";
 
 const page = () => {
   const router = useRouter();
   const boardURL = usePathname();
   const parts = boardURL.split("/");
   const boardId = parts[parts.length - 1];
+
   const [article, setArticle] = useState<readPostType>();
+  const [commentList, setCommentList] = useState<CommentType>();
 
   const boardLink = parts[parts.length - 2];
 
@@ -63,7 +67,16 @@ const page = () => {
     return <ErrorPage statusCode={404} />;
   }
 
-  useEffect(() => {
+  const getComment = () => {
+    if (article) {
+      CommentAPI.readComment(parseInt(boardId), article.board.commentCnt+1)
+        .then((res) => {
+          setCommentList(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+  const getPost = () => {
     BoardAPI.readPost(parseInt(boardId))
       .then((res) => {
         setArticle(res.data);
@@ -71,9 +84,18 @@ const page = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    getPost();
   }, []);
 
+  useEffect(() => {
+    getComment();
+  }, [article]);
+
   console.log(article);
+
 
   const likeUpEvent = () => {
     BoardAPI.postLike(parseInt(boardId))
@@ -89,6 +111,7 @@ const page = () => {
       })
       .catch((err) => alert(err));
   };
+
   const reportEvent = () => {
     BoardAPI.reportPost(parseInt(boardId))
       .then(() => {
@@ -154,12 +177,13 @@ const page = () => {
         {
           <div className={styles.messag}>
             <div>댓글 {article && article?.board.commentCnt}</div>
-            <Comment boardId={parseInt(boardId)} />
-            {article && (
+            <Comment boardId={parseInt(boardId)} getPost={getPost} />
+            {article && commentList && (
               <CommentList
-                boardId={parseInt(boardId)}
+                commentList={commentList.list}
                 isMyArticle={article.board.isMyBoard}
                 commentCnt={article.board.commentCnt}
+                getComment={getComment}
               />
             )}
           </div>
