@@ -19,7 +19,7 @@ function Searchpage() {
     setIsLoading(true);
 
     if (query) {
-      SearchApi.listArticle(query, 1, query, 1, 20)
+      SearchApi.listArticle(query, page, 20)
         .then((res) => {
           setArticles(res.data);
           setMaxPage(Math.floor(res.data.list.length / 20) + 1);

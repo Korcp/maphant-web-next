@@ -38,7 +38,7 @@ function Searchpage() {
     setIsLoading(true);
 
     if (query) {
-      SearchApi.listArticle(query, boardType, query, 1, 20)
+      SearchApi.listArticle(query, page, 20, boardType)
         .then((res) => {
           setArticles(res.data);
           setMaxPage(Math.floor(res.data.list.length / 20) + 1);
@@ -68,7 +68,7 @@ function Searchpage() {
 
       {isLoading ? (
         <div className={styles.searchnone}></div>
-      ) : articles&&articles?.list.length > 0 ? (
+      ) : articles && articles?.list.length > 0 ? (
         <>
           <div className={styles.postMenu}>
             <div className={styles.boardPage}>
@@ -84,9 +84,11 @@ function Searchpage() {
             </div>
           </div>
           <div className={styles.postList}>
-            {articles.list.slice(20 * (page - 1), 20 * page).map((content, i) => (
-              <BoardPost content={content} boardLink={boardLink} key={i} />
-            ))}
+            {articles.list
+              .slice(20 * (page - 1), 20 * page)
+              .map((content, i) => (
+                <BoardPost content={content} boardLink={boardLink} key={i} />
+              ))}
           </div>
           <div className={styles.postPage}>
             <div onClick={pageDownEvent} className={styles.pageIcon}>

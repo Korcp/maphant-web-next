@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import ErrorPage from "next/error";
@@ -9,6 +8,7 @@ import ImgList from "./ImgList";
 import styles from "./newPost.module.css";
 import { PostType } from "@/lib/type/postType";
 import BoardAPI from "@/lib/api/BoardAPI";
+import { BoardInfo } from "@/lib/Function/boardFunction";
 
 type fileListType = {
   imgFile: File[];
@@ -17,6 +17,14 @@ type fileListType = {
 
 function NewPost() {
   const router = useRouter();
+  const boardURL = usePathname();
+  const parts = boardURL.split("/");
+  const boardLink = parts[parts.length - 2];
+  let boardName: string = BoardInfo.getBoardName(boardLink);
+  let boardType: number = BoardInfo.getBoardId(boardLink);
+  let boardText: string = BoardInfo.getBoardText(boardLink);
+  if (BoardInfo.URL_Check(boardLink)) return <ErrorPage statusCode={404} />;
+
   const [postData, setPostData] = useState<PostType>();
   const [hashTag, setHashTag] = useState<string[]>([]);
   const [fileList, setFileList] = useState<fileListType>({
@@ -27,41 +35,6 @@ function NewPost() {
   const [changed, setChanged] = useState<boolean>(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
-
-  const boardURL = usePathname();
-  const parts = boardURL.split("/");
-  const boardLink = parts[parts.length - 2];
-  let boardName: string = "";
-  let boardType: number = 0;
-  let boardText: string = "";
-
-  if (boardLink === "Free") {
-    boardName = "자유게시판";
-    boardText = "자유롭게 글을 작성하세요";
-    boardType = 1;
-  } else if (boardLink === "Knowledge") {
-    boardName = "지식게시판";
-    boardText = "지식을 공유해보세요";
-    boardType = 3;
-  } else if (boardLink === "QnA") {
-    boardName = "QnA";
-    boardText = "궁금한 것을 물어보세요";
-    boardType = 2;
-  } else if (boardLink === "Promotion") {
-    boardName = "홍보게시판";
-    boardText = "여러가지를 홍보해보세요";
-    boardType = 5;
-  } else if (boardLink === "Career") {
-    boardName = "취업/진로";
-    boardText = "우리과의 취업 진로에 대해 글을 쓰세요";
-    boardType = 4;
-  } else if (boardLink === "Hobby") {
-    boardName = "취미";
-    boardText = "취미를 공유해보세요";
-    boardType = 6;
-  } else {
-    return <ErrorPage statusCode={404} />;
-  }
 
   const WritingEvent = () => {
     setChanged(true);
@@ -84,7 +57,7 @@ function NewPost() {
 
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value) {
-      console.log(hashTag)
+      console.log(hashTag);
       setPostData({
         typeId: boardType,
         title: titleRef.current.value,
@@ -158,7 +131,12 @@ function NewPost() {
         ></textarea>
       </div>
       <div className={styles.newPostMenu}>
-        <button className={styles.cancelBtn}>취소</button>
+        <button
+          className={styles.cancelBtn}
+          onClick={() => router.push(`/Main/${boardLink}`)}
+        >
+          취소
+        </button>
         <button className={styles.postBtn} onClick={() => PostEvent()}>
           등록
         </button>

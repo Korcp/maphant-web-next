@@ -30,9 +30,9 @@ type readPostType = {
     reportCnt: number;
     imagesUrl: null;
     isLike: boolean;
+    isMyBoard:boolean;
   };
   answerList: null;
-  isMyArticle: boolean;
 };
 
 export type { PostType, readPostType };

@@ -99,9 +99,7 @@
   color: black;
 }
 @media screen and (max-width: 1480px) {
-  .major {
-    display: none;
-  }
+
 }
 @media (max-width: 1200px) {
   .menuList {
@@ -134,10 +132,6 @@
   .boardList {
     display: none;
   }
-
-  .major {
-    display: none;
-  }
   .navbar {
     display: block;
   }
@@ -146,6 +140,7 @@
   .sizebutton {
     display: none;
   }
+
 }
 .menuList {
   display: flex;
