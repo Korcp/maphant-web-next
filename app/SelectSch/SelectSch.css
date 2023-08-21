@@ -13,12 +13,11 @@ div.Major input {
   border-radius: 10px;
   margin-bottom: 20px;
 }
-div.imgbox img {
-  width: 70px;
-  height: 70px;
-  margin-top: 200px;
-}
 
+image {
+  width: 1px;
+  height: 1px;
+}
 div.Title label {
   font-weight: bold;
 }
