@@ -31,6 +31,7 @@ type readPostType = {
     imagesUrl: null;
     isLike: boolean;
     isMyBoard:boolean;
+    tags: string[];
   };
   answerList: null;
 };

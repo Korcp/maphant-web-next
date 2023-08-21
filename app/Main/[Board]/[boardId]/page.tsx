@@ -9,6 +9,7 @@ import CommentAPI from "@/lib/api/CommentAPI";
 import { readPostType } from "@/lib/type/postType";
 import { MdThumbUp } from "react-icons/md";
 import { FiThumbsUp } from "react-icons/fi";
+import { IoBookmarkOutline, IoBookmarkSharp } from "react-icons/io5";
 import Comment from "./Comment";
 import CommentList from "./CommentList";
 import { CommentType } from "@/lib/type/CommentType";
@@ -18,7 +19,6 @@ const page = () => {
   const boardURL = usePathname();
   const parts = boardURL.split("/");
   const boardId = parts[parts.length - 1];
-
   const [article, setArticle] = useState<readPostType>();
   const [commentList, setCommentList] = useState<CommentType>();
 
@@ -69,7 +69,7 @@ const page = () => {
 
   const getComment = () => {
     if (article) {
-      CommentAPI.readComment(parseInt(boardId), article.board.commentCnt+1)
+      CommentAPI.readComment(parseInt(boardId), article.board.commentCnt + 1)
         .then((res) => {
           setCommentList(res.data);
         })
@@ -96,7 +96,6 @@ const page = () => {
 
   console.log(article);
 
-
   const likeUpEvent = () => {
     BoardAPI.postLike(parseInt(boardId))
       .then(() => {
@@ -113,16 +112,18 @@ const page = () => {
   };
 
   const reportEvent = () => {
-    BoardAPI.reportPost(parseInt(boardId))
-      .then(() => {
-        alert("신고되었습니다");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (window.confirm("정말 신고하시겠습니까?")) {
+      BoardAPI.reportPost(parseInt(boardId))
+        .then(() => {
+          alert("신고되었습니다");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   const DeleteEvent = () => {
-    if (window.confirm("정말 삭제하시겠습니가?")) {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
       BoardAPI.PostDelete(parseInt(boardId)).then(() => {
         alert("글을 삭제되었습니다");
         router.back();
@@ -130,10 +131,31 @@ const page = () => {
     }
   };
 
+  const CollectonEvent = () => {
+    router.push(`/Main/${boardLink}/${boardId}/Update`);
+  };
+
+  const starEvent = () => {
+    BoardAPI.starPost(boardId)
+    .then(() => {
+      alert("스트랩하였습니다")
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  };
+
   return (
     <div className={styles.layout}>
       <div>
-        <div className={styles.boardss}>{boardName}</div>
+        <div className={styles.boardss}>
+          <div className={styles.boardernm}>
+            {boardName}
+            <button className={styles.starPost} onClick={starEvent}>
+              <IoBookmarkOutline/>
+            </button>
+          </div>
+        </div>
 
         <div className={styles.postman}>
           <div className={styles.nickname}>
@@ -144,7 +166,9 @@ const page = () => {
             {article && detailDate(article.board.createdAt)}
             {article && article.board.isMyBoard && (
               <div>
-                <button className={styles.fix}> 수정</button>
+                <button className={styles.fix} onClick={CollectonEvent}>
+                  수정
+                </button>
                 <button className={styles.delete} onClick={DeleteEvent}>
                   삭제
                 </button>
@@ -152,11 +176,16 @@ const page = () => {
             )}
           </div>
 
-          <div className={styles.content}> {boardId}</div>
+          <div className={styles.content}> {article?.board.title}</div>
 
-          {boardId}
+          {article?.board.body}
 
-          <div>#해시태그</div>
+          <div className={styles.hashtag}>
+            {article?.board.tags.map((item: any, index: number) => (
+              <p key={index}>#{item.name}</p>
+            ))}
+          </div>
+
           <div className={styles.likeIcon}>
             {article?.board.isLike ? <MdThumbUp /> : <FiThumbsUp />}
             {article?.board.likeCnt}
@@ -169,7 +198,6 @@ const page = () => {
               글 추천
             </button>
 
-            <button className={styles.bTn4}>글 채택</button>
             <button className={styles.bTn5}>쪽지</button>
           </div>
         </div>

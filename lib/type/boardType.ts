@@ -27,6 +27,7 @@ type BoardDetail = {
   userId?: number;
   tags?: string[];
   body:string;
+  tagNames:string;
 };
 
 export type { BoardListItem , BoardDetail};

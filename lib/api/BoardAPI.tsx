@@ -63,6 +63,9 @@ class BoardAPI {
   static PostDelete(boardId: number) {
     return DeleteAPI<statusResponse>(`/board/${boardId}/`);
   }
+  static starPost(boardId: string){
+    return PostAPI<statusResponse>(`/bookmark/:${boardId}`)
+  }
 }
 
 export default BoardAPI;
