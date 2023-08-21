@@ -75,9 +75,9 @@ export default function Mylist() {
   const handleCommentClick = (comment: any) => {
     console.log(comment);
     // 댓글을 클릭하면 해당 보드의 ID와 타입에 따라 적절한 경로로 이동
-    const boardPath = getBoardPath(comment.board_type);
+    const boardPath = getBoardPath(comment.type);
     if (boardPath) {
-      router.replace(`/Main/${boardPath}/${comment.board_id}`);
+      router.replace(`/Main/${boardPath}/${comment.id}`);
     }
   };
   return (
