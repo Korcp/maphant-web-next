@@ -94,7 +94,7 @@ export default function MyChat() {
                   <p className="comment-type">{comment.board_type}</p>
                   <p className="comment-title">제목: {comment.board_title}</p>
                   <p className="comment-date">작성일자: {comment.created_at}</p>
-                  <p className="comment-body">내용: {comment.body}</p>
+                  <p className="comment-body">내가 쓴 댓글: {comment.body}</p>
                 </div>
               </li>
             ))}
