@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import UserAPI from "@/lib/api/BoardAPI";
 import { useRouter, useSearchParams } from "next/navigation";
-import "./Mylist.css";
+import "./Mylike.css";
 
-export default function Mylist() {
+export default function Mylike() {
   const [mylistData, setMyListData] = useState<
     {
       body: string;
@@ -22,24 +22,15 @@ export default function Mylist() {
   >([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recordSize = 8;
-
-  const searchParams = useSearchParams();
-  const queryParams = new URLSearchParams(searchParams.toString());
-  const id = queryParams.get("id");
-  console.log("id:", id);
-
-  console.log(id);
   useEffect(() => {
-    if (id !== null) {
-      // id 값이 null이 아닐 경우에만 데이터 요청
-      loadMylistData(currentPage, Number(id));
-    }
-  }, [currentPage, id]); // targetUserId는 제거
+    // id 값이 null이 아닐 경우에만 데이터 요청
+    loadMylistData(currentPage);
+  }, [currentPage]); // targetUserId는 제거
 
   //데이터 가져오가
-  const loadMylistData = (page: number, userId: number) => {
+  const loadMylistData = (page: number) => {
     setMyListData([]);
-    UserAPI.MylistLoad(page, recordSize, userId) // userId를 활용
+    UserAPI.MylikeLoad(page, recordSize) // userId를 활용
       .then((response) => {
         console.log(response);
         setMyListData(response.data.list);
@@ -84,12 +75,12 @@ export default function Mylist() {
     <div className="MylistCSS">
       <div className="Myheader">
         <header>
-          <h1>나의 게시글</h1>
+          <h1>좋아요 한 글 목록</h1>
         </header>
       </div>
       <div className="Mylistnav">
         <nav>
-          <label>과끼리에서 직접 작성한 게시물들을 보여줍니다.</label>
+          <label>과끼리에서 좋아요를 한 게시글들을 보여줍니다.</label>
         </nav>
       </div>
 
@@ -108,7 +99,7 @@ export default function Mylist() {
                   <p className="comment-report">
                     신고 수 :{comment.report_cnt}
                   </p>
-                  <p className="comment-cnt">댓글 수 :{comment.comment_cnt}</p>
+                  <p className="comment-cnt">댓글 수: {comment.comment_cnt}</p>
                 </div>
               </li>
             ))}

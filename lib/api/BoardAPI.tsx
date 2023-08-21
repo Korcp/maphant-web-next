@@ -74,6 +74,25 @@ class BoardAPI {
       }>
     >(`/profile/board${queryParams}`);
   }
+  static MylikeLoad(page: number, recordSize: number) {
+    const queryParams = `?page=${page}&recordSize=${recordSize}`;
+    return GetAPI<
+      dataResponse<{
+        list: {
+          body: string;
+          category_id: number;
+          comment_cnt: number;
+          created_at: string;
+          id: number;
+          like_cnt: number;
+          report_cnt: number;
+          title: string;
+          type: string;
+          user_id: number;
+        }[];
+      }>
+    >(`/profile/like${queryParams}`);
+  }
 
   static reportPost(boardId: number) {
     return PostAPI<statusResponse>(

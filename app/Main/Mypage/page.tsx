@@ -248,6 +248,10 @@ export default function Page() {
   const Mylist = () => {
     router.replace(`/Main/Mylist?id=${userData.id}`);
   };
+
+  const Mylike = () => {
+    router.replace(`/Main/Mylike?id=${userData.id}`);
+  };
   return (
     <div className={styles.container}>
       <section className={styles.userInfo}>
@@ -299,7 +303,7 @@ export default function Page() {
           <br />
           <label onClick={MyChat}>작성한 댓글 목록</label>
           <br />
-          <label>좋아요한 글 목록</label>
+          <label onClick={Mylike}>좋아요한 글 목록</label>
         </div>
       </section>
       <section className={styles.etc}>
