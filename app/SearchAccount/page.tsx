@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { ReactElement } from "react";
 
-import AppImg from "./img/Icon.png";
+import AppImg from "./img/IconImg.png";
 import classes from "./SearchAccount.module.css";
 
 export default function SearchAccount(): ReactElement {

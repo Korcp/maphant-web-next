@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactElement, useState } from "react";
 
-import IconImg from "./img/Icon.png";
+import IconImg from "./img/IconImg.png";
 
 export default function EmailCheck(): ReactElement {
   const [email, setEmail] = useState("");
