@@ -50,6 +50,7 @@ class BoardAPI {
           nickname: string;
           created_at: string;
           id: number;
+          time: string;
         }[];
       }>
     >(`/profile/comment${queryParams}`);
