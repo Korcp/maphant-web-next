@@ -1,5 +1,5 @@
 "use client";
-import IconImg from "app/img/icon.png";
+import IconImg from "./img/IconImg.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactElement, useState } from "react";
