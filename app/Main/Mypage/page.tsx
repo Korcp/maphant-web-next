@@ -241,9 +241,12 @@ export default function Page() {
   };
 
   // 작성한 댓글 목록
-
   const MyChat = () => {
-    router.replace(`/Main/MyChat?=${userData.id}`);
+    router.replace(`/Main/MyChat?id=${userData.id}`);
+  };
+
+  const Mylist = () => {
+    router.replace(`/Main/Mylist?id=${userData.id}`);
   };
   return (
     <div className={styles.container}>
@@ -290,11 +293,13 @@ export default function Page() {
       <section className={styles.communitySettings}>
         <h2>커뮤니티 </h2>
         <div className={styles.list}>
-          <label>내 게시판</label>
+          <label onClick={Mylist}>내 게시판</label>
           <br />
           <label>즐겨찾기 한 게시판</label>
           <br />
           <label onClick={MyChat}>작성한 댓글 목록</label>
+          <br />
+          <label>좋아요한 글 목록</label>
         </div>
       </section>
       <section className={styles.etc}>

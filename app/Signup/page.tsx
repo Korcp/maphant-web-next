@@ -341,7 +341,7 @@ export default function Signup(): ReactElement {
               id="name"
               className="inputField"
               type="text"
-              placeholder="아름 형식에 맞게 이름을 작성하여주세요"
+              placeholder="이름 형식에 맞게 이름을 작성하여주세요"
               value={name}
               onChange={onName}
               required

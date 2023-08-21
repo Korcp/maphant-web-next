@@ -37,8 +37,8 @@ class BoardAPI {
     return PostAPI<statusResponse>(`/board/like/${boardId}/`);
   }
 
-  static MyChatLoad(page: number, recordSize: number) {
-    const queryParams = `?page=${page}&recordSize=${recordSize}`;
+  static MyChatLoad(page: number, recordSize: number, targetUserId: number) {
+    const queryParams = `?page=${page}&recordSize=${recordSize}&targetUserId=${targetUserId}`;
     return GetAPI<
       dataResponse<{
         list: {
@@ -53,6 +53,26 @@ class BoardAPI {
         }[];
       }>
     >(`/profile/comment${queryParams}`);
+  }
+
+  static MylistLoad(page: number, recordSize: number, targetUserId: number) {
+    const queryParams = `?page=${page}&recordSize=${recordSize}&targetUserId=${targetUserId}`;
+    return GetAPI<
+      dataResponse<{
+        list: {
+          body: string;
+          category_id: number;
+          comment_cnt: number;
+          created_at: string;
+          id: number;
+          like_cnt: number;
+          report_cnt: number;
+          title: string;
+          type: string;
+          user_id: number;
+        }[];
+      }>
+    >(`/profile/board${queryParams}`);
   }
 
   static reportPost(boardId: number) {
