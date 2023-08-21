@@ -13,11 +13,11 @@ div.Major input {
   border-radius: 10px;
   margin-bottom: 20px;
 }
-
-image {
-  width: 1px;
-  height: 1px;
+.ImageSch {
+  width: 7%;
+  height: 7%;
 }
+
 div.Title label {
   font-weight: bold;
 }
@@ -51,4 +51,9 @@ select {
   border: none;
   color: white;
   margin-bottom: 10%;
+}
+
+.outer {
+  margin-top: 13%;
+  margin-left: 3%;
 }

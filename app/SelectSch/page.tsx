@@ -84,7 +84,7 @@ export default function SelectSch(): ReactElement {
     <div className="outer">
       <nav className="margin">
         <div className="imgbox">
-          <Image src={IconImg} alt="" />
+          <Image src={IconImg} className="ImageSch" alt="" />
           <label>
             <b>학과 선택</b>
           </label>

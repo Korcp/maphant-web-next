@@ -53,3 +53,13 @@
 span.Timer {
   margin-left: 1%;
 }
+
+.emailImage {
+  width: 7%;
+  height: auto;
+}
+
+.EmailTitle {
+  font-size: x-large;
+  font-weight: bold;
+}

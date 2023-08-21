@@ -5,11 +5,7 @@
   flex: 1;
   /* background-color: antiquewhite; */
 }
-.image {
-  display: inline;
-  width: 7%;
-  height: 7%;
-}
+
 .header {
   font-size: 1.5rem;
   font-weight: bolder;
@@ -55,4 +51,8 @@
 }
 .search:hover {
   background-color: rgb(95, 178, 242);
+}
+.image {
+  width: 7%;
+  height: 7%;
 }

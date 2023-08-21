@@ -11,7 +11,7 @@ export default function SearchAccount(): ReactElement {
   return (
     <div>
       <div className={classes.outer}>
-        <div className={classes.appImg}>
+        <div className={classes.Img}>
           <p>
             <Image src={AppImg} className={classes.image} alt={""} />
           </p>
