@@ -57,6 +57,8 @@ export default function MyChat() {
         return "Career";
       case "취미 게시판":
         return "Hobby";
+      case "Q&A 게시판":
+        return "QnA";
       default:
         return "";
     }
