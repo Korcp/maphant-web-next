@@ -41,11 +41,12 @@ export default function Page() {
 
   console.log("나의 정보 :", myinfo);
   console.log("나의 이미지 :", myimg);
-  const handleImageChange = (files: any) => {
+  const handleImageChange = (files: FileList) => {
     if (files.length > 0) {
-      // 선택한 파일을 상태에 저장
       const selectedFile = files[0];
       setMyimg(selectedFile);
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setMyImageUrl(imageUrl);
     }
   };
   const changemyinfo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,7 +186,22 @@ export default function Page() {
       alert("카테고리 삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
+  const [myImageUrl, setMyImageUrl] = useState<string | null>(null);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  // ...
 
+  useEffect(() => {
+    if (myimg instanceof Blob) {
+      const imageUrl = URL.createObjectURL(myimg);
+
+      const img = new Image();
+      img.src = imageUrl;
+      img.onload = () => {
+        setIsImageLoaded(true);
+        setMyImageUrl(imageUrl);
+      };
+    }
+  }, [myimg]);
   //전공계열,학과
   const [major, setmajor] = useState("");
   const [depart, setdepart] = useState("");
@@ -280,11 +296,6 @@ export default function Page() {
   };
 
   const changeimg = () => {
-    if (!myimg) {
-      console.log("프로필 이미지가 선택되지 않았습니다.");
-      return;
-    }
-
     let fd = new FormData();
     fd.append("file", myimg);
 
@@ -308,7 +319,11 @@ export default function Page() {
         <h2 className={styles.sectionTitle}>내 정보</h2>
         <div className={styles.userDetails}>
           <section className={styles.profileSection}>
-            <img alt="User Profile" className={styles.profileImage} />
+            <img
+              src={`${myimg}?v=${Math.random()}`} // 새로운 랜덤 값을 쿼리 파라미터로 추가
+              alt="User Profile"
+              className={styles.profileImage}
+            />
             <div className={styles.userInfomation}>
               {userData && (
                 <>
@@ -425,7 +440,7 @@ export default function Page() {
                 <h3>프로필 사진 변경</h3>
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/*" // This attribute ensures only image files can be selected
                   onChange={(e) => handleImageChange(e.target.files)}
                 />
                 <button className={styles.mydatafix} onClick={changeimg}>
