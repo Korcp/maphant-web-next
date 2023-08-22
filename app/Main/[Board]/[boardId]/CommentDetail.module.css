@@ -8,13 +8,16 @@
 }
 
 .textBox {
-  width: 45rem;
+  width: 80%;
   font-size: 1rem;
   padding: 0.5rem;
   resize: none;
   border: 0;
   border: 1px solid #ababab;
   border-radius: 10px;
+}
+.textBox.reply{
+  width: 33rem;
 }
 .textBox:focus {
   outline: none;
@@ -79,6 +82,26 @@
   max-width: 44rem;
   padding: 0.5rem;
 }
+.replyBtn{
+  font-size: .75rem;
+  max-width: max-content;
+  opacity: .7;
+}
+.replyBtn:hover{
+  cursor: pointer;
+  opacity: 1;
+}
+.replyBox{
+  display: flex;
+  margin-bottom: 1rem;
+  gap: 1rem
+}
+.replyLine{
+  margin-left: .5rem;
+}
+.replyInfo{
+  white-space: nowrap;
+}
 .btnbox {
   display: flex;
   flex-direction: column;
@@ -114,7 +137,7 @@
   display: flex;
   gap: 0.2rem;
   overflow: hidden;
-  transition: max-width 0.3s ease-out;
+  transition: max-width 0.3s ease;
 }
 .btn {
   background: white;
@@ -124,6 +147,16 @@
   height: 1.5rem;
   white-space: nowrap;
 }
+.report{
+  color: red;
+  background:white;
+  border: 0;
+  width: 2.5rem;
+  height: 1.5rem;
+  white-space: nowrap;
+  border-radius: 3px;
+}
+
 .moreBtn {
   font-size: 1.5rem;
 }

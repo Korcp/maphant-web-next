@@ -4,7 +4,6 @@ type PostType = {
   title: string;
   body: string;
   isHide: number;
-  isComplete: number;
   isAnonymous: number;
   imageUrl? : string[];
   tagNames?: string[];
@@ -28,10 +27,11 @@ type readPostType = {
     commentCnt: number;
     likeCnt: number;
     reportCnt: number;
-    imagesUrl: null;
+    imagesUrl?: string[];
     isLike: boolean;
     isMyBoard:boolean;
     tags: string[];
+    userNickname:string;
   };
   answerList: null;
 };

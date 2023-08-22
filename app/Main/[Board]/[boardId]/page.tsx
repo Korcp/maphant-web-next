@@ -13,6 +13,8 @@ import { IoBookmarkOutline, IoBookmarkSharp } from "react-icons/io5";
 import Comment from "./Comment";
 import CommentList from "./CommentList";
 import { CommentType } from "@/lib/type/CommentType";
+import { BoardInfo } from "@/lib/Function/boardFunction";
+import Image from "next/image";
 
 const page = () => {
   const router = useRouter();
@@ -24,52 +26,13 @@ const page = () => {
 
   const boardLink = parts[parts.length - 2];
 
-  let boardName: string = "";
-  let boardType: number = 0;
-
-  const detailDate = (a: string) => {
-    const milliSeconds = +new Date() - +new Date(a);
-    const seconds = milliSeconds / 1000;
-    if (seconds < 60) return `방금 전`;
-    const minutes = seconds / 60;
-    if (minutes < 60) return `${Math.floor(minutes)}분 전`;
-    const hours = minutes / 60;
-    if (hours < 24) return `${Math.floor(hours)}시간 전`;
-    const days = hours / 24;
-    if (days < 7) return `${Math.floor(days)}일 전`;
-    const weeks = days / 7;
-    if (weeks < 5) return `${Math.floor(weeks)}주 전`;
-    const months = days / 30;
-    if (months < 12) return `${Math.floor(months)}개월 전`;
-    const years = days / 365;
-    return `${Math.floor(years)}년 전`;
-  };
-
-  if (boardLink === "Free") {
-    boardName = "자유게시판";
-    boardType = 1;
-  } else if (boardLink === "Knowledge") {
-    boardName = "지식게시판";
-    boardType = 3;
-  } else if (boardLink === "QnA") {
-    boardName = "QnA";
-    boardType = 2;
-  } else if (boardLink === "Promotion") {
-    boardName = "홍보게시판";
-    boardType = 5;
-  } else if (boardLink === "Career") {
-    boardName = "취업/진로";
-    boardType = 4;
-  } else if (boardLink === "Hobby") {
-    boardName = "취미";
-    boardType = 6;
-  } else {
-    return <ErrorPage statusCode={404} />;
-  }
+  let boardName: string = BoardInfo.getBoardName(boardLink);
+  let boardType: number = BoardInfo.getBoardId(boardLink);
+  if (BoardInfo.URL_Check(boardLink)) return <ErrorPage statusCode={404} />;
 
   const getComment = () => {
     if (article) {
-      CommentAPI.readComment(parseInt(boardId), article.board.commentCnt + 1)
+      CommentAPI.readComment(parseInt(boardId), article.board.commentCnt)
         .then((res) => {
           setCommentList(res.data);
         })
@@ -137,12 +100,12 @@ const page = () => {
 
   const starEvent = () => {
     BoardAPI.starPost(boardId)
-    .then(() => {
-      alert("스트랩하였습니다")
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .then(() => {
+        alert("스트랩하였습니다");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -152,7 +115,7 @@ const page = () => {
           <div className={styles.boardernm}>
             {boardName}
             <button className={styles.starPost} onClick={starEvent}>
-              <IoBookmarkOutline/>
+              <IoBookmarkOutline />
             </button>
           </div>
         </div>
@@ -163,7 +126,7 @@ const page = () => {
           </div>
 
           <div className={styles.timeset} style={{ fontSize: ".7rem" }}>
-            {article && detailDate(article.board.createdAt)}
+            {article && BoardInfo.GetDetailDate(article.board.createdAt)}
             {article && article.board.isMyBoard && (
               <div>
                 <button className={styles.fix} onClick={CollectonEvent}>
@@ -204,7 +167,7 @@ const page = () => {
 
         {
           <div className={styles.messag}>
-            <div>댓글 {article && article?.board.commentCnt}</div>
+            <h3>댓글 {article && article?.board.commentCnt}</h3>
             <Comment boardId={parseInt(boardId)} getPost={getPost} />
             {article && commentList && (
               <CommentList

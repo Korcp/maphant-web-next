@@ -103,7 +103,7 @@ class BoardAPI {
     return DeleteAPI<statusResponse>(`/board/${boardId}/`);
   }
   static starPost(boardId: string){
-    return PostAPI<statusResponse>(`/bookmark/:${boardId}`)
+    return PostAPI<statusResponse>(`/bookmark/${boardId}`)
   }
 }
 
