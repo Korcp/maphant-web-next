@@ -3,7 +3,7 @@ import { sha512 } from "js-sha512";
 import UserStorage from "../storage/UserStorage";
 import constraints from "./constraints";
 
-type Method = "GET" | "POST" | "PUT" | "DELETE";
+type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 type statusResponse = {
   success: boolean;
   errors?: string;
@@ -136,6 +136,12 @@ function DeleteAPI<T extends statusResponse = dataResponse>(
 ) {
   return fetchAPI<T>("DELETE", url, body);
 }
+function PatchAPI<T extends statusResponse = dataResponse>(
+  url: string,
+  body?: object
+) {
+  return fetchAPI<T>("PATCH", url, body);
+}
 
 export type { dataResponse, statusResponse };
-export { DeleteAPI, GetAPI, PostAPI, PutAPI };
+export { DeleteAPI, GetAPI, PostAPI, PutAPI, PatchAPI };

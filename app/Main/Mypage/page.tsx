@@ -26,6 +26,13 @@ export default function Page() {
     setShowNewPw(!showNewPw);
   };
 
+  // 현재 열려 있는 페이지를 추적하는 상태
+  const [activePage, setActivePage] = useState("myInfo"); // 초기값은 "myInfo"로 설정
+
+  // 페이지 전환 함수
+  const changePage = (page: any) => {
+    setActivePage(page);
+  };
   //체크 박스 선택 및 삭제
   const [selectcg, setSelcetCg] = useState<number[]>([]);
 
@@ -56,6 +63,7 @@ export default function Page() {
     setdepart("");
   };
 
+  //내정보 수정 다른상태
   //로그아웃 기능구현
   const loadUserData = async () => {
     try {
@@ -221,8 +229,6 @@ export default function Page() {
   };
 
   //회원탈퇴
-
-  const [delstate, delsetState] = useState(false);
   const IDDelete = async () => {
     const delstate = confirm(
       `회원탈퇴하시겠습니끼? 
@@ -238,6 +244,27 @@ export default function Page() {
     } else {
       alert("탈퇴가 취소되었습니다.");
     }
+  };
+  // 상단에 추가
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  // 이미지 업로드 처리 함수
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setProfileImage(imageUrl);
+    }
+  };
+
+  // 이미지 제거 처리 함수
+  const handleImageClear = () => {
+    setProfileImage(null);
+  };
+
+  //내 정보 수정
+  const changeimg = () => {
+    UserAPI.UserProfile("바보", "바다").then((res) => console.log(res));
   };
 
   // 작성한 댓글 목록
@@ -290,8 +317,6 @@ export default function Page() {
           <label onClick={handlepwopen}>비밀번호 수정</label>
           <br />
           <label onClick={handlemycgopen}>계열 학과 수정</label>
-          <br />
-          <label>소개 글 수정</label>
         </div>
       </section>
       <section className={styles.communitySettings}>
@@ -321,36 +346,92 @@ export default function Page() {
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <h2>내 정보 수정</h2>
-            <label>닉네임만 수정 가능합니다.</label>
-            <br />
-            <input
-              className={styles.mydata}
-              type="text"
-              placeholder="이름"
-              value={userData.name}
-              readOnly
-            />
-            <input
-              className={styles.mydata}
-              type="text"
-              placeholder="닉네임"
-              value={newNickname}
-              onChange={(e) => NicknameChange(e.target.value)}
-            />
-            <input
-              className={styles.mydata}
-              type="text"
-              defaultValue={userData.studentNo}
-              readOnly
-            />
-            <br />
-            <button
-              className={styles.mydatafix}
-              type="submit"
-              onClick={handleNicknameUpdate}
-            >
-              수정하기
-            </button>
+            <div className={styles.pageButtons}>
+              <button
+                className={activePage === "myInfo" ? styles.activePage : ""}
+                onClick={() => changePage("myInfo")}
+              >
+                내 정보
+              </button>
+              <button
+                className={
+                  activePage === "profileEdit" ? styles.activePage : ""
+                }
+                onClick={() => changePage("profileEdit")}
+              >
+                프로필 수정
+              </button>
+              <button
+                className={activePage === "introEdit" ? styles.activePage : ""}
+                onClick={() => changePage("introEdit")}
+              >
+                소개 글 수정
+              </button>
+            </div>
+            위의 버튼을 클릭하여 원하는 정보를 수정할수있습니다.
+            {activePage === "myInfo" && (
+              <div className={styles.pageContent}>
+                <input
+                  className={styles.mydata}
+                  type="text"
+                  placeholder="이름"
+                  value={userData.name}
+                  readOnly
+                />
+                <input
+                  className={styles.mydata}
+                  type="text"
+                  placeholder="닉네임"
+                  value={newNickname}
+                  onChange={(e) => NicknameChange(e.target.value)}
+                />
+                <input
+                  className={styles.mydata}
+                  type="text"
+                  defaultValue={userData.studentNo}
+                  readOnly
+                />
+                <br />
+                <button
+                  className={styles.mydatafix}
+                  type="submit"
+                  onClick={handleNicknameUpdate}
+                >
+                  수정하기
+                </button>
+              </div>
+            )}
+            {activePage === "profileEdit" && (
+              <div className={styles.pageContent}>
+                {activePage === "profileEdit" && (
+                  <div className={styles.pageContent}>
+                    <h3>프로필 사진 변경</h3>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                    />
+                    {profileImage && (
+                      <div>
+                        <img
+                          src={profileImage}
+                          alt="프로필 사진"
+                          style={{ maxWidth: "100px" }}
+                        />
+                        <button onClick={handleImageClear}>이미지 제거</button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                <button onClick={changeimg}>수정하기</button>
+              </div>
+            )}
+            {activePage === "introEdit" && (
+              <div className={styles.pageContent}>
+                {/* 소개 글 수정 페이지 내용 */}
+              </div>
+            )}
+            {/* 공통적으로 사용되는 닫기 버튼 */}
             <button className={styles.closebutton} onClick={handlemydataclose}>
               닫기
             </button>
