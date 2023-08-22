@@ -66,11 +66,23 @@ class UserAPI {
     return DeleteAPI<statusResponse>("/user");
   }
 
-  static UserProfile(nickname: string, body: string) {
+  static UserProfilebody(nickname: string, body: string, file: string) {
     return PatchAPI<statusResponse>("/profile", {
       nickname,
       body,
+      file,
     });
+  }
+
+  static UserProfileimg(file: string) {
+    return PatchAPI<statusResponse>("/profile", {
+      file,
+    });
+  }
+
+  static GETUserProfile(targetUserId: number) {
+    const queryParams = `?targetUserId=${targetUserId}`;
+    return GetAPI<statusResponse>(`/profile?${targetUserId}`);
   }
 }
 

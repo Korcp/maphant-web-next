@@ -32,6 +32,8 @@ type readPostType = {
     isLike: boolean;
     isMyBoard:boolean;
     tags: string[];
+    userNickname: string;
+    isBookmarked: boolean;
   };
   answerList: null;
 };

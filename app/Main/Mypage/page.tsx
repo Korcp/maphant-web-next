@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 
 import styles from "./Mypage.module.css";
 import { useRouter } from "next/navigation";
 import UserStorage from "@/lib/storage/UserStorage";
 import UserAPI from "@/lib/api/UserAPI";
-import { text } from "stream/consumers";
 
 export default function Page() {
   const router = useRouter();
@@ -26,6 +25,31 @@ export default function Page() {
     setShowNewPw(!showNewPw);
   };
 
+  //내소개 정보및 이미지받기
+  const [myinfo, setMyinfo] = useState("");
+  const [myimg, setMyimg] = useState(null);
+
+  //profile정보 받아오기
+
+  useEffect(() => {
+    UserAPI.GETUserProfile(userData.id).then((res) => {
+      setMyinfo(res.data.body);
+      setMyimg(res.data.profileImg);
+    });
+  }, [userData.id]);
+
+  console.log("나의 정보 :", myinfo);
+  console.log("나의 이미지 :", myimg);
+  const handleImageChange = (files: any) => {
+    if (files.length > 0) {
+      // 선택한 파일을 상태에 저장
+      const selectedFile = files[0];
+      setMyimg(selectedFile);
+    }
+  };
+  const changemyinfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMyinfo(e.target.value);
+  };
   // 현재 열려 있는 페이지를 추적하는 상태
   const [activePage, setActivePage] = useState("myInfo"); // 초기값은 "myInfo"로 설정
 
@@ -245,28 +269,46 @@ export default function Page() {
       alert("탈퇴가 취소되었습니다.");
     }
   };
-  // 상단에 추가
-  const [profileImage, setProfileImage] = useState<string | null>(null);
-
-  // 이미지 업로드 처리 함수
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setProfileImage(imageUrl);
-    }
-  };
-
-  // 이미지 제거 처리 함수
-  const handleImageClear = () => {
-    setProfileImage(null);
-  };
 
   //내 정보 수정
-  const changeimg = () => {
-    UserAPI.UserProfile("바보", "바다").then((res) => console.log(res));
-  };
+  const changebody = () => {
+    if (!myimg) {
+      console.log("프로필 이미지를 선택해주세요.");
+      return;
+    }
 
+    UserAPI.UserProfilebody(userData.nickname, myinfo, myimg)
+      .then((res) => {
+        console.log("내 정보 수정 결과:", res);
+        // API 호출이 성공한 경우에 수행할 작업 추가
+      })
+      .catch((err) => {
+        console.error("내 정보 수정 실패:", err);
+        // 실패 시 에러 처리
+      });
+  };
+  const changeimg = () => {
+    if (!myimg) {
+      console.log("프로필 이미지가 선택되지 않았습니다.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("profileImage", myimg);
+
+    // 프로필 이미지 수정 API 호출
+    UserAPI.UserProfileimg(userData.nickname, myinfo, myimg)
+      .then((res) => {
+        console.log("프로필 이미지 수정 결과:", res);
+        // 프로필 이미지 수정이 성공적으로 완료되었을 때 수행할 작업 추가
+        // 예를 들어 사용자 데이터를 다시 불러와 이미지를 업데이트하거나,
+        // 화면을 갱신하는 등의 작업을 수행할 수 있습니다.
+      })
+      .catch((err) => {
+        console.error("프로필 이미지 수정 실패:", err);
+        // 실패 시 에러 처리
+      });
+  };
   // 작성한 댓글 목록
   const MyChat = () => {
     router.replace(`/Main/MyChat?id=${userData.id}`);
@@ -286,7 +328,7 @@ export default function Page() {
         <div className={styles.userDetails}>
           <section className={styles.profileSection}>
             <img
-              src="user-profile.jpg"
+              src={myimg ? URL.createObjectURL(myimg) : "user-profile.jpg"}
               alt="User Profile"
               className={styles.profileImage}
             />
@@ -403,32 +445,30 @@ export default function Page() {
             )}
             {activePage === "profileEdit" && (
               <div className={styles.pageContent}>
-                {activePage === "profileEdit" && (
-                  <div className={styles.pageContent}>
-                    <h3>프로필 사진 변경</h3>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                    />
-                    {profileImage && (
-                      <div>
-                        <img
-                          src={profileImage}
-                          alt="프로필 사진"
-                          style={{ maxWidth: "100px" }}
-                        />
-                        <button onClick={handleImageClear}>이미지 제거</button>
-                      </div>
-                    )}
-                  </div>
-                )}
-                <button onClick={changeimg}>수정하기</button>
+                <h3>프로필 사진 변경</h3>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageChange(e.target.files)}
+                />
+                <button className={styles.mydatafix} onClick={changeimg}>
+                  수정하기
+                </button>
               </div>
             )}
             {activePage === "introEdit" && (
               <div className={styles.pageContent}>
-                {/* 소개 글 수정 페이지 내용 */}
+                <h3>소개 글 수정</h3>
+                <textarea value={myinfo} onChange={changemyinfo}></textarea>
+                <button
+                  className={styles.mydatafix}
+                  type="submit"
+                  onClick={() => {
+                    changebody(); // myinfo 수정을 서버로 보냄
+                  }}
+                >
+                  수정하기
+                </button>
               </div>
             )}
             {/* 공통적으로 사용되는 닫기 버튼 */}
