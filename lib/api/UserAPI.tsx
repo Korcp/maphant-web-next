@@ -66,11 +66,9 @@ class UserAPI {
     return DeleteAPI<statusResponse>("/user");
   }
 
-  static UserProfilebody(nickname: string, body: string, file: string) {
+  static UserProfilebody(body: string) {
     return PatchAPI<statusResponse>("/profile", {
-      nickname,
       body,
-      file,
     });
   }
 

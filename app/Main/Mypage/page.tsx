@@ -6,6 +6,7 @@ import styles from "./Mypage.module.css";
 import { useRouter } from "next/navigation";
 import UserStorage from "@/lib/storage/UserStorage";
 import UserAPI from "@/lib/api/UserAPI";
+import { uploadAPI } from "@/lib/api/fetchAPI";
 
 export default function Page() {
   const router = useRouter();
@@ -272,42 +273,22 @@ export default function Page() {
 
   //내 정보 수정
   const changebody = () => {
-    if (!myimg) {
-      console.log("프로필 이미지를 선택해주세요.");
-      return;
-    }
+    let fd = new FormData();
+    fd.append("body", myinfo);
 
-    UserAPI.UserProfilebody(userData.nickname, myinfo, myimg)
-      .then((res) => {
-        console.log("내 정보 수정 결과:", res);
-        // API 호출이 성공한 경우에 수행할 작업 추가
-      })
-      .catch((err) => {
-        console.error("내 정보 수정 실패:", err);
-        // 실패 시 에러 처리
-      });
+    uploadAPI("PATCH", "/profile", fd).then((res) => console.log(res));
   };
+
   const changeimg = () => {
     if (!myimg) {
       console.log("프로필 이미지가 선택되지 않았습니다.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("profileImage", myimg);
+    let fd = new FormData();
+    fd.append("file", myimg);
 
-    // 프로필 이미지 수정 API 호출
-    UserAPI.UserProfileimg(userData.nickname, myinfo, myimg)
-      .then((res) => {
-        console.log("프로필 이미지 수정 결과:", res);
-        // 프로필 이미지 수정이 성공적으로 완료되었을 때 수행할 작업 추가
-        // 예를 들어 사용자 데이터를 다시 불러와 이미지를 업데이트하거나,
-        // 화면을 갱신하는 등의 작업을 수행할 수 있습니다.
-      })
-      .catch((err) => {
-        console.error("프로필 이미지 수정 실패:", err);
-        // 실패 시 에러 처리
-      });
+    uploadAPI("PATCH", "/profile", fd).then((res) => console.log(res));
   };
   // 작성한 댓글 목록
   const MyChat = () => {
@@ -327,11 +308,7 @@ export default function Page() {
         <h2 className={styles.sectionTitle}>내 정보</h2>
         <div className={styles.userDetails}>
           <section className={styles.profileSection}>
-            <img
-              src={myimg ? URL.createObjectURL(myimg) : "user-profile.jpg"}
-              alt="User Profile"
-              className={styles.profileImage}
-            />
+            <img alt="User Profile" className={styles.profileImage} />
             <div className={styles.userInfomation}>
               {userData && (
                 <>
@@ -346,9 +323,9 @@ export default function Page() {
                   ))}
                 </>
               )}
+              <label>소개글 :{myinfo}</label>
             </div>
           </section>
-          <label>소개글 :</label>
         </div>
       </section>
       <section className={styles.accountSettings}>
