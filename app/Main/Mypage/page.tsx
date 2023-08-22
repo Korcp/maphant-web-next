@@ -318,6 +318,10 @@ export default function Page() {
     router.replace(`/Main/Mylike?id=${userData.id}`);
   };
 
+  const BookMark = () => {
+    router.replace(`Main/BookMark`);
+  };
+
   //소개글
   // 소개글의 최대 글자수 설정
   const maxChars = 100;
@@ -385,7 +389,7 @@ export default function Page() {
         <div className={styles.list}>
           <label onClick={Mylist}>내 게시판</label>
           <br />
-          <label>즐겨찾기 한 게시판</label>
+          <label onClick={BookMark}>내 북마크</label>
           <br />
           <label onClick={MyChat}>작성한 댓글 목록</label>
           <br />
