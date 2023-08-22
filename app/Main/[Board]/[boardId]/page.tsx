@@ -7,14 +7,14 @@ import { useEffect, useState } from "react";
 import BoardAPI from "@/lib/api/BoardAPI";
 import CommentAPI from "@/lib/api/CommentAPI";
 import { readPostType } from "@/lib/type/postType";
-import { MdThumbUp } from "react-icons/md";
+import { MdThumbUp, MdOutlineComment } from "react-icons/md";
 import { FiThumbsUp } from "react-icons/fi";
+import { AiTwotoneAlert } from "react-icons/ai";
 import { IoBookmarkOutline, IoBookmarkSharp } from "react-icons/io5";
 import Comment from "./Comment";
 import CommentList from "./CommentList";
 import { CommentType } from "@/lib/type/CommentType";
 import { BoardInfo } from "@/lib/Function/boardFunction";
-import Image from "next/image";
 
 const page = () => {
   const router = useRouter();
@@ -28,6 +28,7 @@ const page = () => {
 
   let boardName: string = BoardInfo.getBoardName(boardLink);
   let boardType: number = BoardInfo.getBoardId(boardLink);
+
   if (BoardInfo.URL_Check(boardLink)) return <ErrorPage statusCode={404} />;
 
   const getComment = () => {
@@ -80,9 +81,7 @@ const page = () => {
         .then(() => {
           alert("신고되었습니다");
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => alert(err));
     }
   };
   const DeleteEvent = () => {
@@ -101,23 +100,17 @@ const page = () => {
   const starEvent = () => {
     BoardAPI.starPost(boardId)
       .then(() => {
-        alert("스트랩하였습니다");
+        alert("북마크 했습니다");
+        getComment();
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => alert("이미 북마크된 게시물입니다"));
   };
 
   return (
     <div className={styles.layout}>
       <div>
         <div className={styles.boardss}>
-          <div className={styles.boardernm}>
-            {boardName}
-            <button className={styles.starPost} onClick={starEvent}>
-              <IoBookmarkOutline />
-            </button>
-          </div>
+          <div className={styles.boardernm}>{boardName}</div>
         </div>
 
         <div className={styles.postman}>
@@ -126,48 +119,60 @@ const page = () => {
           </div>
 
           <div className={styles.timeset} style={{ fontSize: ".7rem" }}>
-            {article && BoardInfo.GetDetailDate(article.board.createdAt)}
-            {article && article.board.isMyBoard && (
-              <div>
-                <button className={styles.fix} onClick={CollectonEvent}>
-                  수정
-                </button>
-                <button className={styles.delete} onClick={DeleteEvent}>
-                  삭제
-                </button>
+            <div className={styles.content}>
+              {article?.board.title}
+              <div className={styles.nicktime}>
+                <h4> {article?.board.userNickname}</h4>
+                <p>
+                  {article && BoardInfo.GetDetailDate(article.board.createdAt)}
+                </p>
               </div>
-            )}
+            </div>
+
+            <div>
+              <button className={styles.bTn2} onClick={likeUpEvent}>
+                {article?.board.isLike ? <MdThumbUp /> : <FiThumbsUp />}
+              </button>
+              <button className={styles.starPost} onClick={starEvent} >
+                {article?.board.isBookmarked ? (
+                  <IoBookmarkSharp />
+                ) : (
+                  <IoBookmarkOutline />
+                )}
+              </button>
+              <button className={styles.bTn1} onClick={reportEvent} disabled={article?.board.isMyBoard}>
+                <AiTwotoneAlert />
+              </button>
+              {article && article.board.isMyBoard && (
+                <div>
+                  <button className={styles.fix} onClick={CollectonEvent}>
+                    수정
+                  </button>
+                  <button className={styles.delete} onClick={DeleteEvent}>
+                    삭제
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-
-          <div className={styles.content}> {article?.board.title}</div>
-
-          {article?.board.body}
+          <div className={styles.boardbody}>{article?.board.body}</div>
 
           <div className={styles.hashtag}>
             {article?.board.tags.map((item: any, index: number) => (
               <p key={index}>#{item.name}</p>
             ))}
           </div>
-
-          <div className={styles.likeIcon}>
-            {article?.board.isLike ? <MdThumbUp /> : <FiThumbsUp />}
-            {article?.board.likeCnt}
-          </div>
-          <div className={styles.report}>
-            <button className={styles.bTn1} onClick={reportEvent}>
-              글 신고
-            </button>
-            <button className={styles.bTn2} onClick={likeUpEvent}>
-              글 추천
-            </button>
-
-            <button className={styles.bTn5}>쪽지</button>
-          </div>
         </div>
 
         {
           <div className={styles.messag}>
-            <h3>댓글 {article && article?.board.commentCnt}</h3>
+            <div className={styles.postman123}>
+              <div className={styles.likeIcon}>
+                {article?.board.isLike ? <MdThumbUp /> : <FiThumbsUp />}
+                {article?.board.likeCnt}
+              </div>
+              <MdOutlineComment /> {article && article?.board.commentCnt}
+            </div>
             <Comment boardId={parseInt(boardId)} getPost={getPost} />
             {article && commentList && (
               <CommentList

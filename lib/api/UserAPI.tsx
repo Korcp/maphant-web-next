@@ -1,3 +1,4 @@
+import { patchFetch } from "next/dist/server/lib/patch-fetch";
 import { UserData } from "../type/userType";
 import {
   dataResponse,
@@ -5,6 +6,7 @@ import {
   PostAPI,
   DeleteAPI,
   statusResponse,
+  PatchAPI,
 } from "./fetchAPI";
 
 type LoginResponse = {
@@ -62,6 +64,23 @@ class UserAPI {
 
   static UserDelete() {
     return DeleteAPI<statusResponse>("/user");
+  }
+
+  static UserProfilebody(body: string) {
+    return PatchAPI<statusResponse>("/profile", {
+      body,
+    });
+  }
+
+  static UserProfileimg(file: string) {
+    return PatchAPI<statusResponse>("/profile", {
+      file,
+    });
+  }
+
+  static GETUserProfile(targetUserId: number) {
+    const queryParams = `?targetUserId=${targetUserId}`;
+    return GetAPI<statusResponse>(`/profile?${targetUserId}`);
   }
 }
 

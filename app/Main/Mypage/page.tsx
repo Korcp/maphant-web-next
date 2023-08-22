@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 
 import styles from "./Mypage.module.css";
 import { useRouter } from "next/navigation";
 import UserStorage from "@/lib/storage/UserStorage";
 import UserAPI from "@/lib/api/UserAPI";
-import { text } from "stream/consumers";
+import { uploadAPI } from "@/lib/api/fetchAPI";
 
 export default function Page() {
   const router = useRouter();
@@ -26,6 +26,39 @@ export default function Page() {
     setShowNewPw(!showNewPw);
   };
 
+  //내소개 정보및 이미지받기
+  const [myinfo, setMyinfo] = useState("");
+  const [myimg, setMyimg] = useState(null);
+
+  //profile정보 받아오기
+
+  useEffect(() => {
+    UserAPI.GETUserProfile(userData.id).then((res) => {
+      setMyinfo(res.data.body);
+      setMyimg(res.data.profileImg);
+    });
+  }, [userData.id]);
+
+  console.log("나의 정보 :", myinfo);
+  console.log("나의 이미지 :", myimg);
+  const handleImageChange = (files: FileList) => {
+    if (files.length > 0) {
+      const selectedFile = files[0];
+      setMyimg(selectedFile);
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setMyImageUrl(imageUrl);
+    }
+  };
+  const changemyinfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMyinfo(e.target.value);
+  };
+  // 현재 열려 있는 페이지를 추적하는 상태
+  const [activePage, setActivePage] = useState("myInfo"); // 초기값은 "myInfo"로 설정
+
+  // 페이지 전환 함수
+  const changePage = (page: any) => {
+    setActivePage(page);
+  };
   //체크 박스 선택 및 삭제
   const [selectcg, setSelcetCg] = useState<number[]>([]);
 
@@ -56,6 +89,7 @@ export default function Page() {
     setdepart("");
   };
 
+  //내정보 수정 다른상태
   //로그아웃 기능구현
   const loadUserData = async () => {
     try {
@@ -152,7 +186,22 @@ export default function Page() {
       alert("카테고리 삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
+  const [myImageUrl, setMyImageUrl] = useState<string | null>(null);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  // ...
 
+  useEffect(() => {
+    if (myimg instanceof Blob) {
+      const imageUrl = URL.createObjectURL(myimg);
+
+      const img = new Image();
+      img.src = imageUrl;
+      img.onload = () => {
+        setIsImageLoaded(true);
+        setMyImageUrl(imageUrl);
+      };
+    }
+  }, [myimg]);
   //전공계열,학과
   const [major, setmajor] = useState("");
   const [depart, setdepart] = useState("");
@@ -221,8 +270,6 @@ export default function Page() {
   };
 
   //회원탈퇴
-
-  const [delstate, delsetState] = useState(false);
   const IDDelete = async () => {
     const delstate = confirm(
       `회원탈퇴하시겠습니끼? 
@@ -240,6 +287,20 @@ export default function Page() {
     }
   };
 
+  //내 정보 수정
+  const changebody = () => {
+    let fd = new FormData();
+    fd.append("body", myinfo);
+
+    uploadAPI("PATCH", "/profile", fd).then((res) => console.log(res));
+  };
+
+  const changeimg = () => {
+    let fd = new FormData();
+    fd.append("file", myimg);
+
+    uploadAPI("PATCH", "/profile", fd).then((res) => console.log(res));
+  };
   // 작성한 댓글 목록
   const MyChat = () => {
     router.replace(`/Main/MyChat?id=${userData.id}`);
@@ -259,7 +320,7 @@ export default function Page() {
         <div className={styles.userDetails}>
           <section className={styles.profileSection}>
             <img
-              src="user-profile.jpg"
+              src={`${myimg}?v=${Math.random()}`} // 새로운 랜덤 값을 쿼리 파라미터로 추가
               alt="User Profile"
               className={styles.profileImage}
             />
@@ -277,9 +338,9 @@ export default function Page() {
                   ))}
                 </>
               )}
+              <label>소개글 :{myinfo}</label>
             </div>
           </section>
-          <label>소개글 :</label>
         </div>
       </section>
       <section className={styles.accountSettings}>
@@ -290,8 +351,6 @@ export default function Page() {
           <label onClick={handlepwopen}>비밀번호 수정</label>
           <br />
           <label onClick={handlemycgopen}>계열 학과 수정</label>
-          <br />
-          <label>소개 글 수정</label>
         </div>
       </section>
       <section className={styles.communitySettings}>
@@ -321,36 +380,90 @@ export default function Page() {
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <h2>내 정보 수정</h2>
-            <label>닉네임만 수정 가능합니다.</label>
-            <br />
-            <input
-              className={styles.mydata}
-              type="text"
-              placeholder="이름"
-              value={userData.name}
-              readOnly
-            />
-            <input
-              className={styles.mydata}
-              type="text"
-              placeholder="닉네임"
-              value={newNickname}
-              onChange={(e) => NicknameChange(e.target.value)}
-            />
-            <input
-              className={styles.mydata}
-              type="text"
-              defaultValue={userData.studentNo}
-              readOnly
-            />
-            <br />
-            <button
-              className={styles.mydatafix}
-              type="submit"
-              onClick={handleNicknameUpdate}
-            >
-              수정하기
-            </button>
+            <div className={styles.pageButtons}>
+              <button
+                className={activePage === "myInfo" ? styles.activePage : ""}
+                onClick={() => changePage("myInfo")}
+              >
+                내 정보
+              </button>
+              <button
+                className={
+                  activePage === "profileEdit" ? styles.activePage : ""
+                }
+                onClick={() => changePage("profileEdit")}
+              >
+                프로필 수정
+              </button>
+              <button
+                className={activePage === "introEdit" ? styles.activePage : ""}
+                onClick={() => changePage("introEdit")}
+              >
+                소개 글 수정
+              </button>
+            </div>
+            위의 버튼을 클릭하여 원하는 정보를 수정할수있습니다.
+            {activePage === "myInfo" && (
+              <div className={styles.pageContent}>
+                <input
+                  className={styles.mydata}
+                  type="text"
+                  placeholder="이름"
+                  value={userData.name}
+                  readOnly
+                />
+                <input
+                  className={styles.mydata}
+                  type="text"
+                  placeholder="닉네임"
+                  value={newNickname}
+                  onChange={(e) => NicknameChange(e.target.value)}
+                />
+                <input
+                  className={styles.mydata}
+                  type="text"
+                  defaultValue={userData.studentNo}
+                  readOnly
+                />
+                <br />
+                <button
+                  className={styles.mydatafix}
+                  type="submit"
+                  onClick={handleNicknameUpdate}
+                >
+                  수정하기
+                </button>
+              </div>
+            )}
+            {activePage === "profileEdit" && (
+              <div className={styles.pageContent}>
+                <h3>프로필 사진 변경</h3>
+                <input
+                  type="file"
+                  accept="image/*" // This attribute ensures only image files can be selected
+                  onChange={(e) => handleImageChange(e.target.files)}
+                />
+                <button className={styles.mydatafix} onClick={changeimg}>
+                  수정하기
+                </button>
+              </div>
+            )}
+            {activePage === "introEdit" && (
+              <div className={styles.pageContent}>
+                <h3>소개 글 수정</h3>
+                <textarea value={myinfo} onChange={changemyinfo}></textarea>
+                <button
+                  className={styles.mydatafix}
+                  type="submit"
+                  onClick={() => {
+                    changebody(); // myinfo 수정을 서버로 보냄
+                  }}
+                >
+                  수정하기
+                </button>
+              </div>
+            )}
+            {/* 공통적으로 사용되는 닫기 버튼 */}
             <button className={styles.closebutton} onClick={handlemydataclose}>
               닫기
             </button>
