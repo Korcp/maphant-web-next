@@ -38,6 +38,7 @@
   height: 30%;
   background-color: rgb(135, 196, 242);
   text-align: center;
+  border-radius: 10px;
   border: 0;
   color: white;
 }

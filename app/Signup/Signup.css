@@ -42,12 +42,15 @@
   margin-bottom: 1%;
   font-size: 100%;
   padding-left: 3%;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 10px;
 }
 
 .container {
   text-align: left;
   margin-bottom: 1%;
-  margin-left: 5%;
+  margin-left: 23%;
+  margin-right: 30%;
 }
 
 .btndiv {
@@ -57,13 +60,15 @@
 
 .Btn {
   text-align: center;
-  width: 30%;
-  height: 30%;
+  width: 40%;
+  height: 1%;
   background-color: #88c5fa;
-  border-radius: 10%;
+  border-radius: 10px;
   border: none;
   color: white;
   margin-bottom: 5%;
+  margin-right: 2%;
+
 }
 .Btn:hover {
   background-color: #5299eb;

@@ -1,29 +1,18 @@
-div.Title input {
-  text-align: left;
-  width: 40%;
-  height: 100%;
-  margin-bottom: 2%;
-}
-
+div.Title input,
 div.Major input {
   text-align: left;
   width: 40%;
   height: 100%;
   margin-bottom: 2%;
 }
+
 .ImageSch {
   width: 7%;
   height: 7%;
 }
 
-div.Title label {
-  font-weight: bold;
-}
-
-div.School label {
-  font-weight: bold;
-}
-
+div.Title label,
+div.School label,
 div.Major label {
   font-weight: bold;
 }
@@ -35,9 +24,9 @@ nav.margin {
 
 select {
   border-radius: 10%;
-  width: 355px;
-  height: 40px;
-  margin-bottom: 20px;
+  width: 35%;
+  height: 40%;
+  margin-bottom: 20%;
 }
 
 .SelectBtn {
@@ -48,9 +37,12 @@ select {
   border: none;
   color: white;
   margin-bottom: 10%;
+  border-radius: 10px;
+  border: 0;
 }
 
 .outer {
   margin-top: 13%;
   margin-left: 3%;
+  margin-right: 7%;
 }
