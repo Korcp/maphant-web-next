@@ -44,7 +44,7 @@ class CommentAPI {
   }
   static Reply(parent_Id: number, body: string, is_anonymous: number) {
     return PostAPI<statusResponse>(`/comment/insert`, {
-      parent_Id: parent_Id,
+      parent_id: parent_Id,
       body: body,
       is_anonymous: is_anonymous,
     });

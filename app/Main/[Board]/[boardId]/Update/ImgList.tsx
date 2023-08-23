@@ -28,7 +28,7 @@ const ImgList = ({ fileList, setFileList }: PropsType) => {
       const files = Array.from(e.target.files);
 
       const URLArray = Array.from(files, (file) =>
-        window.URL.createObjectURL(file)
+        URL.createObjectURL(file)
       );
       if (fileList) {
         setFileList({

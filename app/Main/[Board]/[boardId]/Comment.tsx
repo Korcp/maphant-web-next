@@ -33,7 +33,7 @@ const Comment = ({ boardId, getPost }: PropsType) => {
   };
 
   return (
-    <div>
+    <div className={styles.commentBox}>
       <div className={styles.commentInfo}>
         <h3 style={{ margin: 0 }}>{UserData?.nickname}</h3>
         <div className={styles.anony}>
