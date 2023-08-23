@@ -7,20 +7,31 @@ import UserStorage from "@/lib/storage/UserStorage";
 
 function NotifiMenu() {
   const [alert, setAlert] = useState([]);
+  const [alertId, setAlertId] = useState(null);
 
   useEffect(() => {
     UserAPI.Getnofication().then((res) => {
-      setAlert(res.data.list); // Assuming that the notifications are stored in the "list" property
+      setAlert(res.data.list);
     });
   }, []);
+
+  const handleNotificationClick = (notificationId) => {
+    setAlertId(notificationId);
+  };
 
   return (
     <ul className={styles.noticeList}>
       <p className={styles.noticeTop}>알림</p>
       {alert.map((notification, index) => (
-        <li className={styles.notice} key={index}>
+        <li
+          className={`${styles.notice} ${
+            alertId === notification.id ? styles.selected : ""
+          }`}
+          key={index}
+          onClick={() => handleNotificationClick(notification.id)}
+        >
           {notification.title}
-          <br /> {notification.body}
+          <br /> 댓글: {notification.body}
         </li>
       ))}
     </ul>
