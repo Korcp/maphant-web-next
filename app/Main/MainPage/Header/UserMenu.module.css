@@ -28,12 +28,21 @@
 }
 
 .circleWrapper {
-  height: 100%;
-  width: 100%;
+  width: 2.5rem; /* Match the width of the button */
+  height: 2.5rem; /* Match the height of the button */
   border-radius: 50%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circleWrapper > img {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center; /* Center the content within the circle */
+  border-radius: 50%;
 }
 
 .userBtn {

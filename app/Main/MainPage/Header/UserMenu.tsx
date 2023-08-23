@@ -74,12 +74,9 @@ function UserMenu() {
         className={`${styles.userBtn} ${imgurl ? styles.hasImage : ""}`}
         onClick={() => MenuOpenFun("User")}
       >
-        <img
-          className={styles.circleWrapper}
-          style={{
-            backgroundImage: imgurl ? `url(${imgurl})` : "none",
-          }}
-        />
+        <div className={styles.circleWrapper}>
+          {imgurl && <img src={imgurl} alt="User Profile" />}
+        </div>
       </button>
 
       {userMenuOpen && <DropdownMenu />}
