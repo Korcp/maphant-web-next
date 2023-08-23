@@ -1,19 +1,39 @@
 "use client";
-import React, { ReactElement } from "react";
-
+import React, { ReactElement, useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "./MainApp.module.css";
 import PostList from "./MainPost/PostList";
-
+import BoardAPI from "@/lib/api/BoardAPI";
+import { HotPost, readPostType } from "@/lib/type/postType";
+import { GetAPI } from "@/app/fetchAPI";
+import BoardList from "./Header/BoardList";
 export default function MainApp(): ReactElement {
+  const [article, setArticle] = useState<HotPost>();
+  const boardURL = usePathname();
+  const parts = boardURL.split("/");
+  const boardId = parts[parts.length - 1];
+
+  const gethotEvent = () => {
+    BoardAPI.GethotPost()
+      .then((res) => {
+        console.info( res);
+        setArticle(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    gethotEvent();
+  }, []);
+
+  console.log(article);
   return (
     <div className={styles.mainLayout}>
       <div className={styles.hot}>
         <div className={styles.hotPost}>
-          <p>HOT 키워드</p>
-          <p>#김치</p>
-          <p>#찌개</p>
-          <p>#제육</p>
-          <p>#볶음</p>
+          <p>{article&&article.list[0].title}</p>
         </div>
       </div>
 

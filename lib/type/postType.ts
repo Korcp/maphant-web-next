@@ -36,14 +36,24 @@ type readPostType = {
   };
   answerList: null;
 };
-
+type HotPost = {
+  list: {
+    boardId: number;
+    title: string;
+    type: string;
+    typeId: number;
+    userNickname: string;
+    likeCnt: number;
+    commentCnt: number;
+  }[];
+};
 type EditType = {
-  id: number,
-  title: string,
-  body: string,
-  isHide: number,
-  imagesUrl?: string[],
-  tags?: string[]
-}
+  id: number;
+  title: string;
+  body: string;
+  isHide: number;
+  imagesUrl?: string[];
+  tags?: string[];
+};
 
-export type { PostType, readPostType, EditType };
+export type { PostType, readPostType, EditType, HotPost };

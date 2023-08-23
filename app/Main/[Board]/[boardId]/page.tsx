@@ -102,7 +102,7 @@ const page = () => {
     BoardAPI.starPost(boardId)
       .then(() => {
         alert("북마크 했습니다");
-        getComment();
+        getPost();
       })
       .catch((err) => alert("이미 북마크된 게시물입니다"));
   };
