@@ -102,8 +102,12 @@ class BoardAPI {
   static PostDelete(boardId: number) {
     return DeleteAPI<statusResponse>(`/board/${boardId}/`);
   }
-  static starPost(boardId: string){
-    return PostAPI<statusResponse>(`/bookmark/${boardId}`)
+  static starPost(boardId: string) {
+    return PostAPI<statusResponse>(`/bookmark/${boardId}`);
+  }
+
+  static Getbookmark() {
+    return GetAPI<dataResponse>("/bookmark/my-list");
   }
 }
 

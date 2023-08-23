@@ -1,3 +1,5 @@
+/* UserMenu.module.css */
+
 .userMenu {
   display: flex;
   justify-content: space-evenly;
@@ -7,22 +9,41 @@
   z-index: 1;
 }
 
-.MailBtn, .NoticeBtn{
+.MailBtn,
+.NoticeBtn {
   background: none;
   border-radius: 10px;
   border: 0;
 }
 
-.mailIcon, .noticeIcon{
+.mailIcon,
+.noticeIcon {
   color: white;
 }
-.mailIcon:hover, .noticeIcon:hover{
+
+.mailIcon:hover,
+.noticeIcon:hover {
   cursor: pointer;
   color: black;
 }
 
+.circleWrapper {
+  width: 2.5rem; /* Match the width of the button */
+  height: 2.5rem; /* Match the height of the button */
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-
+.circleWrapper > img {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center; /* Center the content within the circle */
+  border-radius: 50%;
+}
 
 .userBtn {
   background-color: white;
@@ -33,9 +54,8 @@
   font-size: 0.2rem;
   overflow: hidden;
   white-space: nowrap;
-}
-
-.userBtn:hover {
-  cursor: pointer;
-  background-color: rgb(233, 233, 233);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
 }

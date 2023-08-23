@@ -26,10 +26,12 @@ export default function Page() {
     setShowNewPw(!showNewPw);
   };
 
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   //내소개 정보및 이미지받기
   const [myinfo, setMyinfo] = useState("");
   const [myimg, setMyimg] = useState(null);
-
+  const [imagelurl, setMyImageUrl] = useState("");
   //profile정보 받아오기
 
   useEffect(() => {
@@ -186,10 +188,6 @@ export default function Page() {
       alert("카테고리 삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
-  const [myImageUrl, setMyImageUrl] = useState<string | null>(null);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
-  // ...
-
   useEffect(() => {
     if (myimg instanceof Blob) {
       const imageUrl = URL.createObjectURL(myimg);
@@ -197,7 +195,7 @@ export default function Page() {
       const img = new Image();
       img.src = imageUrl;
       img.onload = () => {
-        setIsImageLoaded(true);
+        setIsImageLoaded(true); // Set the isImageLoaded state to true
         setMyImageUrl(imageUrl);
       };
     }
@@ -289,17 +287,26 @@ export default function Page() {
 
   //내 정보 수정
   const changebody = () => {
-    let fd = new FormData();
-    fd.append("body", myinfo);
+    const formData = new FormData();
+    formData.append("body", myinfo);
 
-    uploadAPI("PATCH", "/profile", fd).then((res) => console.log(res));
+    uploadAPI("PATCH", "/profile", formData).then((res) => {
+      alert("내소개글이 수정되었습니다."), setMydataOpen(false);
+    });
   };
 
   const changeimg = () => {
-    let fd = new FormData();
-    fd.append("file", myimg);
+    if (myimg) {
+      let fd = new FormData();
+      fd.append("file", myimg);
 
-    uploadAPI("PATCH", "/profile", fd).then((res) => console.log(res));
+      uploadAPI("PATCH", "/profile", fd)
+        .then((res) => {
+          alert("내 이미지 수정이완료되었습니다."), setMydataOpen(false);
+          window.location.reload();
+        })
+        .catch((error) => console.error("Error uploading image:", error));
+    }
   };
   // 작성한 댓글 목록
   const MyChat = () => {
@@ -312,6 +319,22 @@ export default function Page() {
 
   const Mylike = () => {
     router.replace(`/Main/Mylike?id=${userData.id}`);
+  };
+
+  const BookMark = () => {
+    router.push(`/Main/BookMark`);
+  };
+
+  //소개글
+  // 소개글의 최대 글자수 설정
+  const maxChars = 100;
+
+  // 소개글 변경 이벤트 핸들러
+  const handleMyinfoChange = (e) => {
+    const newText = e.target.value;
+    if (newText.length <= maxChars) {
+      setMyinfo(newText);
+    }
   };
   return (
     <div className={styles.container}>
@@ -338,9 +361,20 @@ export default function Page() {
                   ))}
                 </>
               )}
-              <label>소개글 :{myinfo}</label>
             </div>
           </section>
+          <hr />
+          <label>※ 소개글</label>
+          <div className={styles.myinfoBox}>
+            <div
+              className={styles.myinfo}
+              style={{ whiteSpace: "pre-line" }}
+              dangerouslySetInnerHTML={{
+                __html: myinfo,
+              }}
+            />
+          </div>
+          <hr />
         </div>
       </section>
       <section className={styles.accountSettings}>
@@ -358,7 +392,7 @@ export default function Page() {
         <div className={styles.list}>
           <label onClick={Mylist}>내 게시판</label>
           <br />
-          <label>즐겨찾기 한 게시판</label>
+          <label onClick={BookMark}>내 북마크</label>
           <br />
           <label onClick={MyChat}>작성한 댓글 목록</label>
           <br />
@@ -402,7 +436,8 @@ export default function Page() {
                 소개 글 수정
               </button>
             </div>
-            위의 버튼을 클릭하여 원하는 정보를 수정할수있습니다.
+            <br /> ※사진은 새로고침하면 적용이됩니다.
+            <br /> ※글자수는 100자 제한입니다.
             {activePage === "myInfo" && (
               <div className={styles.pageContent}>
                 <input
@@ -439,6 +474,7 @@ export default function Page() {
               <div className={styles.pageContent}>
                 <h3>프로필 사진 변경</h3>
                 <input
+                  className={styles.profilecss}
                   type="file"
                   accept="image/*" // This attribute ensures only image files can be selected
                   onChange={(e) => handleImageChange(e.target.files)}
@@ -451,7 +487,14 @@ export default function Page() {
             {activePage === "introEdit" && (
               <div className={styles.pageContent}>
                 <h3>소개 글 수정</h3>
-                <textarea value={myinfo} onChange={changemyinfo}></textarea>
+                <textarea
+                  className={styles.infocss}
+                  value={myinfo}
+                  onChange={handleMyinfoChange}
+                  maxLength={maxChars} // 최대 글자수 설정
+                  placeholder="100자까지 가능합니다"
+                />
+                <br />
                 <button
                   className={styles.mydatafix}
                   type="submit"
@@ -463,7 +506,7 @@ export default function Page() {
                 </button>
               </div>
             )}
-            {/* 공통적으로 사용되는 닫기 버튼 */}
+            <br />
             <button className={styles.closebutton} onClick={handlemydataclose}>
               닫기
             </button>
