@@ -22,6 +22,8 @@ type CommentDetailType = {
   like_cnt: number;
   comment_id: number;
   time: string;
+  isMyComment:boolean;
+  parent_id:number;
 };
 
 export type { CommentType, CommentDetailType };

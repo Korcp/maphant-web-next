@@ -30,11 +30,24 @@ class CommentAPI {
     return DeleteAPI(`/comment/${commentId}`);
   }
 
-  static editComment(commentId:number, body:string){
-    return PostAPI<statusResponse>(`/comment/update`,{
-      id:commentId,
-      body:body
+  static editComment(commentId: number, body: string) {
+    return PostAPI<statusResponse>(`/comment/update`, {
+      id: commentId,
+      body: body,
+    });
+  }
+  static reportComment (commentId:number, reportId:number) {
+    return PostAPI<statusResponse>(`/comment/report`,{
+      commentId:commentId,
+      reportId:reportId
     })
+  }
+  static Reply(parent_Id: number, body: string, is_anonymous: number) {
+    return PostAPI<statusResponse>(`/comment/insert`, {
+      parent_id: parent_Id,
+      body: body,
+      is_anonymous: is_anonymous,
+    });
   }
 }
 

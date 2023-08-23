@@ -4,9 +4,8 @@ type PostType = {
   title: string;
   body: string;
   isHide: number;
-  isComplete: number;
   isAnonymous: number;
-  imageUrl? : string[];
+  imageUrl?: string[];
   tagNames?: string[];
 };
 
@@ -28,14 +27,23 @@ type readPostType = {
     commentCnt: number;
     likeCnt: number;
     reportCnt: number;
-    imagesUrl: null;
+    imagesUrl?: string[];
     isLike: boolean;
-    isMyBoard:boolean;
-    tags: string[];
+    isMyBoard: boolean;
+    tags: { id: number; name: string }[];
     userNickname: string;
     isBookmarked: boolean;
   };
   answerList: null;
 };
 
-export type { PostType, readPostType };
+type EditType = {
+  id: number,
+  title: string,
+  body: string,
+  isHide: number,
+  imagesUrl?: string[],
+  tags?: string[]
+}
+
+export type { PostType, readPostType, EditType };

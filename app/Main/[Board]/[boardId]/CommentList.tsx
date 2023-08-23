@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CommentDetailType } from "@/lib/type/CommentType";
 import CommentDetail from "./CommentDetail";
 
@@ -17,7 +17,6 @@ const commentList = ({ commentList, isMyArticle, getComment }: PropsType) => {
         commentList.map((content) => (
           <CommentDetail
             content={content}
-            isMyArticle={isMyArticle}
             getComment={getComment}
             key={content.id}
           />

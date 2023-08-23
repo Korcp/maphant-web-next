@@ -1,7 +1,7 @@
 import { statusResponse } from "@/app/fetchAPI";
 import { BoardListItem } from "../type/boardType";
-import { PostType, readPostType } from "../type/postType";
-import { dataResponse, GetAPI, PostAPI } from "./fetchAPI";
+import { EditType, PostType, readPostType } from "../type/postType";
+import { dataResponse, GetAPI, PostAPI, PutAPI } from "./fetchAPI";
 import { DeleteAPI } from "./fetchAPI";
 
 class BoardAPI {
@@ -104,6 +104,9 @@ class BoardAPI {
   }
   static starPost(boardId: string) {
     return PostAPI<statusResponse>(`/bookmark/${boardId}`);
+  }
+  static editPost( data:EditType  ) {
+    return PutAPI<statusResponse>(`/board/update/`, data);
   }
 
   static Getbookmark() {

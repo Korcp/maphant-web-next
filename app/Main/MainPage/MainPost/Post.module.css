@@ -9,13 +9,17 @@
   padding: 0.3rem;
   border-bottom: 0.5px solid black;
 }
-
+.post:hover{
+  cursor: pointer;
+ 
+  background-color:rgb(242, 242, 242);
+}
 
 .postUser {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+
   /* color: rgb(31,41,55); */
   max-height: 1rem;
   padding: 0.1rem;
@@ -41,7 +45,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   padding: 0.3rem;
-  background-color: white;
+
   color:black;
   margin: 0;
 }

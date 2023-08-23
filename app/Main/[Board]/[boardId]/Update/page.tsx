@@ -6,7 +6,7 @@ import ErrorPage from "next/error";
 import HashTagList from "./HashTagList";
 import ImgList from "./ImgList";
 import styles from "./Update.module.css";
-import { PostType } from "@/lib/type/postType";
+import { EditType, PostType, readPostType } from "@/lib/type/postType";
 import BoardAPI from "@/lib/api/BoardAPI";
 
 type fileListType = {
@@ -16,8 +16,9 @@ type fileListType = {
 
 function Update() {
   const router = useRouter();
-  const [postData, setPostData] = useState<PostType>();
+  const [postData, setPostData] = useState<EditType>();
   const [hashTag, setHashTag] = useState<string[]>([]);
+  const [article, setArticle] = useState<readPostType>();
   const [fileList, setFileList] = useState<fileListType>({
     imgFile: [],
     imgURL: [],
@@ -30,42 +31,24 @@ function Update() {
   const boardURL = usePathname();
   const parts = boardURL.split("/");
   const boardLink = parts[parts.length - 3];
-  let boardName: string = "";
+  const boardId = parts[parts.length - 2];
   let boardType: number = 0;
-  let boardText: string = "";
-
-  if (boardLink === "Free") {
-    boardName = "자유게시판";
-    boardText = "자유롭게 글을 작성하세요";
-    boardType = 1;
-  } else if (boardLink === "Knowledge") {
-    boardName = "지식게시판";
-    boardText = "지식을 공유해보세요";
-    boardType = 3;
-  } else if (boardLink === "QnA") {
-    boardName = "QnA";
-    boardText = "궁금한 것을 물어보세요";
-    boardType = 2;
-  } else if (boardLink === "Promotion") {
-    boardName = "홍보게시판";
-    boardText = "여러가지를 홍보해보세요";
-    boardType = 5;
-  } else if (boardLink === "Career") {
-    boardName = "취업/진로";
-    boardText = "우리과의 취업 진로에 대해 글을 쓰세요";
-    boardType = 4;
-  } else if (boardLink === "Hobby") {
-    boardName = "취미";
-    boardText = "취미를 공유해보세요";
-    boardType = 6;
-  } else {
-    return <ErrorPage statusCode={404} />;
-  }
 
   const WritingEvent = () => {
     setChanged(true);
   };
 
+  useEffect(() => {
+    BoardAPI.readPost(parseInt(boardId))
+      .then((res) => {
+        setArticle(res.data);
+        const tagArr = res.data.board.tags.map((item) => item.name);
+        setHashTag(tagArr);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   useEffect(() => {
     const unloadListner = (event: BeforeUnloadEvent) => {
       if (changed) {
@@ -82,16 +65,13 @@ function Update() {
   }, [changed]);
 
   const PostEvent = () => {
-    if (titleRef.current?.value && contentRef.current?.value) {
-      console.log(hashTag);
+    if (titleRef.current?.value && contentRef.current?.value && article) {
       setPostData({
-        typeId: boardType,
+        id: article?.board.id,
         title: titleRef.current.value,
         body: contentRef.current.value,
-        isAnonymous: 0,
-        isComplete: 0,
         isHide: 0,
-        tagNames: hashTag ? hashTag : undefined,
+        tags: hashTag ? hashTag : undefined,
       });
     } else {
       alert("제목과 내용을 모두 입력해 주세요.");
@@ -99,19 +79,19 @@ function Update() {
   };
 
   useEffect(() => {
-    if (postData) {
-      const imgData = new FormData();
-      fileList.imgFile.forEach((item) => {
-        imgData.append("img", item);
-      });
-      console.log(imgData);
-      BoardAPI.imgUpload(imgData).catch((err) => {
-        console.log(err);
-      });
+    if (postData && article) {
+      // const imgData = new FormData();
+      // fileList.imgFile.forEach((item) => {
+      //   imgData.append("img", item);
+      // });
+      // console.log(imgData);
+      // BoardAPI.imgUpload(imgData).catch((err) => {
+      //   console.log(err);
+      // });
       console.log(postData);
-      BoardAPI.newPostArticle(postData)
+      BoardAPI.editPost(postData)
         .then(() => {
-          router.push(`/Main/${boardLink}`);
+          router.push(`/Main/${boardLink}/${article?.board.id}`);
         })
         .catch((err) => {
           console.log(err);
@@ -122,8 +102,7 @@ function Update() {
   return (
     <div className={styles.NewPostLayout}>
       <div className={styles.boardName}>
-        <p style={{ fontSize: "1.5rem", margin: 0 }}>{boardName}</p>
-        <p style={{ margin: 0 }}>{boardText}</p>
+        <h2 style={{ margin: 0 }}>수정하기</h2>
       </div>
 
       <div className={styles.newTitle}>
@@ -131,6 +110,7 @@ function Update() {
         <input
           ref={titleRef}
           className={styles.inputTitle}
+          defaultValue={article?.board.title}
           type="text"
           placeholder="제목을 입력해주세요."
           onChange={WritingEvent}
@@ -154,6 +134,7 @@ function Update() {
           className={styles.inputContent}
           maxLength={1450}
           onChange={WritingEvent}
+          defaultValue={article?.board.body}
         ></textarea>
       </div>
       <div className={styles.newPostMenu}>

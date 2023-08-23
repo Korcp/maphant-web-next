@@ -15,6 +15,7 @@ import Comment from "./Comment";
 import CommentList from "./CommentList";
 import { CommentType } from "@/lib/type/CommentType";
 import { BoardInfo } from "@/lib/Function/boardFunction";
+import Update from "./Update/page";
 
 const page = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const page = () => {
 
   const getComment = () => {
     if (article) {
-      CommentAPI.readComment(parseInt(boardId), article.board.commentCnt + 1)
+      CommentAPI.readComment(parseInt(boardId), article.board.commentCnt)
         .then((res) => {
           setCommentList(res.data);
         })
@@ -133,14 +134,18 @@ const page = () => {
               <button className={styles.bTn2} onClick={likeUpEvent}>
                 {article?.board.isLike ? <MdThumbUp /> : <FiThumbsUp />}
               </button>
-              <button className={styles.starPost} onClick={starEvent} >
+              <button className={styles.starPost} onClick={starEvent}>
                 {article?.board.isBookmarked ? (
                   <IoBookmarkSharp />
                 ) : (
                   <IoBookmarkOutline />
                 )}
               </button>
-              <button className={styles.bTn1} onClick={reportEvent} disabled={article?.board.isMyBoard}>
+              <button
+                className={styles.bTn1}
+                onClick={reportEvent}
+                disabled={article?.board.isMyBoard}
+              >
                 <AiTwotoneAlert />
               </button>
               {article && article.board.isMyBoard && (
@@ -158,7 +163,7 @@ const page = () => {
           <div className={styles.boardbody}>{article?.board.body}</div>
 
           <div className={styles.hashtag}>
-            {article?.board.tags.map((item: any, index: number) => (
+            {article?.board.tags.map((item, index) => (
               <p key={index}>#{item.name}</p>
             ))}
           </div>
