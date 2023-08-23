@@ -4,6 +4,7 @@ import UserAPI from "@/lib/api/BoardAPI";
 import { useState, useEffect } from "react";
 import "./Mybook.css";
 import { Router, useRouter } from "next/navigation";
+import { IoBookmarkOutline } from "react-icons/io5";
 
 export default function BookMark() {
   const [mybook, setMyBook] = useState({ list: [] }); // 초기화
@@ -66,7 +67,11 @@ export default function BookMark() {
                 onClick={() => hanldecommitClick(item)} // 매개변수 전달
               >
                 <div className="book-box">
-                  <p className="book-title"> 📑{item.boardTitle}</p>
+                  <p className="book-title">
+                    {" "}
+                    <IoBookmarkOutline color="blue" />
+                    {item.boardTitle}
+                  </p>
                 </div>
               </div>
             ))}
