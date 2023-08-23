@@ -3,11 +3,16 @@
 import React from "react";
 import { FiThumbsUp } from "react-icons/fi";
 import { MdOutlineComment } from "react-icons/md";
-
 import Styles from "./Post.module.css";
 import { BoardDetail } from "@/lib/type/boardType";
+import { useRouter } from "next/navigation";
+import { BoardInfo } from "@/lib/Function/boardFunction";
 
-function Post({ content }: { content: BoardDetail }) {
+function Post({ content, boardLink }: { content: BoardDetail,boardLink : string }) {
+  const router = useRouter();
+  
+
+
   const detailDate = (a: string) => {
     const milliSeconds = +new Date() - +new Date(a);
     const seconds = milliSeconds / 1000;
@@ -27,7 +32,7 @@ function Post({ content }: { content: BoardDetail }) {
   };
 
   return (
-    <div className={Styles.post}>
+    <div className={Styles.post} onClick={() => router.push(`/Main/${boardLink}/${content.boardId}`)}>
       <div className={Styles.postUser}>
         <div className={Styles.userLeft}>
           <p>{content.userNickname} </p>
