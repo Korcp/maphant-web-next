@@ -16,13 +16,7 @@ import UserAPI from "@/lib/api/UserAPI";
 
 function MainHeader() {
   const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
-  const [imgurl, setimgurl] = useState("");
-  const id = userData.id;
 
-  useEffect(() => {
-    UserAPI.GETUserProfile(id).then((res) => setimgurl(res.data.profileImg));
-  }, []);
-  console.log("사진주소는", imgurl);
   const catagorylist = userData.category.map((categoryItem) => ({
     major: categoryItem.majorName,
   }));

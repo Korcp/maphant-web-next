@@ -8,50 +8,53 @@ import styles from "./UserMenu.module.css";
 import UserAPI from "@/lib/api/UserAPI";
 import UserStorage from "@/lib/storage/UserStorage";
 
+interface UserProfile {
+  id: string;
+  profileImg: string;
+  // other properties...
+}
+
 function UserMenu() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [NoticeMenuOpen, setNoticeMenuOpen] = useState(false);
-  const [MailMenuOpen, SetMailMenuOpen] = useState(false);
+  const [noticeMenuOpen, setNoticeMenuOpen] = useState(false);
+  const [mailMenuOpen, setMailMenuOpen] = useState(false);
 
   const userBtnRef = useRef<HTMLButtonElement>(null);
   const noticeBtnRef = useRef<HTMLButtonElement>(null);
   const mailBtnRef = useRef<HTMLButtonElement>(null);
 
-  const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
-  const [imgurl, setimgurl] = useState("");
-  const id = userData.id;
+  const [userData, setUserData] = useState(UserStorage.getUserProfile());
+  const [imgurl, setImgurl] = useState<string | null>(null);
+  const id = userData?.id || ""; // Optional chaining
 
   useEffect(() => {
-    UserAPI.GETUserProfile(id).then((res) => setimgurl(res.data.profileImg));
-  }, []);
-  console.log("사진주소는", imgurl);
+    if (id) {
+      UserAPI.GETUserProfile(id).then((res) => setImgurl(res.data.profileImg));
+    }
+  }, [id]);
 
   const MenuOpenFun = (tap: string) => {
-    tap === "Mail" ? SetMailMenuOpen(!MailMenuOpen) : SetMailMenuOpen(false);
-    tap === "Notice"
-      ? setNoticeMenuOpen(!NoticeMenuOpen)
-      : setNoticeMenuOpen(false);
-    tap === "User" ? setUserMenuOpen(!userMenuOpen) : setUserMenuOpen(false);
+    if (tap === "Mail") {
+      setMailMenuOpen(!mailMenuOpen);
+      setNoticeMenuOpen(false);
+      setUserMenuOpen(false);
+    } else if (tap === "Notice") {
+      setNoticeMenuOpen(!noticeMenuOpen);
+      setMailMenuOpen(false);
+      setUserMenuOpen(false);
+    } else if (tap === "User") {
+      setUserMenuOpen(!userMenuOpen);
+      setMailMenuOpen(false);
+      setNoticeMenuOpen(false);
+    }
   };
-
-  // window.addEventListener("click", (e) => {
-  //   if (
-  //     e.target !== userBtnRef.current &&
-  //     e.target !== mailBtnRef.current &&
-  //     e.target !== noticeBtnRef.current
-  //   ) {
-  //     setUserMenuOpen(false);
-  //     setNoticeMenuOpen(false);
-  //     SetMailMenuOpen(false);
-  //   }
-  // });
 
   return (
     <div className={styles.userMenu}>
       <button
         ref={mailBtnRef}
         className={styles.MailBtn}
-        onClickCapture={(e) => {
+        onClickCapture={() => {
           MenuOpenFun("Mail");
         }}
       >
@@ -68,20 +71,20 @@ function UserMenu() {
 
       <button
         ref={userBtnRef}
-        className={styles.userBtn}
+        className={`${styles.userBtn} ${imgurl ? styles.hasImage : ""}`}
         onClick={() => MenuOpenFun("User")}
       >
-        <div
+        <img
           className={styles.circleWrapper}
           style={{
             backgroundImage: imgurl ? `url(${imgurl})` : "none",
           }}
-        ></div>
+        />
       </button>
 
       {userMenuOpen && <DropdownMenu />}
-      {NoticeMenuOpen && <NoticeMenu />}
-      {MailMenuOpen && <MailMenu />}
+      {noticeMenuOpen && <NoticeMenu />}
+      {mailMenuOpen && <MailMenu />}
     </div>
   );
 }

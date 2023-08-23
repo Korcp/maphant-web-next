@@ -28,14 +28,12 @@
 }
 
 .circleWrapper {
-  height: 2rem;
-  width: 2.5rem;
+  height: 100%;
+  width: 100%;
   border-radius: 50%;
   background-size: cover;
-  overflow: hidden; /* 추가 */
-  display: flex; /* 추가 */
-  justify-content: center; /* 추가 */
-  align-items: center; /* 추가 */
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .userBtn {
@@ -47,12 +45,8 @@
   font-size: 0.2rem;
   overflow: hidden;
   white-space: nowrap;
-  display: flex; /* 추가 */
-  justify-content: center; /* 추가 */
-  align-items: center; /* 추가 */
-}
-
-.userBtn:hover {
-  cursor: pointer;
-  background-color: rgb(233, 233, 233);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
 }

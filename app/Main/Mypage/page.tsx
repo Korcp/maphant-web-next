@@ -26,6 +26,8 @@ export default function Page() {
     setShowNewPw(!showNewPw);
   };
 
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   //내소개 정보및 이미지받기
   const [myinfo, setMyinfo] = useState("");
   const [myimg, setMyimg] = useState(null);
@@ -193,7 +195,7 @@ export default function Page() {
       const img = new Image();
       img.src = imageUrl;
       img.onload = () => {
-        setIsImageLoaded(true);
+        setIsImageLoaded(true); // Set the isImageLoaded state to true
         setMyImageUrl(imageUrl);
       };
     }
@@ -301,6 +303,7 @@ export default function Page() {
       uploadAPI("PATCH", "/profile", fd)
         .then((res) => {
           alert("내 이미지 수정이완료되었습니다."), setMydataOpen(false);
+          window.location.reload();
         })
         .catch((error) => console.error("Error uploading image:", error));
     }
