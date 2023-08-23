@@ -5,7 +5,7 @@ type PostType = {
   body: string;
   isHide: number;
   isAnonymous: number;
-  imageUrl?: string[];
+  imagesUrl?: string[];
   tagNames?: string[];
 };
 
