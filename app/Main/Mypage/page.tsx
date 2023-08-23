@@ -319,7 +319,7 @@ export default function Page() {
   };
 
   const BookMark = () => {
-    router.replace(`Main/BookMark`);
+    router.push(`/Main/BookMark`);
   };
 
   //소개글

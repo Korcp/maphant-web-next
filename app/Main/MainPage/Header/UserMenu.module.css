@@ -1,3 +1,5 @@
+/* UserMenu.module.css */
+
 .userMenu {
   display: flex;
   justify-content: space-evenly;
@@ -7,22 +9,34 @@
   z-index: 1;
 }
 
-.MailBtn, .NoticeBtn{
+.MailBtn,
+.NoticeBtn {
   background: none;
   border-radius: 10px;
   border: 0;
 }
 
-.mailIcon, .noticeIcon{
+.mailIcon,
+.noticeIcon {
   color: white;
 }
-.mailIcon:hover, .noticeIcon:hover{
+
+.mailIcon:hover,
+.noticeIcon:hover {
   cursor: pointer;
   color: black;
 }
 
-
-
+.circleWrapper {
+  height: 2rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  background-size: cover;
+  overflow: hidden; /* 추가 */
+  display: flex; /* 추가 */
+  justify-content: center; /* 추가 */
+  align-items: center; /* 추가 */
+}
 
 .userBtn {
   background-color: white;
@@ -33,6 +47,9 @@
   font-size: 0.2rem;
   overflow: hidden;
   white-space: nowrap;
+  display: flex; /* 추가 */
+  justify-content: center; /* 추가 */
+  align-items: center; /* 추가 */
 }
 
 .userBtn:hover {

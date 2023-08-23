@@ -1,10 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { MdMailOutline, MdNotificationsNone } from "react-icons/md";
 
 import DropdownMenu from "./Menu/DropdownMenu";
 import MailMenu from "./Menu/MailMenu";
 import NoticeMenu from "./Menu/NoticeMenu";
 import styles from "./UserMenu.module.css";
+import UserAPI from "@/lib/api/UserAPI";
+import UserStorage from "@/lib/storage/UserStorage";
 
 function UserMenu() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -14,6 +16,15 @@ function UserMenu() {
   const userBtnRef = useRef<HTMLButtonElement>(null);
   const noticeBtnRef = useRef<HTMLButtonElement>(null);
   const mailBtnRef = useRef<HTMLButtonElement>(null);
+
+  const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
+  const [imgurl, setimgurl] = useState("");
+  const id = userData.id;
+
+  useEffect(() => {
+    UserAPI.GETUserProfile(id).then((res) => setimgurl(res.data.profileImg));
+  }, []);
+  console.log("사진주소는", imgurl);
 
   const MenuOpenFun = (tap: string) => {
     tap === "Mail" ? SetMailMenuOpen(!MailMenuOpen) : SetMailMenuOpen(false);
@@ -44,7 +55,7 @@ function UserMenu() {
           MenuOpenFun("Mail");
         }}
       >
-        <MdMailOutline size="1.5rem" className={styles.mailIcon}/>
+        <MdMailOutline size="1.5rem" className={styles.mailIcon} />
       </button>
 
       <button
@@ -60,7 +71,12 @@ function UserMenu() {
         className={styles.userBtn}
         onClick={() => MenuOpenFun("User")}
       >
-        사용자
+        <div
+          className={styles.circleWrapper}
+          style={{
+            backgroundImage: imgurl ? `url(${imgurl})` : "none",
+          }}
+        ></div>
       </button>
 
       {userMenuOpen && <DropdownMenu />}
