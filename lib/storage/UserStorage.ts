@@ -55,6 +55,9 @@ class UserStorage {
     sessionStorage.removeItem(SessionStorageKey.user_profile);
     sessionStorage.removeItem(SessionStorageKey.user_category);
   }
+  static isLoggedIn(): boolean {
+    return this.getPubKey() !== null && this.getPrivateKey() !== null;
+  }
 }
 
 export default UserStorage;

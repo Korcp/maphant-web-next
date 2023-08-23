@@ -12,6 +12,7 @@ import logo_kr from "./img/icon3.png";
 import Styles from "./MainHeader.module.css";
 import UserMenu from "./UserMenu";
 import UserStorage from "@/lib/storage/UserStorage";
+import UserAPI from "@/lib/api/UserAPI";
 
 function MainHeader() {
   const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);

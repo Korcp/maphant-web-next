@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import UserAPI from "@/lib/api/UserAPI";
 import UserStorage from "@/lib/storage/UserStorage";
@@ -17,6 +17,13 @@ export default function Home() {
   const [password, setPassword] = useState("");
 
   const router = useRouter();
+
+  useEffect(() => {
+    // 사용자가 이미 로그인한 경우를 확인하는 방법이 있다고 가정하겠습니다. 예: UserStorage.isLoggedIn()
+    if (UserStorage.isLoggedIn()) {
+      router.push("/Main/MainPage"); // 메인 페이지로 리디렉션합니다.
+    }
+  }, []);
   const onEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
@@ -42,7 +49,6 @@ export default function Home() {
           } else {
             UserStorage.setUserCategory(res.data.category[0]);
           }
-
           router.push("/Main/MainPage");
         });
       })
@@ -55,6 +61,7 @@ export default function Home() {
     e.preventDefault();
     handleLogin(email, password);
   };
+
   return (
     <div className={classes.outer}>
       <div className={classes.appImg}>

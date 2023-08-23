@@ -108,6 +108,10 @@ class BoardAPI {
   static editPost( data:EditType  ) {
     return PutAPI<statusResponse>(`/board/update/`, data);
   }
+
+  static Getbookmark() {
+    return GetAPI<dataResponse>("/bookmark/my-list");
+  }
 }
 
 export default BoardAPI;
