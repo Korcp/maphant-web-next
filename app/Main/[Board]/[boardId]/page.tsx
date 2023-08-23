@@ -160,7 +160,12 @@ const page = () => {
               )}
             </div>
           </div>
-          <div className={styles.boardbody}>{article?.board.body}</div>
+          <div className={styles.boardbody}>
+            {article && article.board.imagesUrl && (
+              <img src={article?.board.imagesUrl[0]} alt="" />
+            )}
+            {article?.board.body}
+          </div>
 
           <div className={styles.hashtag}>
             {article?.board.tags.map((item, index) => (

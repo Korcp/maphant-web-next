@@ -57,6 +57,7 @@ function NewPost() {
 
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value) {
+
       console.log(hashTag);
       setPostData({
         typeId: boardType,
@@ -64,6 +65,7 @@ function NewPost() {
         body: contentRef.current.value,
         isAnonymous: 0,
         isHide: 0,
+        imagesUrl : fileList.imgURL,
         tagNames: hashTag ? hashTag : undefined,
       });
     } else {
@@ -73,14 +75,6 @@ function NewPost() {
 
   useEffect(() => {
     if (postData) {
-      const imgData = new FormData();
-      fileList.imgFile.forEach((item) => {
-        imgData.append("img", item);
-      });
-      console.log(imgData);
-      BoardAPI.imgUpload(imgData).catch((err) => {
-        console.log(err);
-      });
       console.log(postData);
       BoardAPI.newPostArticle(postData)
         .then(() => {

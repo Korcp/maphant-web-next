@@ -25,11 +25,14 @@ const ImgList = ({ fileList, setFileList }: PropsType) => {
 
   const uploadEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+
+      console.log(e.target.files)
       const files = Array.from(e.target.files);
 
       const URLArray = Array.from(files, (file) =>
-        window.URL.createObjectURL(file)
+        URL.createObjectURL(file)
       );
+      console.log(URLArray)
       if (fileList) {
         setFileList({
           imgFile: [...fileList.imgFile, ...files],
