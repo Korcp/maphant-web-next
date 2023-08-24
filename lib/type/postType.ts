@@ -86,5 +86,10 @@ type EditType = {
   imagesUrl?: string[];
   tags?: string[];
 };
-
-export type { PostType, readPostType, EditType, HotPost };
+type uploadType = {
+  file_size: number;
+  upload_date: string;
+  url: string;
+  user_id: number;
+}[];
+export type { PostType, readPostType, EditType, uploadType };
