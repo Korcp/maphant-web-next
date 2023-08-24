@@ -115,13 +115,9 @@ const page = () => {
         </div>
 
         <div className={styles.postman}>
-          <div className={styles.nickname}>
-            {article && article.board.userId}
-          </div>
-
           <div className={styles.timeset} style={{ fontSize: ".7rem" }}>
             <div className={styles.content}>
-              {article?.board.title}
+              <div className={styles.title}>{article?.board.title}</div>
               <div className={styles.nicktime}>
                 <h4> {article?.board.userNickname}</h4>
                 <p>
@@ -166,7 +162,7 @@ const page = () => {
               article.board.imagesUrl?.length > 0 &&
               article.board.imagesUrl.map((item, i) => (
                 <div className={styles.imgbox}>
-                  <Image src={item} alt="" fill key={i+Math.random()}/>
+                  <Image src={item} alt="" fill key={item + i} />
                 </div>
               ))}
             {article?.board.body}
