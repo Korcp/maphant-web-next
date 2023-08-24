@@ -15,7 +15,7 @@ import Comment from "./Comment";
 import CommentList from "./CommentList";
 import { CommentType } from "@/lib/type/CommentType";
 import { BoardInfo } from "@/lib/Function/boardFunction";
-import Update from "./Update/page";
+import Image from "next/image";
 
 const page = () => {
   const router = useRouter();
@@ -161,9 +161,14 @@ const page = () => {
             </div>
           </div>
           <div className={styles.boardbody}>
-            {article && article.board.imagesUrl && (
-              <img src={article?.board.imagesUrl[0]} alt="" />
-            )}
+            {article &&
+              article.board.imagesUrl &&
+              article.board.imagesUrl?.length > 0 &&
+              article.board.imagesUrl.map((item, i) => (
+                <div className={styles.imgbox}>
+                  <Image src={item} alt="" fill key={i+Math.random()}/>
+                </div>
+              ))}
             {article?.board.body}
           </div>
 

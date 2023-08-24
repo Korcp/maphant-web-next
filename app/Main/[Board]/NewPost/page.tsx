@@ -6,13 +6,18 @@ import ErrorPage from "next/error";
 import HashTagList from "./HashTagList";
 import ImgList from "./ImgList";
 import styles from "./newPost.module.css";
-import { PostType } from "@/lib/type/postType";
+import { PostType, uploadType } from "@/lib/type/postType";
 import BoardAPI from "@/lib/api/BoardAPI";
 import { BoardInfo } from "@/lib/Function/boardFunction";
+import { uploadAPI } from "@/lib/api/fetchAPI";
 
 type fileListType = {
   imgFile: File[];
   imgURL: string[];
+};
+
+type imgRes = {
+  url: string;
 };
 
 function NewPost() {
@@ -47,7 +52,6 @@ function NewPost() {
         event.returnValue = "";
       }
     };
-
     window.addEventListener("beforeunload", unloadListner);
 
     return () => {
@@ -57,17 +61,40 @@ function NewPost() {
 
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value) {
+      if (fileList.imgFile.length>0) {
+        const imgForm = new FormData();
+        let imgURL: string[] = [];
+        fileList.imgFile.map((item) => {
+          imgForm.append("files", item);
+        });
 
-      console.log(hashTag);
-      setPostData({
-        typeId: boardType,
-        title: titleRef.current.value,
-        body: contentRef.current.value,
-        isAnonymous: 0,
-        isHide: 0,
-        imagesUrl : fileList.imgURL,
-        tagNames: hashTag ? hashTag : undefined,
-      });
+        uploadAPI<uploadType>("POST", "/image", imgForm)
+          .then((res) => {
+            res.map((item) => imgURL.push(item.url));
+            if (titleRef.current?.value && contentRef.current?.value) {
+              setPostData({
+                typeId: boardType,
+                title: titleRef.current.value,
+                body: contentRef.current.value,
+                isAnonymous: 0,
+                isHide: 0,
+                imagesUrl: imgURL,
+                tagNames: hashTag ? hashTag : undefined,
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        setPostData({
+          typeId: boardType,
+          title: titleRef.current.value,
+          body: contentRef.current.value,
+          isAnonymous: 0,
+          isHide: 0,
+          imagesUrl: undefined,
+          tagNames: hashTag ? hashTag : undefined,
+        });
+      }
     } else {
       alert("제목과 내용을 모두 입력해 주세요.");
     }
