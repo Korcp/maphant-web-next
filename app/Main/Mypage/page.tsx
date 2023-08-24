@@ -508,7 +508,7 @@ export default function Page() {
               </div>
             )}
             <br />
-            <button className={styles.closebutton} onClick={handlemydataclose}>
+            <button className={styles.mydatafix} onClick={handlemydataclose}>
               닫기
             </button>
           </div>
