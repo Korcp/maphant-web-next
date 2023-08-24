@@ -79,8 +79,11 @@ class UserAPI {
   }
 
   static GETUserProfile(targetUserId: number) {
-    const queryParams = `?targetUserId=${targetUserId}`;
-    return GetAPI<statusResponse>(`/profile?${targetUserId}`);
+    return GetAPI<statusResponse>(`/profile?targetUserId=${targetUserId}`);
+  }
+
+  static userProfile(targetUserId: number) {
+    return GetAPI<statusResponse>(`/profile?targetUserId=${targetUserId}`);
   }
 
   static Getnofication() {
