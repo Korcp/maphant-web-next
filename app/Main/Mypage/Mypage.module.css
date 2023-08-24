@@ -71,7 +71,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   text-align: center;
   width: 25%;
-  height: 55%;
+  height: auto;
 }
 .modalcg {
   background-color: white;
@@ -110,8 +110,8 @@
   padding: 10px 15px;
   border-radius: 10px;
   cursor: pointer;
-  margin-right: 70px;
-  margin-left: 70px;
+
+  /* margin-right: 70px; */
 }
 
 .mydatafix:hover {
@@ -124,6 +124,7 @@
   border: none;
   padding: 10px 15px;
   border-radius: 10px;
+  margin-left: 70px;
   cursor: pointer;
 }
 .closebutton2 {

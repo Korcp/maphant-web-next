@@ -15,12 +15,18 @@ const DropdownMenu = () => {
 
     router.push("/");
   };
+
+  const pushchat = () => {
+    router.push("/Main/ChatRoom");
+  };
   return (
     <ul className={styles.menulist}>
       <Link href="/Main/MypagePW" className={styles.userInfo}>
         회원 정보
       </Link>
-      <li className={styles.history}>공지 사항</li>
+      <li className={styles.history} onClick={pushchat}>
+        내 채팅창
+      </li>
       <li className={styles.logout} onClick={Logout}>
         로그아웃
       </li>
