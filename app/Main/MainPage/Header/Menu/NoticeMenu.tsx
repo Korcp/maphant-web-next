@@ -10,17 +10,34 @@ function NotifiMenu() {
   const [read, setRead] = useState(false);
   const [readItems, setReadItems] = useState([]);
 
+  // 컴포넌트가 마운트될 때 로컬스토리지에서 읽음 항목 불러오기
   useEffect(() => {
+    const storedReadItems = JSON.parse(
+      localStorage.getItem("readItems") || "[]"
+    );
+    setReadItems(storedReadItems);
+
     UserAPI.Getnofication().then((res) => {
       setAlert(res.data.list);
     });
   }, []);
 
+  useEffect(() => {
+    // readItems 변경 시 로컬스토리지에 저장
+    localStorage.setItem("readItems", JSON.stringify(readItems));
+  }, [readItems]);
+
   const handleNotificationClick = async (notificationId: number) => {
     setAlertId(notificationId);
     const res = await UserAPI.noficationid(notificationId);
     setRead(res.success);
-    setReadItems((prevItems) => [...prevItems, notificationId]);
+
+    if (res.success) {
+      if (!readItems.includes(notificationId)) {
+        setReadItems((prevItems) => [...prevItems, notificationId]);
+      }
+    }
+
     console.log(res.success);
   };
 
@@ -35,11 +52,16 @@ function NotifiMenu() {
           key={index}
           onClick={() => handleNotificationClick(notification.id)}
         >
-          {notification.title}
-          <br /> 댓글: {notification.body}
-          {readItems.includes(notification.id) && (
-            <span className={styles.readIndicator}>읽음</span>
-          )}
+          <div className={styles.noticeContent}>
+            <span className={styles.title}>{notification.title}</span>
+            <span className={styles.body}>
+              <br />
+              내용: {notification.body}
+            </span>
+            {readItems.includes(notification.id) && (
+              <span className={styles.readIndicator}>읽음</span>
+            )}
+          </div>
         </li>
       ))}
     </ul>
