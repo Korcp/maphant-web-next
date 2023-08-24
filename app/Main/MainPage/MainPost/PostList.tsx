@@ -35,9 +35,6 @@ function PostList({ boardName }: BoardName) {
 
   useEffect(() => {}, []);
 
-  console.log(boardName + "--" + boardType + "--");
-  console.log(articles);
-
   return (
     <div className={Styles.postList}>
       <div className={Styles.boardTitle} onClick={()=>router.push(boardLink)}>{boardName}</div>

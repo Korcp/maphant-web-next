@@ -113,7 +113,7 @@ class BoardAPI {
     return GetAPI<dataResponse>("/bookmark/my-list");
   }
   static GethotPost() {
-    return GetAPI<dataResponse<HotPost>>(`/board/hot?&page=1&recordSize=3`);
+    return GetAPI<dataResponse<HotPost>>(`/board/hot?&page=1&recordSize=3&sortCriterionId=2`);
   }
 }
 

@@ -37,15 +37,46 @@ type readPostType = {
   answerList: null;
 };
 type HotPost = {
-  list: {
-    boardId: number;
-    title: string;
-    type: string;
-    typeId: number;
-    userNickname: string;
-    likeCnt: number;
-    commentCnt: number;
-  }[];
+  
+    list: [
+      {
+        boardId: number;
+        title: string;
+        type: string;
+        typeId: number;
+        userNickname: string;
+        likeCnt: number;
+        commentCnt: number;
+      },
+      {
+        boardId: number;
+        title: string;
+        type: string;
+        typeId: number;
+        userNickname: string;
+        likeCnt: number;
+        commentCnt: number;
+      },
+      {
+        boardId: number;
+        title: string;
+        type: string;
+        typeId: number;
+        userNickname: string;
+        likeCnt: number;
+        commentCnt: number;
+      }
+    ];
+    pagination: {
+      totalRecordCount: number; //hot게시글의 전체 개수
+      totalPageCount: number; //전체 페이지 개수
+      startPage: number;
+      endPage: number;
+      limitStart: number;
+      existPrevPage: boolean;
+      existNextPage: boolean;
+    };
+  
 };
 type EditType = {
   id: number;

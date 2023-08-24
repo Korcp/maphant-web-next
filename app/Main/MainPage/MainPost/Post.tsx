@@ -44,9 +44,15 @@ function Post({ content, boardLink }: { content: BoardDetail,boardLink : string 
           <MdOutlineComment size="1rem" /> {content.commentCnt}
         </div>
       </div>
-      <p className={Styles.postContent}>{content.title}</p>
+      <p className={Styles.postContent}>
+        {content.title.length > 10
+  ? `${content.title.slice(0,10)}...`
+  : content.title}
+  
+  </p>
     </div>
-  );
+
+  )
 }
 
 export default Post;
