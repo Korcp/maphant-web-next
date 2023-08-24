@@ -8,14 +8,7 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import UserStorage from "@/lib/storage/UserStorage";
 
 export default function BookMark() {
-  const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
   const [mybook, setMyBook] = useState({ list: [] }); // 초기화
-
-  const id = userData.id;
-
-  useEffect(() => {
-    UserAPI.noficationid(id).then((res) => console.log("알림정보", res));
-  });
 
   useEffect(() => {
     UserAPI.Getbookmark().then((res) => {

@@ -19,6 +19,7 @@ function NotifiMenu() {
 
     UserAPI.Getnofication().then((res) => {
       setAlert(res.data.list);
+      console.log(res);
     });
   }, []);
 
