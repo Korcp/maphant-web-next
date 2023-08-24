@@ -15,11 +15,22 @@
   border: 1px solid black;
   border-radius: 20px;
   display: flex;
-  gap: 1rem;
-  justify-content: space-between;
+  
+  justify-content: space-evenly;
+  
   padding: 1rem;
+  width: 98%;
 }
-
+.hoticons {
+  margin: 1rem;
+}
+.hot1,.hot2,.hot3{
+  cursor: pointer;
+  
+}
+.hot1:hover,.hot2:hover,.hot3:hover{
+  background-color:rgb(242, 242, 242);
+}
 .box1,
 .box2 {
   border-radius: 20px;
@@ -39,14 +50,16 @@
 }
 @media screen and (max-width: 899px) {
   /* 모바일 가로, 타블렛 세로 */
-  .box1,.box2{
+  .box1,
+  .box2 {
     min-height: 26rem;
   }
 }
 
 @media screen and (max-width: 599px) {
   /* 모바일 세로 */
-  .box1,.box2{
+  .box1,
+  .box2 {
     min-height: 30rem;
   }
 }

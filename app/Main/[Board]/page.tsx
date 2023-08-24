@@ -98,12 +98,7 @@ function Borad() {
           </button>
           {onSortMenu && <SortItem />}
         </div>
-        <div className={styles.hashTags}>
-          <p>#해시태그1</p>
-          <p>#해시태그2</p>
-          <p>#해시태그3</p>
-          <p>#해시태그4</p>
-        </div>
+        
         <button
           className={styles.postBtn}
           onClick={() => {
