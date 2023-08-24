@@ -82,6 +82,25 @@ class UserAPI {
     const queryParams = `?targetUserId=${targetUserId}`;
     return GetAPI<statusResponse>(`/profile?${targetUserId}`);
   }
+
+  static Getnofication() {
+    return GetAPI<statusResponse>(
+      "/notifications/?page=1&recordSize=10&pageSize=10"
+    );
+  }
+
+  static noficationid(id: number) {
+    return PostAPI<statusResponse>("/notifications/updateread", {
+      id,
+    });
+  }
+
+  static getid(targetUserId: number) {
+    const queryParams = `?targetUserId=${targetUserId}`;
+    return GetAPI<statusResponse>(
+      `/profile/board?page=1&recordSize=3&${targetUserId}`
+    );
+  }
 }
 
 export default UserAPI;
