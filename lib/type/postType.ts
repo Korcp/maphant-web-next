@@ -38,12 +38,17 @@ type readPostType = {
 };
 
 type EditType = {
-  id: number,
-  title: string,
-  body: string,
-  isHide: number,
-  imagesUrl?: string[],
-  tags?: string[]
-}
-
-export type { PostType, readPostType, EditType };
+  id: number;
+  title: string;
+  body: string;
+  isHide: number;
+  imagesUrl?: string[];
+  tags?: string[];
+};
+type uploadType = {
+  file_size: number;
+  upload_date: string;
+  url: string;
+  user_id: number;
+}[];
+export type { PostType, readPostType, EditType, uploadType };

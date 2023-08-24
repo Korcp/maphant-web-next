@@ -23,9 +23,17 @@
   align-items: center;
 }
 .boardbody {
-  
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
   margin: 2rem;
   font-size: 1.25rem;
+}
+.imgbox{
+  background-color: aquamarine;
+  width: 30rem;
+  height: 30rem;
+  position: relative;
 }
 .starPost {
   font-size: 1.25rem;

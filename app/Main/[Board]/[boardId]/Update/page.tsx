@@ -6,8 +6,14 @@ import ErrorPage from "next/error";
 import HashTagList from "./HashTagList";
 import ImgList from "./ImgList";
 import styles from "./Update.module.css";
-import { EditType, PostType, readPostType } from "@/lib/type/postType";
+import {
+  EditType,
+  PostType,
+  readPostType,
+  uploadType,
+} from "@/lib/type/postType";
 import BoardAPI from "@/lib/api/BoardAPI";
+import { uploadAPI } from "@/lib/api/fetchAPI";
 
 type fileListType = {
   imgFile: File[];
@@ -66,13 +72,38 @@ function Update() {
 
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value && article) {
-      setPostData({
-        id: article?.board.id,
-        title: titleRef.current.value,
-        body: contentRef.current.value,
-        isHide: 0,
-        tags: hashTag ? hashTag : undefined,
-      });
+      if (fileList.imgFile.length > 0) {
+        const imgForm = new FormData();
+        let imgURL: string[] = [];
+        fileList.imgFile.map((item) => {
+          imgForm.append("files", item);
+        });
+
+        uploadAPI<uploadType>("POST", "/image", imgForm)
+          .then((res) => {
+            res.map((item) => imgURL.push(item.url));
+            if (titleRef.current?.value && contentRef.current?.value) {
+              setPostData({
+                id: article?.board.id,
+                title: titleRef.current.value,
+                body: contentRef.current.value,
+                isHide: 0,
+                imagesUrl: imgURL,
+                tags: hashTag ? hashTag : undefined,
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        setPostData({
+          id: article?.board.id,
+          title: titleRef.current.value,
+          body: contentRef.current.value,
+          isHide: 0,
+          imagesUrl: undefined,
+          tags: hashTag ? hashTag : undefined,
+        });
+      }
     } else {
       alert("제목과 내용을 모두 입력해 주세요.");
     }
@@ -80,14 +111,6 @@ function Update() {
 
   useEffect(() => {
     if (postData && article) {
-      // const imgData = new FormData();
-      // fileList.imgFile.forEach((item) => {
-      //   imgData.append("img", item);
-      // });
-      // console.log(imgData);
-      // BoardAPI.imgUpload(imgData).catch((err) => {
-      //   console.log(err);
-      // });
       console.log(postData);
       BoardAPI.editPost(postData)
         .then(() => {

@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 
 import styles from "./ImgList.module.css";
+import { uploadAPI } from "@/lib/api/fetchAPI";
 
 type ImgType = {
   url: string;
@@ -21,18 +22,12 @@ type PropsType = {
 const ImgList = ({ fileList, setFileList }: PropsType) => {
   const fileRef = useRef<HTMLInputElement>(null);
   const uploadBtnRef = useRef<HTMLButtonElement>(null);
-  const imgData = new FormData();
 
   const uploadEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-
-      console.log(e.target.files)
       const files = Array.from(e.target.files);
 
-      const URLArray = Array.from(files, (file) =>
-        URL.createObjectURL(file)
-      );
-      console.log(URLArray)
+      const URLArray = Array.from(files, (file) => URL.createObjectURL(file));
       if (fileList) {
         setFileList({
           imgFile: [...fileList.imgFile, ...files],
