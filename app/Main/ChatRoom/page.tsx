@@ -6,9 +6,16 @@ import styles from "./ChatRoom.module.css";
 export default function ChatRoom() {
   const [chatRooms, setChatRooms] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState("");
 
   const clickChat = (chatRoom) => {
     setSelectedChat(chatRoom);
+    UserAPI.chatlist(chatRoom.id, 0).then((res) => {
+      if (res.success) {
+        setChatMessages(res.data.list);
+      }
+    });
   };
 
   useEffect(() => {
@@ -39,6 +46,26 @@ export default function ChatRoom() {
 
     UserAPI.noneRead().then((res) => console.log("안읽은쪽지", res));
   }, []);
+
+  const clicksend = () => {
+    UserAPI.postMessage(selectedChat.other_id, messageInput).then((res) => {
+      console.log(res);
+      UserAPI.chatlist(selectedChat.id, 0).then((res) => {
+        if (res.success) {
+          setChatMessages(res.data.list);
+        }
+      });
+    });
+  };
+  console.log("확인이욤", selectedChat);
+
+  const isMyMessage = (message) => {
+    return message.sender_id === selectedChat.receiver_id;
+  };
+
+  const isOtherMessage = (message) => {
+    return message.sender_id === selectedChat.sender_id;
+  };
 
   return (
     <div className={styles.chatRoom}>
@@ -88,18 +115,55 @@ export default function ChatRoom() {
               ))}
             </ul>
           </div>
-          {selectedChat && (
-            <div className={styles.chatForm}>
+          <div className={styles.chatForm}>
+            {selectedChat && (
               <div className={styles.selectedChat}>
                 <h2>{selectedChat.other_nickname}</h2>
-                <div className={styles.chatMessages}></div>
+                <div className={styles.chatMessages}>
+                  {chatMessages.map((message) => (
+                    <div
+                      key={message.id}
+                      className={`${styles.chatMessage} ${
+                        isMyMessage(message)
+                          ? styles.myMessage
+                          : styles.otherMessage
+                      }`}
+                    >
+                      <div className={styles.messageContainer}>
+                        <div className={styles.profile}>
+                          <img
+                            src={
+                              isMyMessage(message)
+                                ? selectedChat.userProfile.profileImg
+                                : selectedChat.userProfile.profileImg
+                            }
+                            alt={
+                              isMyMessage(message)
+                                ? selectedChat.other_nickname
+                                : selectedChat.other_nickname
+                            }
+                            className={styles.profileImage}
+                          />
+                        </div>
+                      </div>
+                      <p>{message.content}</p>
+                      <span>{message.time}</span>
+                      <hr />
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.chatInput}>
+                  <input
+                    type="text"
+                    placeholder="메시지 입력"
+                    value={messageInput}
+                    onChange={(e) => setMessageInput(e.target.value)}
+                  />
+                  <button onClick={clicksend}>보내기</button>
+                </div>
               </div>
-              <div className={styles.chatInput}>
-                <input type="text" placeholder="메시지 입력" />
-                <button>보내기</button>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

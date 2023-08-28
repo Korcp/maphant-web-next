@@ -28,6 +28,7 @@ export default function MainApp(): ReactElement {
       .catch((err) => {
         console.log(err);
       });
+      
   };
   if (article && article?.list[0].type === "자유 게시판") {
     boardLink = `./Free`;

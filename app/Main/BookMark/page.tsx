@@ -3,10 +3,11 @@
 import UserAPI from "@/lib/api/BoardAPI";
 import { useState, useEffect } from "react";
 import "./Mybook.css";
-import { Router, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { IoBookmarkOutline } from "react-icons/io5";
 import UserStorage from "@/lib/storage/UserStorage";
-
+import { FiX } from "react-icons/fi";
+import BoardAPI from "@/lib/api/BoardAPI";
 export default function BookMark() {
   const [mybook, setMyBook] = useState({ list: [] }); // 초기화
 
@@ -44,6 +45,20 @@ export default function BookMark() {
     }
   };
 
+  const delBtn = (comment: any) => {
+    BoardAPI.Delbookmark(parseInt(comment.boardId))
+      .then(() => {
+        alert("삭제되었습니다");
+        UserAPI.Getbookmark().then((res) => {
+          setMyBook(res.data);
+          console.log(res);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="bookCSS">
       <div className="Myheader">
@@ -65,11 +80,16 @@ export default function BookMark() {
               <div
                 key={item.id}
                 className="grid-item"
-                onClick={() => hanldecommitClick(item)} // 매개변수 전달
+                // 매개변수 전달
               >
                 <div className="book-box">
-                  <p className="book-title">
-                    {" "}
+                  <button className="deleteBtn" onClick={() => delBtn(item)}>
+                    <FiX />
+                  </button>
+                  <p
+                    className="book-title"
+                    onClick={() => hanldecommitClick(item)}
+                  >
                     <IoBookmarkOutline color="blue" />
                     {item.boardTitle}
                   </p>
