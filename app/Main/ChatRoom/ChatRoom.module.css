@@ -1,0 +1,105 @@
+/* ChatRoom.module.css */
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.profile {
+  margin-right: 10px;
+}
+
+.profileImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.infoBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.unreadCount {
+  background-color: red;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatContent {
+  flex: 1;
+}
+
+.content {
+  margin-top: 5px;
+}
+
+.chatMain {
+  display: flex;
+  align-items: flex-start;
+}
+
+.chatList {
+  flex: 1;
+  padding: 10px;
+}
+
+.chatForm {
+  flex: 2;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
+}
+
+.selectedChat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chatMessages {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.chatInput {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.chatInput input {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.chatInput button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 3px;
+  cursor: pointer;
+}
