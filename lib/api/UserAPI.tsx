@@ -108,12 +108,20 @@ class UserAPI {
     return GetAPI<statusResponse>("/room");
   }
 
-  static chatlist() {
-    return GetAPI<statusResponse>("/room/18?cursor=0&limit=10");
+  static chatlist(id: number, cursor: number) {
+    const params = `/room/${id}?cursor=${cursor}&limit=10`;
+    return GetAPI<statusResponse>(params);
   }
 
   static noneRead() {
     return GetAPI<statusResponse>("/dm/unread/count");
+  }
+
+  static postMessage(receiver_id: number, content: string) {
+    return PostAPI<statusResponse>("/dm", {
+      receiver_id,
+      content,
+    });
   }
 }
 
