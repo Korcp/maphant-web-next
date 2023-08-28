@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import UserAPI from "@/lib/api/BoardAPI";
 import { useRouter, useSearchParams } from "next/navigation";
 import "./Mylike.css";
-
+import BoardAPI from "@/lib/api/BoardAPI";
+import { FiX } from "react-icons/fi";
 export default function Mylike() {
   const [mylistData, setMyListData] = useState<
     {
@@ -73,6 +74,23 @@ export default function Mylike() {
       router.replace(`/Main/${boardPath}/${comment.id}`);
     }
   };
+  const dellike = (comment: any) => {
+    BoardAPI.Dellike(parseInt(comment.id))
+      .then(() => {
+        alert("삭제되었습니다");
+        UserAPI.MylikeLoad(currentPage, recordSize) // userId를 활용
+      .then((response) => {
+        console.log(response);
+        setMyListData(response.data.list);
+      })
+      .catch((error) => {
+        console.error("채팅 데이터를 가져오는 중 오류 발생:", error);
+      });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="MylistCSS">
       <div className="Myheader">
@@ -91,8 +109,15 @@ export default function Mylike() {
           <hr />
           <ul>
             {mylistData.map((comment) => (
-              <li key={comment.id} onClick={() => handleCommentClick(comment)}>
-                <div className="comment-box">
+              <li>
+                <button className="dellike" onClick={() => dellike(comment)}>
+                  <FiX />
+                </button>
+                <div
+                  className="comment-box"
+                  key={comment.id}
+                  onClick={() => handleCommentClick(comment)}
+                >
                   <p className="comment-type">{comment.type}</p>
                   <p className="comment-title">제목: {comment.title}</p>
                   <p className="comment-date">작성일자: {comment.created_at}</p>

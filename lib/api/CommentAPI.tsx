@@ -36,15 +36,21 @@ class CommentAPI {
       body: body,
     });
   }
-  static reportComment (commentId:number, reportId:number) {
-    return PostAPI<statusResponse>(`/comment/report`,{
-      commentId:commentId,
-      reportId:reportId
-    })
+  static reportComment(commentId: number, reportId: number) {
+    return PostAPI<statusResponse>(`/comment/report`, {
+      commentId: commentId,
+      reportId: reportId,
+    });
   }
-  static Reply(parent_Id: number, body: string, is_anonymous: number) {
+  static Reply(
+    parent_Id: number,
+    boardId: number,
+    body: string,
+    is_anonymous: number
+  ) {
     return PostAPI<statusResponse>(`/comment/insert`, {
       parent_id: parent_Id,
+      board_id:boardId,
       body: body,
       is_anonymous: is_anonymous,
     });
