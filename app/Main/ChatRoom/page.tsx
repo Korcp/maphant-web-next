@@ -2,29 +2,65 @@
 import React, { useState, useEffect } from "react";
 import UserAPI from "@/lib/api/UserAPI";
 import styles from "./ChatRoom.module.css";
+import UserStorage from "@/lib/storage/UserStorage";
 
 export default function ChatRoom() {
   const [chatRooms, setChatRooms] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
+  const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
 
-  const clickChat = (chatRoom) => {
+  console.log(userData);
+
+  const clickChat = async (chatRoom) => {
     setSelectedChat(chatRoom);
-    UserAPI.chatlist(chatRoom.id, 0).then((res) => {
+    try {
+      const res = await UserAPI.chatlist(chatRoom.id, 0);
       if (res.success) {
-        setChatMessages(res.data.list);
+        setChatMessages(
+          await Promise.all(
+            res.data.list.map(async (message) => {
+              const senderId = message.sender_id; // 이 부분을 확인하세요
+              if (senderId !== undefined) {
+                // 발신자 ID가 유효한 경우에만 실행
+                try {
+                  const profileResponse = await UserAPI.userProfile(senderId);
+                  if (profileResponse.data) {
+                    return {
+                      ...message,
+                      senderProfile: profileResponse.data,
+                    };
+                  } else {
+                    return message;
+                  }
+                } catch (error) {
+                  console.error("Error fetching sender's profile:", error);
+                  return message;
+                }
+              } else {
+                return message;
+              }
+            })
+          )
+        );
       }
-    });
+    } catch (error) {
+      console.error("Error fetching chat messages:", error);
+    }
   };
-
   useEffect(() => {
     UserAPI.getchat().then(async (res) => {
       const chatRoomsWithProfiles = await Promise.all(
         res.data.map(async (chatRoom) => {
           const senderId = chatRoom.sender_id;
+          const receiverId = chatRoom.receiver_id;
+
+          // Check if senderId matches userData.id
+          const userIdToUse = senderId === userData.id ? receiverId : senderId;
+
           try {
-            const profileResponse = await UserAPI.userProfile(senderId);
+            const profileResponse = await UserAPI.userProfile(userIdToUse);
 
             if (profileResponse.data) {
               return {
@@ -41,8 +77,11 @@ export default function ChatRoom() {
         })
       );
 
+      console.log("정보확인이요", chatRooms);
+
       setChatRooms(chatRoomsWithProfiles);
     });
+    console.log("챗메세지의정보", chatMessages);
 
     UserAPI.noneRead().then((res) => console.log("안읽은쪽지", res));
   }, []);
@@ -56,15 +95,6 @@ export default function ChatRoom() {
         }
       });
     });
-  };
-  console.log("확인이욤", selectedChat);
-
-  const isMyMessage = (message) => {
-    return message.sender_id === selectedChat.receiver_id;
-  };
-
-  const isOtherMessage = (message) => {
-    return message.sender_id === selectedChat.sender_id;
   };
 
   return (
@@ -121,31 +151,7 @@ export default function ChatRoom() {
                 <h2>{selectedChat.other_nickname}</h2>
                 <div className={styles.chatMessages}>
                   {chatMessages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`${styles.chatMessage} ${
-                        isMyMessage(message)
-                          ? styles.myMessage
-                          : styles.otherMessage
-                      }`}
-                    >
-                      <div className={styles.messageContainer}>
-                        <div className={styles.profile}>
-                          <img
-                            src={
-                              isMyMessage(message)
-                                ? selectedChat.userProfile.profileImg
-                                : selectedChat.userProfile.profileImg
-                            }
-                            alt={
-                              isMyMessage(message)
-                                ? selectedChat.other_nickname
-                                : selectedChat.other_nickname
-                            }
-                            className={styles.profileImage}
-                          />
-                        </div>
-                      </div>
+                    <div key={message.id} className={`${styles.chatMessage}`}>
                       <p>{message.content}</p>
                       <span>{message.time}</span>
                       <hr />
