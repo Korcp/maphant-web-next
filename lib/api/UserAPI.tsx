@@ -123,6 +123,10 @@ class UserAPI {
       content,
     });
   }
+
+  static DeleteRoom(roomid: number) {
+    return DeleteAPI<statusResponse>(`/room/${roomid}`);
+  }
 }
 
 export default UserAPI;

@@ -104,25 +104,27 @@
   cursor: pointer;
 }
 
-.myMessage {
-  background-color: #dcf8c6;
-  color: #333;
-  align-self: flex-end;
-  margin-right: 10px;
-  padding: 8px;
-  border-radius: 8px;
+.sentMessage {
+  text-align: right;
+  background-color: #ffffff; /* For example, you can choose your own background color */
 }
 
-.otherMessage {
-  background-color: #f5f5f5;
-  color: #333;
-  align-self: flex-start;
-  margin-left: 10px;
-  padding: 8px;
-  border-radius: 8px;
+.receivedMessage {
+  text-align: left;
+  background-color: #ffffff; /* For example, you can choose your own background color */
 }
-
 .time {
   font-size: 12px; /* 작은 글꼴 크기로 수정 */
   color: #888; /* 색상 추가 */
+}
+
+.DeleteRoom {
+  margin-left: 10%;
+  position: absolute;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 3px;
+  cursor: pointer;
 }

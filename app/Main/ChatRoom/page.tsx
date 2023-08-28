@@ -11,19 +11,15 @@ export default function ChatRoom() {
   const [messageInput, setMessageInput] = useState("");
   const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
 
-  console.log(userData);
-
-  const clickChat = async (chatRoom) => {
-    setSelectedChat(chatRoom);
+  const fetchMessages = async (chatId) => {
     try {
-      const res = await UserAPI.chatlist(chatRoom.id, 0);
+      const res = await UserAPI.chatlist(chatId, 0);
       if (res.success) {
         setChatMessages(
           await Promise.all(
             res.data.list.map(async (message) => {
-              const senderId = message.sender_id; // 이 부분을 확인하세요
+              const senderId = message.sender_id;
               if (senderId !== undefined) {
-                // 발신자 ID가 유효한 경우에만 실행
                 try {
                   const profileResponse = await UserAPI.userProfile(senderId);
                   if (profileResponse.data) {
@@ -49,6 +45,7 @@ export default function ChatRoom() {
       console.error("Error fetching chat messages:", error);
     }
   };
+
   useEffect(() => {
     UserAPI.getchat().then(async (res) => {
       const chatRoomsWithProfiles = await Promise.all(
@@ -56,7 +53,6 @@ export default function ChatRoom() {
           const senderId = chatRoom.sender_id;
           const receiverId = chatRoom.receiver_id;
 
-          // Check if senderId matches userData.id
           const userIdToUse = senderId === userData.id ? receiverId : senderId;
 
           try {
@@ -77,26 +73,55 @@ export default function ChatRoom() {
         })
       );
 
-      console.log("정보확인이요", chatRooms);
-
       setChatRooms(chatRoomsWithProfiles);
     });
-    console.log("챗메세지의정보", chatMessages);
 
     UserAPI.noneRead().then((res) => console.log("안읽은쪽지", res));
-  }, []);
+
+    const pollingInterval = setInterval(() => {
+      if (selectedChat) {
+        fetchMessages(selectedChat.id); // Fetch new messages for selected chat
+      }
+    }, 3000); // Every 3 seconds
+
+    return () => {
+      clearInterval(pollingInterval);
+    };
+  }, [selectedChat]);
+
+  const clickChat = (chatRoom) => {
+    setSelectedChat(chatRoom);
+    fetchMessages(chatRoom.id); // Fetch initial messages for the clicked chat
+  };
 
   const clicksend = () => {
     UserAPI.postMessage(selectedChat.other_id, messageInput).then((res) => {
       console.log(res);
-      UserAPI.chatlist(selectedChat.id, 0).then((res) => {
-        if (res.success) {
-          setChatMessages(res.data.list);
-        }
+      fetchMessages(selectedChat.id); // Fetch new messages after sending a message
+
+      // Update last_content for the selected chat
+      setChatRooms((prevChatRooms) => {
+        return prevChatRooms.map((chatRoom) => {
+          if (chatRoom.id === selectedChat.id) {
+            return {
+              ...chatRoom,
+              last_content: messageInput, // Update last_content
+            };
+          }
+          return chatRoom;
+        });
       });
+
+      setMessageInput(""); // Clear message input after sending
     });
   };
-
+  const clickDelete = () => {
+    if (selectedChat) {
+      UserAPI.DeleteRoom(selectedChat.id).then((res) =>
+        console.log("대화방이 삭제되었습니다")
+      );
+    }
+  };
   return (
     <div className={styles.chatRoom}>
       <div>
@@ -148,10 +173,24 @@ export default function ChatRoom() {
           <div className={styles.chatForm}>
             {selectedChat && (
               <div className={styles.selectedChat}>
-                <h2>{selectedChat.other_nickname}</h2>
+                <button
+                  className={styles.DeleteRoom}
+                  onClick={() => clickDelete(selectedChat.room_id)}
+                >
+                  대화방 삭제
+                </button>
+                <h2>{selectedChat.other_nickname} </h2>
+
                 <div className={styles.chatMessages}>
                   {chatMessages.map((message) => (
-                    <div key={message.id} className={`${styles.chatMessage}`}>
+                    <div
+                      key={message.id}
+                      className={`${styles.chatMessage} ${
+                        message.is_me
+                          ? styles.sentMessage
+                          : styles.receivedMessage
+                      }`}
+                    >
                       <p>{message.content}</p>
                       <span>{message.time}</span>
                       <hr />
