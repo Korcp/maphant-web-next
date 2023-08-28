@@ -21,7 +21,7 @@ function MailMenu() {
         <li key={chats.id}>
           <div>
             <p>
-              유저:{chats.other_nickname}
+              발신인:{chats.other_nickname}
               <br />
               쪽지내용:{chats.last_content}
             </p>
