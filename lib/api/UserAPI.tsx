@@ -127,6 +127,10 @@ class UserAPI {
   static DeleteRoom(roomid: number) {
     return DeleteAPI<statusResponse>(`/room/${roomid}`);
   }
+
+  static GetUser(name: string) {
+    return GetAPI<statusResponse>(`/dm/target/search?nickname=${name}`);
+  }
 }
 
 export default UserAPI;

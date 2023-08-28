@@ -10,6 +10,18 @@ export default function ChatRoom() {
   const [chatMessages, setChatMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const [userData, setUserData] = useState(UserStorage.getUserProfile()!!);
+  const [getUser, setGetUser] = useState("");
+  const [ongetUser, setOngetUser] = useState([]);
+
+  useEffect(() => {
+    if (getUser) {
+      UserAPI.GetUser(getUser).then((res) => {
+        console.log("유저찾기", res);
+        setOngetUser(res.data);
+        console.log("데이터란", ongetUser);
+      });
+    }
+  }, [getUser]);
 
   const fetchMessages = async (chatId) => {
     try {
@@ -80,9 +92,9 @@ export default function ChatRoom() {
 
     const pollingInterval = setInterval(() => {
       if (selectedChat) {
-        fetchMessages(selectedChat.id); // Fetch new messages for selected chat
+        fetchMessages(selectedChat.id);
       }
-    }, 3000); // Every 3 seconds
+    }, 1000);
 
     return () => {
       clearInterval(pollingInterval);
@@ -97,22 +109,21 @@ export default function ChatRoom() {
   const clicksend = () => {
     UserAPI.postMessage(selectedChat.other_id, messageInput).then((res) => {
       console.log(res);
-      fetchMessages(selectedChat.id); // Fetch new messages after sending a message
+      fetchMessages(selectedChat.id);
 
-      // Update last_content for the selected chat
       setChatRooms((prevChatRooms) => {
         return prevChatRooms.map((chatRoom) => {
           if (chatRoom.id === selectedChat.id) {
             return {
               ...chatRoom,
-              last_content: messageInput, // Update last_content
+              last_content: messageInput,
             };
           }
           return chatRoom;
         });
       });
 
-      setMessageInput(""); // Clear message input after sending
+      setMessageInput("");
     });
   };
   const clickDelete = () => {
@@ -122,15 +133,34 @@ export default function ChatRoom() {
       );
     }
   };
+
   return (
     <div className={styles.chatRoom}>
+      <p>
+        유저 검색 :
+        <input
+          className={styles.search}
+          type="text"
+          list="userList"
+          placeholder="닉네임은 2글자이상입력해주세요"
+          value={getUser}
+          onChange={(e) => setGetUser(e.target.value)}
+        />
+        <datalist id="userList">
+          {ongetUser.map((data, index) => (
+            <option key={index} value={data.nickname} />
+          ))}
+        </datalist>
+      </p>
+
       <div>
-        <header>
+        <header className={styles.header}>
           <h1>내 쪽지</h1>
         </header>
         <hr />
         <nav>
           <h3>채팅방 목록</h3>
+
           <hr />
         </nav>
         <div className={styles.chatMain}>
