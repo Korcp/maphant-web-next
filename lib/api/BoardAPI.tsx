@@ -115,6 +115,9 @@ class BoardAPI {
   static GethotPost() {
     return GetAPI<dataResponse<HotPost>>(`/board/hot?&page=1&recordSize=3&sortCriterionId=2`);
   }
+  static Delbookmark(boardId : number) {
+    return DeleteAPI<statusResponse>(`/bookmark/${boardId}`);
+  }
 }
 
 export default BoardAPI;

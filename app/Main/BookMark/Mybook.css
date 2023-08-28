@@ -7,4 +7,13 @@
 .grid-item {
   border: 1px solid #ccc;
   padding: 10px;
+  
+}
+.book-title {
+  cursor: pointer;
+}
+.deleteBtn{
+  border : none;
+  background: none;
+  cursor: pointer;
 }
