@@ -188,7 +188,7 @@ const page = () => {
             {article && commentList && (
               <CommentList
                 commentList={commentList.list}
-                isMyArticle={article.board.isMyBoard}
+                boardId={article.board.id}
                 commentCnt={article.board.commentCnt}
                 getComment={getComment}
               />
