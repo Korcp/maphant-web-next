@@ -190,7 +190,7 @@ const page = () => {
                 commentList={commentList.list}
                 boardId={article.board.id}
                 commentCnt={article.board.commentCnt}
-                getComment={getComment}
+                getComment={getPost}
               />
             )}
           </div>

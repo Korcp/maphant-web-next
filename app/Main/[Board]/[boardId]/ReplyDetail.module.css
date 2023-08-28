@@ -1,11 +1,29 @@
 .replyBox {
   display: flex;
   gap: 1rem;
-  border-top: 1px solid #ababab;
+  border-bottom: 1px solid #ababab;
   padding-top: 1rem;
 }
 .replyLine {
   margin-left: 0.5rem;
+}
+.replyEditbox {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  border: 1px solid #ababab;
+  border-radius: 10px;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+.replyText {
+  width: 47rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  resize: none;
+  border: 0;
+  border: 1px solid #ababab;
+  border-radius: 10px;
 }
 .replyUserInfo {
   display: flex;

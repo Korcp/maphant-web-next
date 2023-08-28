@@ -19,6 +19,11 @@ const reply = ({ content, getComment }: PropsType) => {
   const [onEdit, setOnEdit] = useState<boolean>(false);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
+  const resizeTextEvent = () => {
+    textRef.current!.style.height = "auto";
+    textRef.current!.style.height = textRef.current!.scrollHeight + "px";
+  };
+
   const likeEvent = (id: number) => {
     CommentAPI.likeComment(id)
       .then(() => getComment())
@@ -51,79 +56,122 @@ const reply = ({ content, getComment }: PropsType) => {
         .catch((err) => console.log(err));
     }
   };
+  const ReplyEdit = () => {
+    return (
+      <div className={styles.replyEditbox}>
+        <textarea
+          ref={textRef}
+          className={styles.replyText}
+          defaultValue={content.body}
+          onChange={resizeTextEvent}
+          maxLength={255}
+          rows={1}
+        ></textarea>
+        <div className={styles.editBtnBox}>
+          <button
+            onClick={() => {
+              onEdit && editEvent();
+            }}
+            className={styles.commentBtn}
+          >
+            댓글 수정
+          </button>
+          <button
+            onClick={() => {
+              onEdit && setOnEdit(false);
+            }}
+            className={styles.cancelBtn}
+          >
+            취소
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.replyBox}>
       <p className={styles.replyLine}>
         <FiCornerDownRight />
       </p>
-      <div className={styles.replyContent}>
+      {onEdit ? (
         <div>
           <div className={styles.replyUserInfo}>
             <h4 className={styles.userName}> {content.nickname}</h4>
             <p className={styles.date}>{content.time}</p>
           </div>
-          <p className={styles.detail}>
-            {detailBody.map((item, i) => (
-              <React.Fragment key={item + i}>
-                {item}
-                <br />
-              </React.Fragment>
-            ))}
-          </p>
+          <ReplyEdit />
         </div>
-        <div className={styles.btnbox}>
-          <div className={styles.more}>
-            <div
-              className={`${styles.editbox} ${more ? styles.on : styles.off}`}
-            >
-              {content.isMyComment && (
-                <button
-                  className={styles.btn}
+      ) : (
+        <div className={styles.replyContent}>
+          <div>
+            <div className={styles.replyUserInfo}>
+              <h4 className={styles.userName}> {content.nickname}</h4>
+              <p className={styles.date}>{content.time}</p>
+            </div>
+            <p className={styles.detail}>
+              {detailBody.map((item, i) => (
+                <React.Fragment key={item + i}>
+                  {item}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>
+          </div>
+          <div className={styles.btnbox}>
+            <div className={styles.more}>
+              <div
+                className={`${styles.editbox} ${more ? styles.on : styles.off}`}
+              >
+                {content.isMyComment && (
+                  <button
+                    className={styles.btn}
+                    onClick={() => {
+                      setMore(!more);
+                      setOnEdit(!onEdit);
+                    }}
+                  >
+                    수정
+                  </button>
+                )}
+                {content.isMyComment && (
+                  <button
+                    className={styles.btn}
+                    onClick={() => delEvent(content.id)}
+                  >
+                    삭제
+                  </button>
+                )}
+                <button className={styles.report} onClick={() => reportEvent()}>
+                  신고
+                </button>
+              </div>
+              {!more ? (
+                <FiMoreHorizontal
+                  className={styles.moreBtn}
                   onClick={() => {
                     setMore(!more);
-                    setOnEdit(!onEdit);
                   }}
-                >
-                  수정
-                </button>
+                />
+              ) : (
+                <FiX
+                  className={styles.moreBtn}
+                  onClick={() => {
+                    setMore(!more);
+                  }}
+                />
               )}
-              {content.isMyComment && (
-                <button
-                  className={styles.btn}
-                  onClick={() => delEvent(content.id)}
-                >
-                  삭제
-                </button>
-              )}
-              <button className={styles.report} onClick={() => reportEvent()}>
-                신고
-              </button>
             </div>
-            {!more ? (
-              <FiMoreHorizontal
-                className={styles.moreBtn}
-                onClick={() => {
-                  setMore(!more);
-                }}
+            <p className={styles.like}>
+              <FiHeart
+                onClick={() => likeEvent(content.id)}
+                className={styles.likeBtn}
               />
-            ) : (
-              <FiX
-                className={styles.moreBtn}
-                onClick={() => {
-                  setMore(!more);
-                }}
-              />
-            )}
+              {content.like_cnt}
+            </p>
           </div>
-          <p className={styles.like}>
-            <FiHeart
-              onClick={() => likeEvent(content.id)}
-              className={styles.likeBtn}
-            />
-            {content.like_cnt}
-          </p>
         </div>
-      </div>
+      )}
     </div>
   );
 };

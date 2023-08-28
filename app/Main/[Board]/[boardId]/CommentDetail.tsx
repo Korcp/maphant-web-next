@@ -79,6 +79,7 @@ const CommentDetail = ({
         .then(() => {
           getComment();
           setReply(false);
+          onReplyList ? "" : setOnReplyList(true);
         })
         .catch((err) => console.log(err));
     }
@@ -136,126 +137,131 @@ const CommentDetail = ({
       ) : (
         <div className={styles.commentLayout}>
           <div className={styles.comment}>
-          <div className={styles.contents}>
-            <div className={styles.info}>
-              <div className={styles.left}>
-                <h4 className={styles.userName}>{content.nickname}</h4>
-                <p className={styles.date}>{content.time}</p>
-              </div>
-            </div>
-            <p className={styles.detail}>
-              {detailBody.map((item, i) => (
-                <React.Fragment key={item + i}>
-                  {item}
-                  <br />
-                </React.Fragment>
-              ))}
-            </p>
-            <div className={styles.replyBtnBox}>
-              <p className={styles.replyBtn} onClick={() => setReply(!reply)}>
-                답글 쓰기
-              </p>
-              <p
-                className={styles.replyListBtn}
-                onClick={() => setOnReplyList(!onReplyList)}
-              >
-                {replyList &&
-                  replyList.length > 0 &&
-                  (onReplyList ? (
-                    <>
-                      <MdKeyboardArrowUp size="1rem" />
-                      답글 닫기
-                    </>
-                  ) : (
-                    <>
-                      <MdKeyboardArrowDown size="1rem" />
-                      답글 보기
-                    </>
-                  ))}
-              </p>
-            </div>
-            {reply && (
-              <div className={styles.replyEditBox}>
-                <p className={styles.replyLine}>
-                  <FiCornerDownRight />
-                </p>
-                <div className={styles.replyEditInfo}>
-                  <h4>{UserData?.nickname}</h4>
-                  <div>
-                    익명
-                    <input
-                      type="checkbox"
-                      onChange={() => setAnonymous(!anonymous)}
-                    />
-                  </div>
+            <div className={styles.contents}>
+              <div className={styles.info}>
+                <div className={styles.left}>
+                  <h4 className={styles.userName}>{content.nickname}</h4>
+                  <p className={styles.date}>{content.time}</p>
                 </div>
-                <CommentEdit />
               </div>
-            )}
-          </div>
-          <div className={styles.btnbox}>
-            <div className={styles.more}>
-              <div
-                className={`${styles.editbox} ${more ? styles.on : styles.off}`}
-              >
-                {content.isMyComment && (
-                  <button
-                    className={styles.btn}
-                    onClick={() => {
-                      setMore(!more);
-                      setOnEdit(!onEdit);
-                      setReply(false);
-                    }}
-                  >
-                    수정
-                  </button>
-                )}
-                {content.isMyComment && (
-                  <button
-                    className={styles.btn}
-                    onClick={() => delEvent(content.id)}
-                  >
-                    삭제
-                  </button>
-                )}
-                <button className={styles.report} onClick={() => reportEvent()}>
-                  신고
-                </button>
+              <p className={styles.detail}>
+                {detailBody.map((item, i) => (
+                  <React.Fragment key={item + i}>
+                    {item}
+                    <br />
+                  </React.Fragment>
+                ))}
+              </p>
+              <div className={styles.replyBtnBox}>
+                <p className={styles.replyBtn} onClick={() => setReply(!reply)}>
+                  답글 쓰기
+                </p>
+                <p
+                  className={styles.replyListBtn}
+                  onClick={() => setOnReplyList(!onReplyList)}
+                >
+                  {replyList &&
+                    replyList.length > 0 &&
+                    (onReplyList ? (
+                      <>
+                        <MdKeyboardArrowUp size="1rem" />
+                        답글 닫기
+                      </>
+                    ) : (
+                      <>
+                        <MdKeyboardArrowDown size="1rem" />
+                        답글 보기
+                      </>
+                    ))}
+                </p>
               </div>
-              {!more ? (
-                <FiMoreHorizontal
-                  className={styles.moreBtn}
-                  onClick={() => {
-                    setMore(!more);
-                  }}
-                />
-              ) : (
-                <FiX
-                  className={styles.moreBtn}
-                  onClick={() => {
-                    setMore(!more);
-                  }}
-                />
+              {reply && (
+                <div className={styles.replyEditBox}>
+                  <p className={styles.replyLine}>
+                    <FiCornerDownRight />
+                  </p>
+                  <div className={styles.replyEditInfo}>
+                    <h4>{UserData?.nickname}</h4>
+                    <div>
+                      익명
+                      <input
+                        type="checkbox"
+                        onChange={() => setAnonymous(!anonymous)}
+                      />
+                    </div>
+                  </div>
+                  <CommentEdit />
+                </div>
               )}
             </div>
+            <div className={styles.btnbox}>
+              <div className={styles.more}>
+                <div
+                  className={`${styles.editbox} ${
+                    more ? styles.on : styles.off
+                  }`}
+                >
+                  {content.isMyComment && (
+                    <button
+                      className={styles.btn}
+                      onClick={() => {
+                        setMore(!more);
+                        setOnEdit(!onEdit);
+                        setReply(false);
+                      }}
+                    >
+                      수정
+                    </button>
+                  )}
+                  {content.isMyComment && (
+                    <button
+                      className={styles.btn}
+                      onClick={() => delEvent(content.id)}
+                    >
+                      삭제
+                    </button>
+                  )}
+                  <button
+                    className={styles.report}
+                    onClick={() => reportEvent()}
+                  >
+                    신고
+                  </button>
+                </div>
+                {!more ? (
+                  <FiMoreHorizontal
+                    className={styles.moreBtn}
+                    onClick={() => {
+                      setMore(!more);
+                    }}
+                  />
+                ) : (
+                  <FiX
+                    className={styles.moreBtn}
+                    onClick={() => {
+                      setMore(!more);
+                    }}
+                  />
+                )}
+              </div>
 
-            <p className={styles.like}>
-              <FiHeart
-                onClick={() => likeEvent(content.id)}
-                className={styles.likeBtn}
-              />
-              {content.like_cnt}
-            </p>
+              <p className={styles.like}>
+                <FiHeart
+                  onClick={() => likeEvent(content.id)}
+                  className={styles.likeBtn}
+                />
+                {content.like_cnt}
+              </p>
+            </div>
           </div>
-          </div>
-          {replyList &&
-              replyList.length > 0 &&
-              onReplyList &&
-              replyList.map((replyContent, i) => (
-                <ReplyDetail content={replyContent} getComment={getComment} />
-              ))}
         </div>
       )}
+      {replyList &&
+        replyList.length > 0 &&
+        onReplyList &&
+        replyList.map((replyContent, i) => (
+          <ReplyDetail content={replyContent} getComment={getComment} />
+        ))}
     </>
   );
 };

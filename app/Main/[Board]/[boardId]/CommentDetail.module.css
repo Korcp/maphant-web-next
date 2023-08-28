@@ -9,7 +9,9 @@
   padding: 0.5rem;
   gap: 0.5rem;
 }
-
+.editdiv{
+  margin: 1rem .5rem;
+}
 .textBox {
   width: 100%;
   font-size: 1rem;
