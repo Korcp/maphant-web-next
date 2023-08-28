@@ -92,4 +92,4 @@ type uploadType = {
   url: string;
   user_id: number;
 }[];
-export type { PostType, readPostType, EditType, uploadType };
+export type { PostType, readPostType, EditType, uploadType, HotPost };
