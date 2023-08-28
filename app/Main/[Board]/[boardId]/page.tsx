@@ -89,7 +89,7 @@ const page = () => {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       BoardAPI.PostDelete(parseInt(boardId)).then(() => {
         alert("글을 삭제되었습니다");
-        router.back();
+        router.push(`/Main/${boardLink}`)
       });
     }
   };

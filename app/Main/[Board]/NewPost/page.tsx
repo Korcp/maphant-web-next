@@ -36,6 +36,7 @@ function NewPost() {
     imgFile: [],
     imgURL: [],
   });
+  const [anony, setAnony] = useState<boolean>(false);
 
   const [changed, setChanged] = useState<boolean>(false);
   const titleRef = useRef<HTMLInputElement>(null);
@@ -61,7 +62,7 @@ function NewPost() {
 
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value) {
-      if (fileList.imgFile.length>0) {
+      if (fileList.imgFile.length > 0) {
         const imgForm = new FormData();
         let imgURL: string[] = [];
         fileList.imgFile.map((item) => {
@@ -76,7 +77,7 @@ function NewPost() {
                 typeId: boardType,
                 title: titleRef.current.value,
                 body: contentRef.current.value,
-                isAnonymous: 0,
+                isAnonymous: anony ? 1 : 0,
                 isHide: 0,
                 imagesUrl: imgURL,
                 tagNames: hashTag ? hashTag : undefined,
@@ -89,7 +90,7 @@ function NewPost() {
           typeId: boardType,
           title: titleRef.current.value,
           body: contentRef.current.value,
-          isAnonymous: 0,
+          isAnonymous: anony ? 1 : 0,
           isHide: 0,
           imagesUrl: undefined,
           tagNames: hashTag ? hashTag : undefined,
@@ -151,6 +152,16 @@ function NewPost() {
         ></textarea>
       </div>
       <div className={styles.newPostMenu}>
+        <div>
+          <input
+            type="checkbox"
+            onChange={() => {
+              setAnony(!anony);
+            }}
+            checked={anony}
+          />
+          익명
+        </div>
         <button
           className={styles.cancelBtn}
           onClick={() => router.push(`/Main/${boardLink}`)}
