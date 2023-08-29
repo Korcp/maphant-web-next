@@ -123,6 +123,21 @@ class UserAPI {
       content,
     });
   }
+
+  static DeleteRoom(roomid: number) {
+    return DeleteAPI<statusResponse>(`/room/${roomid}`);
+  }
+
+  static GetUser(name: string) {
+    return GetAPI<statusResponse>(`/dm/target/search?nickname=${name}`);
+  }
+
+  static blockUser() {
+    return PostAPI<statusResponse>("/block/10");
+  }
+  static blockexpUser() {
+    return DeleteAPI<statusResponse>("/block/5");
+  }
 }
 
 export default UserAPI;

@@ -37,3 +37,11 @@
   margin-left: 10%;
   padding: 10px;
 }
+.dellike{
+  border : none;
+  background: none;
+  cursor: pointer;
+}
+.dellike:hover{
+  background-color: #f0f0f0;
+}

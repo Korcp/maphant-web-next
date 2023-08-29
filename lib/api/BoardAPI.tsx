@@ -118,6 +118,9 @@ class BoardAPI {
   static Delbookmark(boardId : number) {
     return DeleteAPI<statusResponse>(`/bookmark/${boardId}`);
   }
+  static Dellike(boardId : number) {
+    return DeleteAPI<statusResponse>(`/board/like/${boardId}/`);
+  }
 }
 
 export default BoardAPI;
