@@ -38,7 +38,8 @@
 .newTag {
   width: 100%;
 }
-.imgUpload {
+.imgUpload,
+.vote {
   width: 100%;
 }
 
@@ -62,6 +63,7 @@
 .newPostMenu {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   width: 96%;
   gap: 1rem;
 }

@@ -7,6 +7,10 @@ type PostType = {
   isAnonymous: number;
   imagesUrl?: string[];
   tagNames?: string[];
+  pollInfo?: {
+    title: string;
+    options: string[];
+  };
 };
 
 type readPostType = {
@@ -37,7 +41,6 @@ type readPostType = {
   answerList: null;
 };
 type HotPost = {
-  
     list: [
       {
         boardId: number;
@@ -76,7 +79,6 @@ type HotPost = {
       existPrevPage: boolean;
       existNextPage: boolean;
     };
-  
 };
 type EditType = {
   id: number;
