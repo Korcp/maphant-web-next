@@ -24,7 +24,7 @@ type BoardDetail = {
   isHide: number;
   isLike: boolean | null;
   imagesUrl: string[] | null;
-  userId?: number;
+  userId: number;
   tags?: string[];
   body:string;
   tagNames:string;

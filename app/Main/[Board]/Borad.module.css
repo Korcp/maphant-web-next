@@ -5,24 +5,8 @@
   flex-direction: column;
   align-items: center;
 }
-.molla {
-  margin: 1rem;
-  width: 100%;
-  height: 5rem;
-  border: 1px solid black;
-  text-align: center;
-  color: black;
-  background-color: aliceblue;
-}
-.dark .molla {
-  margin: 1rem;
-  width: 100%;
-  height: 5rem;
-  border: 1px solid black;
-  text-align: center;
-  color: black;
-  background-color: aliceblue;
-}
+
+
 .boardName {
   margin: 1rem;
   border-radius: 10px;

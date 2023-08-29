@@ -16,7 +16,19 @@
   padding-top: 1rem;
   padding-bottom: 2rem;
 }
-
+.icon {
+  
+  height: 5rem;
+  display: flex;
+  justify-content: flex-start;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  text-decoration: none;
+  align-items: center;
+  left: 3.5%;
+  color: white;
+}
 .emptybox {
   
   flex-grow: 2;
@@ -58,7 +70,9 @@
   background-color: #5299eb;
   width: 100%;
   font-size: 2rem;
-  height: 3rem;
+ 
+  display: flex;
+  justify-content: space-between;
 }
 
 @media screen and (max-width: 1250px) {

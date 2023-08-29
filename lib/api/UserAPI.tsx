@@ -85,6 +85,7 @@ class UserAPI {
   static userProfile(targetUserId: number) {
     return GetAPI<statusResponse>(`/profile?targetUserId=${targetUserId}`);
   }
+ 
 
   static Getnofication() {
     return GetAPI<statusResponse>(

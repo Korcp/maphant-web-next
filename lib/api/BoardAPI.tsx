@@ -1,6 +1,6 @@
 import { statusResponse } from "@/app/fetchAPI";
 import { BoardListItem } from "../type/boardType";
-import { EditType, HotPost, PostType, readPostType } from "../type/postType";
+import { EditType, HotPost, PostType, readPostType, Myload } from "../type/postType";
 import { dataResponse, GetAPI, PostAPI, PutAPI } from "./fetchAPI";
 import { DeleteAPI } from "./fetchAPI";
 
@@ -54,7 +54,7 @@ class BoardAPI {
       }>
     >(`/profile/comment${queryParams}`);
   }
-
+  
   static MylistLoad(page: number, recordSize: number, targetUserId: number) {
     const queryParams = `?page=${page}&recordSize=${recordSize}&targetUserId=${targetUserId}`;
     return GetAPI<
@@ -105,20 +105,23 @@ class BoardAPI {
   static starPost(boardId: string) {
     return PostAPI<statusResponse>(`/bookmark/${boardId}`);
   }
-  static editPost( data:EditType  ) {
+  static editPost(data: EditType) {
     return PutAPI<statusResponse>(`/board/update/`, data);
   }
 
   static Getbookmark() {
     return GetAPI<dataResponse>("/bookmark/my-list");
   }
+ 
   static GethotPost() {
-    return GetAPI<dataResponse<HotPost>>(`/board/hot?&page=1&recordSize=3&sortCriterionId=2`);
+    return GetAPI<dataResponse<HotPost>>(
+      `/board/hot?&page=1&recordSize=3&sortCriterionId=2`
+    );
   }
-  static Delbookmark(boardId : number) {
+  static Delbookmark(boardId: number) {
     return DeleteAPI<statusResponse>(`/bookmark/${boardId}`);
   }
-  static Dellike(boardId : number) {
+  static Dellike(boardId: number) {
     return DeleteAPI<statusResponse>(`/board/like/${boardId}/`);
   }
 }

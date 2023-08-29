@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiThumbsUp } from "react-icons/fi";
 import { MdOutlineComment } from "react-icons/md";
 import { BoardDetail } from "@/lib/type/boardType";
@@ -7,12 +7,14 @@ import { useRouter } from "next/navigation";
 
 import Styles from "./BoardPost.module.css";
 
+
 type PropsType = {
   content: BoardDetail;
   boardLink: string;
 };
 function BoardPost({ content, boardLink }: PropsType) {
   const router = useRouter();
+  const [imgURL,setImgURL] = useState<string>('')
 
   const titleClickEvent = (boardId: number) => {
     router.push(`/Main/${boardLink}/${boardId}`);
@@ -36,6 +38,7 @@ function BoardPost({ content, boardLink }: PropsType) {
     return `${Math.floor(years)}년 전`;
   };
 
+  
   return (
     <div
       className={Styles.post}
@@ -46,7 +49,10 @@ function BoardPost({ content, boardLink }: PropsType) {
       <div className={Styles.postUser}>
         <div className={Styles.userLeft}>
           <p className={Styles.title}>{content.title}</p>
-          <p className={Styles.nickname}>{content.userNickname}</p>
+          <p className={Styles.nickname}>
+           
+            {content.userNickname}
+          </p>
           <p style={{ fontSize: ".6rem", opacity: ".75" }}>
             {detailDate(content.createdAt)}
           </p>

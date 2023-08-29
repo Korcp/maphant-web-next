@@ -83,7 +83,7 @@ function Borad() {
 
   return (
     <div className={styles.boardLayout}>
-      <div className={styles.molla}>?</div>
+      
 
       <div className={styles.boardName}>{boardName}</div>
 
@@ -126,6 +126,7 @@ function Borad() {
         {articles && (
           <div className={styles.boardPage}>
             <p>
+              
               {boardPage} / {articles!.pagination.totalPageCount}
             </p>
             <button
@@ -148,6 +149,7 @@ function Borad() {
               disabled={!articles?.pagination.existNextPage}
               onClick={pageUpEvent}
             >
+              
               <MdArrowForward />
             </button>
           </div>
