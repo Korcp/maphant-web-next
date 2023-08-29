@@ -15,6 +15,14 @@ export default function ChatRoom() {
   const [getUser, setGetUser] = useState("");
   const [ongetUser, setOngetUser] = useState([]);
 
+  const block = () => {
+    UserAPI.blockUser().then((res) => console.log(res.data));
+  };
+
+  const blockexp = () => {
+    UserAPI.blockexpUser().then((res) => console.log(res.data));
+  };
+
   useEffect(() => {
     if (getUser) {
       UserAPI.GetUser(getUser).then((res) => {
@@ -174,7 +182,9 @@ export default function ChatRoom() {
             <option key={index} value={data.nickname} />
           ))}
         </datalist>
-        <button onClick={openModal}>메시지 보내기</button>
+        <button className={styles.send} onClick={openModal}>
+          메시지 보내기
+        </button>
         {showModal && selectedUser && (
           <SendMessageModal
             selectedUser={selectedUser}
@@ -257,6 +267,11 @@ export default function ChatRoom() {
                       <hr />
                     </div>
                   ))}
+                </div>
+
+                <div className={styles.block}>
+                  <button onClick={block}>쪽지 차단</button>
+                  <button onClick={blockexp}>차단 해제</button>
                 </div>
                 <div className={styles.chatInput}>
                   <input
