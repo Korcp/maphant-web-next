@@ -5,6 +5,7 @@ import ErrorPage from "next/error";
 
 import HashTagList from "./HashTagList";
 import ImgList from "./ImgList";
+import Vote from "./Vote";
 import styles from "./newPost.module.css";
 import { PostType, uploadType } from "@/lib/type/postType";
 import BoardAPI from "@/lib/api/BoardAPI";
@@ -19,7 +20,10 @@ type fileListType = {
 type imgRes = {
   url: string;
 };
-
+type Poll = {
+  title: string;
+  options: string[];
+};
 function NewPost() {
   const router = useRouter();
   const boardURL = usePathname();
@@ -36,6 +40,7 @@ function NewPost() {
     imgFile: [],
     imgURL: [],
   });
+  const [pollData, setPollData] = useState<Poll>();
   const [anony, setAnony] = useState<boolean>(false);
 
   const [changed, setChanged] = useState<boolean>(false);
@@ -62,9 +67,9 @@ function NewPost() {
 
   const PostEvent = () => {
     if (titleRef.current?.value && contentRef.current?.value) {
+      let imgURL: string[] = [];
       if (fileList.imgFile.length > 0) {
         const imgForm = new FormData();
-        let imgURL: string[] = [];
         fileList.imgFile.map((item) => {
           imgForm.append("files", item);
         });
@@ -72,19 +77,20 @@ function NewPost() {
         uploadAPI<uploadType>("POST", "/image", imgForm)
           .then((res) => {
             res.map((item) => imgURL.push(item.url));
-            if (titleRef.current?.value && contentRef.current?.value) {
-              setPostData({
-                typeId: boardType,
-                title: titleRef.current.value,
-                body: contentRef.current.value,
-                isAnonymous: anony ? 1 : 0,
-                isHide: 0,
-                imagesUrl: imgURL,
-                tagNames: hashTag ? hashTag : undefined,
-              });
-            }
           })
           .catch((err) => console.log(err));
+      }
+      if (pollData) {
+        setPostData({
+          typeId: boardType,
+          title: titleRef.current.value,
+          body: contentRef.current.value,
+          isAnonymous: anony ? 1 : 0,
+          isHide: 0,
+          imagesUrl: imgURL.length > 0 ? imgURL : undefined,
+          tagNames: hashTag ? hashTag : undefined,
+          pollInfo: pollData,
+        });
       } else {
         setPostData({
           typeId: boardType,
@@ -92,7 +98,7 @@ function NewPost() {
           body: contentRef.current.value,
           isAnonymous: anony ? 1 : 0,
           isHide: 0,
-          imagesUrl: undefined,
+          imagesUrl: imgURL.length > 0 ? imgURL : undefined,
           tagNames: hashTag ? hashTag : undefined,
         });
       }
@@ -140,6 +146,11 @@ function NewPost() {
       <div className={styles.imgUpload}>
         <p style={{ margin: "1%" }}>- 사진 {"( 최대 5개 )"}</p>
         <ImgList fileList={fileList} setFileList={setFileList} />
+      </div>
+
+      <div className={styles.vote}>
+        <p style={{ margin: "1%" }}>- 투표</p>
+        <Vote pollData={pollData} setPollData={setPollData} />
       </div>
 
       <div className={styles.newContent}>

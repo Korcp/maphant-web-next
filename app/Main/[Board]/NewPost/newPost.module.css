@@ -38,7 +38,8 @@
 .newTag {
   width: 100%;
 }
-.imgUpload {
+.imgUpload,
+.vote {
   width: 100%;
 }
 

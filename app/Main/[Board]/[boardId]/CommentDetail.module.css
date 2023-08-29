@@ -185,6 +185,10 @@
   white-space: nowrap;
   border-radius: 3px;
 }
+.report:hover{
+  cursor: pointer;
+  background-color: rgb(244, 244, 244);
+}
 
 .moreBtn {
   font-size: 1.5rem;
