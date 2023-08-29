@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import UserAPI from "@/lib/api/UserAPI";
 import styles from "./ChatRoom.module.css";
 import UserStorage from "@/lib/storage/UserStorage";
+import { MdSearch } from "react-icons/md";
+import SendMessageModal from "./sendModel";
 
 export default function ChatRoom() {
   const [chatRooms, setChatRooms] = useState([]);
@@ -22,6 +24,27 @@ export default function ChatRoom() {
       });
     }
   }, [getUser]);
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null); // 선택된 사용자 정보
+
+  const openModal = () => {
+    const user = ongetUser.find((user) => user.nickname === getUser);
+    if (user) {
+      setSelectedUser(user); // 이 부분을 수정하여 user의 원하는 정보로 변경
+      setShowModal(true);
+    }
+  };
+  const closeModal = () => setShowModal(false);
+
+  const handleSendMessage = (message) => {
+    if (selectedUser) {
+      UserAPI.postMessage(selectedUser.id, message).then((res) => {
+        console.log(res.data);
+      });
+      console.log(`메시지 보내기: ${message} to ${selectedUser.nickname}`);
+    }
+  };
 
   const fetchMessages = async (chatId) => {
     try {
@@ -103,7 +126,7 @@ export default function ChatRoom() {
 
   const clickChat = (chatRoom) => {
     setSelectedChat(chatRoom);
-    fetchMessages(chatRoom.id); // Fetch initial messages for the clicked chat
+    fetchMessages(chatRoom.id);
   };
 
   const clicksend = () => {
@@ -137,7 +160,7 @@ export default function ChatRoom() {
   return (
     <div className={styles.chatRoom}>
       <p>
-        유저 검색 :
+        <MdSearch /> 유저 검색 :
         <input
           className={styles.search}
           type="text"
@@ -151,6 +174,14 @@ export default function ChatRoom() {
             <option key={index} value={data.nickname} />
           ))}
         </datalist>
+        <button onClick={openModal}>메시지 보내기</button>
+        {showModal && selectedUser && (
+          <SendMessageModal
+            selectedUser={selectedUser}
+            onClose={closeModal}
+            onSendMessage={handleSendMessage}
+          />
+        )}
       </p>
 
       <div>
