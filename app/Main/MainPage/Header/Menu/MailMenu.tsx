@@ -34,10 +34,11 @@ function MailMenu() {
       {chats.map((chat) => (
         <li key={chat.id} onClick={handleChatClick}>
           <div>
-            <p>
+            <p className={styles.alert}>
               발신자: {chat.other_nickname}
               <br />
               쪽지 내용: {chat.last_content}
+              <hr />
             </p>
           </div>
         </li>
