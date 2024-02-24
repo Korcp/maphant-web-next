@@ -23,12 +23,10 @@ export default function MainApp(): ReactElement {
       .then((res) => {
         console.info(res);
         setArticle(res.data);
-
       })
       .catch((err) => {
         console.log(err);
       });
-      
   };
   if (article && article?.list[0].type === "자유 게시판") {
     boardLink = `./Free`;
@@ -48,7 +46,7 @@ export default function MainApp(): ReactElement {
   if (article && article?.list[0].type === "취미 게시판") {
     boardLink = `./Hobby`;
   }
-  
+
   if (article && article?.list[1].type === "자유 게시판") {
     boardLink2 = `./Free`;
   }
@@ -67,23 +65,23 @@ export default function MainApp(): ReactElement {
   if (article && article?.list[1].type === "취미 게시판") {
     boardLink2 = `./Hobby`;
   }
-  
-  if (article && article?.list[2].type === "자유 게시판") {
+
+  if (article && article?.list[2]?.type === "자유 게시판") {
     boardLink3 = `./Free`;
   }
-  if (article && article?.list[2].type === "QnA 게시판") {
+  if (article && article?.list[2]?.type === "QnA 게시판") {
     boardLink3 = `./QnA`;
   }
-  if (article && article?.list[2].type === "지식 게시판") {
+  if (article && article?.list[2]?.type === "지식 게시판") {
     boardLink3 = `./Knowledge`;
   }
-  if (article && article?.list[2].type === "취업/진로 게시판") {
+  if (article && article?.list[2]?.type === "취업/진로 게시판") {
     boardLink3 = `./Career`;
   }
-  if (article && article?.list[2].type === "홍보 게시판") {
+  if (article && article?.list[2]?.type === "홍보 게시판") {
     boardLink3 = `./Promotion`;
   }
-  if (article && article?.list[2].type === "취미 게시판") {
+  if (article && article?.list[2]?.type === "취미 게시판") {
     boardLink3 = `./Hobby`;
   }
   useEffect(() => {
@@ -131,9 +129,9 @@ export default function MainApp(): ReactElement {
               )
             }
           >
-            {article && article.list[2].title.length > 20
-              ? `${article.list[2].title.slice(0, 15)}...`
-              : article && article.list[2].title}
+            {article && article.list[2]?.title.length > 20
+              ? `${article.list[2]?.title.slice(0, 15)}...`
+              : article && article.list[2]?.title}
           </div>
         </div>
       </div>
